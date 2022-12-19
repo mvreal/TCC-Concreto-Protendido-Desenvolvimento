@@ -657,8 +657,20 @@ function salvarResultados(contador){
     celulas[5].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroArmaduraProtensao
     celulas[6].innerText = "7"
 
+     calcForcaProjeto(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero)
 
 
 
+}
 
+function calcForcaProjeto(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero){
+    let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
+
+    let areaAcoProtendido = Number(pZero * 10)/(sigmapi) //em cm²
+
+    let numeroFios = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
+    
+    let numeroCordoalhas = Math.ceil(numeroFios / 7)
+    
+    return numeroCordoalhas
 }
