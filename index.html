@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+
+    <link rel="stylesheet" href="./src/bootstrap-5/css/bootstrap.min.css">
+</head>
+
+<body>
+
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+        aria-controls="offcanvasWithBothOptions">Menu</button>
+
+    <!-- Menu Lateral-->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu Principal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-primary" id="rotina1">Propriedades Geométricas</button>
+                <button type="button" class="btn btn-outline-primary" id="rotina2">Esforços e Combinações</button>
+                <button type="button" class="btn btn-outline-primary" id="rotina3">Dimensionamento da Armadura
+                    Ativa</button>
+                <button type="button" class="btn btn-outline-primary" id="rotina4">Perdas Imediatas e Diferidas</button>
+                <button type="button" class="btn btn-outline-primary" id="rotina5">Dimensionamento da Armadura
+                    Passiva</button>
+                <button type="button" class="btn btn-outline-primary" id="rotina6">Verificações ELS e ELU</button>
+            </div>
+        </div>
+
+        <script src="./src/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+        <script src="./renderer.js"></script>
+        
+</body>
+
+</html>
+

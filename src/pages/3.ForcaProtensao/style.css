@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Poppins', sans-serif;;
+    font-size: 11px;
+}
+
+.flex{
+    display: flex;
+    justify-content: space-around;
+}
+
+.block{
+    display: block;
+}
+
+.inline{
+    display: inline;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.relative{
+    position: relative;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.center{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.margin-left-50{
+    margin-left: 50px;
+}
+
+.margin-left-100{
+    margin-left: 100px;
+}
+
+.margin-left-200{
+    margin-left: 200px;
+}
+
+#inputep{
+    width: 50px;
+    text-align: center;
+}
+
+.inputep{
+    margin-top: 40px;
+    width: 60px;
+    transform: rotate(270deg)
+}
+
+#inputep1{
+    top:70px;
+    left:70px;
+}
+
+#inputep2{
+    top:120px;
+    left:360px;
+}
+
+canvas{
+    width: 400px;
+    height: 300px;
+}
+
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+#canvas1{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#subdivisoes-viga{
+    width: 40px;
+    text-align: center;
+}
+
+#inputPerdas{
+    width: 40px;
+    text-align: center;
+}
+
+table, tr, th{
+    border-spacing: 1px;
+}
+
+th{
+    border: 1px solid;
+}
+
+.small{
+    width: 50px;
+}
+
+.medium{
+    width: 100px;
+}
+
+.large{
+    width: 150px;
+}
+
+.x-large{
+    width: 250px;
+}
+
+#ctnRespostas{
+    justify-content: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+#btnDimFinal{
+    width: 150px;
+}
