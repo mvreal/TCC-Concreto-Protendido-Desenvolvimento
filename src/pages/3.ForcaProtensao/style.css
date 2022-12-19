@@ -139,3 +139,12 @@ th{
 #btnDimFinal{
     width: 150px;
 }
+
+td{
+    text-align: center;
+}
+
+#res-tbody{
+    max-height: 100px;
+    overflow: auto;
+}

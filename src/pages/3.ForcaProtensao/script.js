@@ -607,11 +607,13 @@ function salvarResultados(contador){
     resTBody.appendChild(createTr)
 
     //Criando 8 células para os registros da seção 'Salvar'
-    for(let i = 0; i<8; i++){
+    for(let i = 0; i<9; i++){
         let createTd = document.createElement('td')
         createTr.appendChild(createTd)
         createTr.classList.add('linha'+(contador+1))
+    
     }
+
 
     celulas = document.querySelector('.linha'+(contador + 1)).children
     pegarUltimoRegistro = resultadosDaRotina3[resultadosDaRotina3.length -1]
@@ -654,23 +656,27 @@ function salvarResultados(contador){
 
     console.log(areaArmaduraProtensao)
 
-    celulas[5].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroArmaduraProtensao
-    celulas[6].innerText = "7"
+    celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroArmaduraProtensao
+    celulas[7].innerText = "7"
 
-     calcForcaProjeto(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero)
-
-
-
+    let numCordoalhas = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero)
+    //let forcaInicialProtensao =forcaInicProtensao()
+    
+    celulas[8].innerText = numCordoalhas[0].toFixed(0)
+    celulas[3].innerText = (numCordoalhas[1] * registroMinimo).toFixed(2) + ' kN'
+    celulas[5].innerText = (numCordoalhas[1] * pZero).toFixed(2) + ' kN'
 }
 
-function calcForcaProjeto(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero){
+function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
 
-    let areaAcoProtendido = Number(pZero * 10)/(sigmapi) //em cm²
+    let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
 
     let numeroFios = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
     
     let numeroCordoalhas = Math.ceil(numeroFios / 7)
+
+    let relacaoProjetoCalculo = numeroCordoalhas/(numeroFios/7)
     
-    return numeroCordoalhas
+    return [numeroCordoalhas,relacaoProjetoCalculo]
 }

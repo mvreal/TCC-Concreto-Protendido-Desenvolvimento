@@ -43,7 +43,7 @@ ipcMain.on('enviarDados2', (evento, args) => {dados[1] = args})
 
 function criarJanelaSecundaria3() {
     let janelaSecundaria3 = new BrowserWindow({
-        width: 850, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
+        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
     })
     janelaSecundaria3.loadFile('./src/pages/3.ForcaProtensao/index.html')
     janelaSecundaria3.webContents.send("dadosSalvos", dados)
