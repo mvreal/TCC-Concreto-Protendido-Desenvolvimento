@@ -144,7 +144,16 @@ td{
     text-align: center;
 }
 
-#res-tbody{
-    max-height: 100px;
+#ctnRespostas{
+    max-height: 94px;
     overflow: auto;
+    position: relative;
+}
+
+#table-resultados>thead>tr>th{
+    position:sticky;
+    top: 0px;
+    color:black;
+    border: .1px solid black;
+    background-color: white;
 }
