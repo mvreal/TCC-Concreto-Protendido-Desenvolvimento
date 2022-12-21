@@ -664,19 +664,30 @@ function salvarResultados(contador){
     let numCordoalhasArredondado = Math.ceil(numCordoalhas)
 
     celulas[7].innerText = numCordoalhasArredondado
+    celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>`
+    celulas[8].addEventListener('change',(element)=>{
+        let el = element.target
+        console.log(el.getAttribute('numero'))
+    })
+
     
-    celulas[8].innerHTML = "<select id='numeroCabos'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>"
-    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-    console.log(numCordoalhas,areaArmaduraProtensao,sigmapi)
-    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
+    
+    ProtensaoProjeto(numCordoalhasArredondado,areaArmaduraProtensao,sigmapi,perdasEmPorcentagem)
 }
 
-function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero){
+function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, pegarNumeroCabos = 1){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
+    
+    
 
     let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
 
     let numeroCordoalhas = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
     
     return [numeroCordoalhas,sigmapi]
+}
+
+function ProtensaoProjeto(numCordoalhasArredondado,areaArmaduraProtensao,sigmapi,perdasEmPorcentagem){
+    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 }
