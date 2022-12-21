@@ -667,7 +667,10 @@ function salvarResultados(contador){
     celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>`
     celulas[8].addEventListener('change',(element)=>{
         let el = element.target
-        console.log(el.getAttribute('numero'))
+        let novoNumeroCabos = ele.value
+        let linha = el.getAttribute('numero')
+
+        console.log(novoNumeroCabos, linha)
     })
 
     
