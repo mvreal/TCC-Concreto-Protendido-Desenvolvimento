@@ -651,32 +651,32 @@ function salvarResultados(contador){
     //Pegando o input do tipo de armadura de protensão
     let valorArmaduraProtensao = document.getElementById('armadura-protensao').value
     let resistenciaArmaduraProtensao = valorArmaduraProtensao.slice(0,3)
-    let diametroArmaduraProtensao = valorArmaduraProtensao.slice(5,4)
-    let areaArmaduraProtensao = valorArmaduraProtensao.slice(9)
+    let diametrocabo = valorArmaduraProtensao.slice(4,8)
+    let areaArmaduraProtensao = Number(valorArmaduraProtensao.slice(9))
 
     console.log(areaArmaduraProtensao)
 
-    celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroArmaduraProtensao
-    celulas[7].innerText = "7"
-
-    let numCordoalhas = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero)
-    //let forcaInicialProtensao =forcaInicProtensao()
+    celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
     
-    celulas[8].innerText = numCordoalhas[0].toFixed(0)
-    celulas[3].innerText = (numCordoalhas[1] * registroMinimo).toFixed(2) + ' kN'
-    celulas[5].innerText = (numCordoalhas[1] * pZero).toFixed(2) + ' kN'
+    let numCordoalhas = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
+    let sigmapi = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]
+
+    let numCordoalhasArredondado = Math.ceil(numCordoalhas)
+
+    celulas[7].innerText = numCordoalhasArredondado
+    
+    celulas[8].innerHTML = "<select id='numeroCabos'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>"
+    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+    console.log(numCordoalhas,areaArmaduraProtensao,sigmapi)
+    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 }
 
-function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroArmaduraProtensao, areaArmaduraProtensao, pZero){
+function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
 
     let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
 
-    let numeroFios = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
+    let numeroCordoalhas = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
     
-    let numeroCordoalhas = Math.ceil(numeroFios / 7)
-
-    let relacaoProjetoCalculo = numeroCordoalhas/(numeroFios/7)
-    
-    return [numeroCordoalhas,relacaoProjetoCalculo]
+    return [numeroCordoalhas,sigmapi]
 }
