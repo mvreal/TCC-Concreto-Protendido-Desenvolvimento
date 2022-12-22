@@ -3,6 +3,7 @@
 let PropriedadesDasFiguras = []
 let figuras = []
 let opcoesSalvas = document.getElementById('opcoes-salvas')
+let dadosFinal =[]
 
 //Descobrir o index do input selecionado
 let indexSelecionado
@@ -560,7 +561,6 @@ function dimensionarForcaFinal(){
         completaELSDSorteado[contador] = completaELSDSorteado[contador].sort((c1, c2) => (c1['completa-ELS-D'] > c2['completa-ELS-D']) ? 1 : (c1['completa-ELS-D'] < c2['completa-ELS-D']) ? -1 : 0)
     }
 
-    console.log(resultadosDaRotina3)
     salvarResultados(contador)
     contador++
 
@@ -641,7 +641,6 @@ function salvarResultados(contador){
       var registroMinimo = Math.min(...registros)
       celulas[2].innerText = registroMinimo.toFixed(2) + ' kN'
     }
-    // celulas[3].innerText tem que ver como que fazer
 
     let perdasEmPorcentagem = Number(document.getElementById('inputPerdas').value)
 
@@ -654,8 +653,6 @@ function salvarResultados(contador){
     let diametrocabo = valorArmaduraProtensao.slice(4,8)
     let areaArmaduraProtensao = Number(valorArmaduraProtensao.slice(9))
 
-    console.log(areaArmaduraProtensao)
-
     celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
     
     let numCordoalhas = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
@@ -665,32 +662,44 @@ function salvarResultados(contador){
 
     celulas[7].innerText = numCordoalhasArredondado
     celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>`
+
+    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
+
+
+    dadosFinal.push({
+        contador: contador,
+        tipoProtensao: pegarUltimoRegistro[0]['protensao'],
+        pInfCalc: registroMinimo,
+        PInfProj: pZero,
+        pIniCalc: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
+        pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
+        tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
+        numCordoalhasArredondado: numCordoalhasArredondado,
+        numCabos: document.querySelector("[numero]")
+    })
+
+    console.log(dadosFinal)
+
+
+
     celulas[8].addEventListener('change',(element)=>{
         let el = element.target
         let novoNumeroCabos = el.value
         let linha = el.getAttribute('numero')
 
-        console.log(novoNumeroCabos, linha)
+        //Função para modificar o json e reinserir as informações na tabela de resultados
+        //---
+        //---
     })
 
-    
-    
-    ProtensaoProjeto(numCordoalhasArredondado,areaArmaduraProtensao,sigmapi,perdasEmPorcentagem)
 }
 
 function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, pegarNumeroCabos = 1){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
-    
-    
-
     let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
-
     let numeroCordoalhas = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
     
     return [numeroCordoalhas,sigmapi]
 }
 
-function ProtensaoProjeto(numCordoalhasArredondado,areaArmaduraProtensao,sigmapi,perdasEmPorcentagem){
-    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
-}
