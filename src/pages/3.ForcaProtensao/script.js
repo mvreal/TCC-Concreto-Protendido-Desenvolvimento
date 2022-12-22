@@ -655,8 +655,8 @@ function salvarResultados(contador){
 
     celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
     
-    let numCordoalhas = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
-    let sigmapi = numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]
+    let numCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
+    let sigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]
 
     let numCordoalhasArredondado = Math.ceil(numCordoalhas)
 
@@ -666,40 +666,41 @@ function salvarResultados(contador){
     celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
     celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 
-
     dadosFinal.push({
-        contador: contador,
+        id: contador,
         tipoProtensao: pegarUltimoRegistro[0]['protensao'],
         pInfCalc: registroMinimo,
-        PInfProj: pZero,
-        pIniCalc: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
+        PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
+        pIniCalc: pZero,
         pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
         numCordoalhasArredondado: numCordoalhasArredondado,
-        numCabos: document.querySelector("[numero]")
+        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value
     })
 
     console.log(dadosFinal)
-
-
 
     celulas[8].addEventListener('change',(element)=>{
         let el = element.target
         let novoNumeroCabos = el.value
         let linha = el.getAttribute('numero')
 
-        //Função para modificar o json e reinserir as informações na tabela de resultados
-        //---
-        //---
+        let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, novoNumeroCabos)
+        let novoNumCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
+        let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
+        let novoSigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]  
+        
+        
     })
 
 }
 
-function numeroCordoalhas(valorArmaduraProtensao, resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, pegarNumeroCabos = 1){
+function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, pegarNumeroCabos = 1){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
     let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
-    let numeroCordoalhas = areaAcoProtendido/(Number(areaArmaduraProtensao)/100)
+    let numeroCordoalhas = (areaAcoProtendido/(Number(areaArmaduraProtensao)/100))/pegarNumeroCabos
     
     return [numeroCordoalhas,sigmapi]
 }
+
 
