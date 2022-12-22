@@ -605,12 +605,14 @@ function salvarResultados(contador){
     //Criando a linha inserindo no DOM
     let createTr = document.createElement('tr')
     resTBody.appendChild(createTr)
+    createTr.classList.add('linha'+(contador+1))
 
     //Criando 8 células para os registros da seção 'Salvar'
     for(let i = 0; i<9; i++){
         let createTd = document.createElement('td')
         createTr.appendChild(createTd)
-        createTr.classList.add('linha'+(contador+1))
+        createTd.classList.add('elemento' + (i+1))
+        
     
     }
 
@@ -685,10 +687,17 @@ function salvarResultados(contador){
         let novoNumeroCabos = el.value
         let linha = el.getAttribute('numero')
 
+        // Não to conseguindo pegar esses dados 
+        //Tem que corrigir
+        let PegarTd = [document.querySelector(`.linha"${(linha)}"`)]
+        console.log(PegarTd)
+
         let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, novoNumeroCabos)
         let novoNumCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
         let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
         let novoSigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]  
+
+
         
         
     })
