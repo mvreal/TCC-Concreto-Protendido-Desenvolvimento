@@ -663,7 +663,7 @@ function salvarResultados(contador){
     let numCordoalhasArredondado = Math.ceil(numCordoalhas)
 
     celulas[7].innerText = numCordoalhasArredondado
-    celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option></select>`
+    celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select>`
 
     celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
     celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
@@ -687,16 +687,21 @@ function salvarResultados(contador){
         let novoNumeroCabos = el.value
         let linha = el.getAttribute('numero')
 
-        // Não to conseguindo pegar esses dados 
-        //Tem que corrigir
-        let PegarTd = [document.querySelector(`.linha"${(linha)}"`)]
-        console.log(PegarTd)
+        let PegarTd = [document.querySelector(`[class= "linha${(linha)}"]>[class="elemento4"]`), document.querySelector(`[class= "linha${(linha)}"]>[class="elemento6"]`),document.querySelector(`[class= "linha${(linha)}"]>[class="elemento8"]`)]
+
+        let TdForcaInfProjeto = PegarTd[0]
+        let TdForcaIniProjeto = PegarTd[1]
+        let TdNovoNumeroCordoalhas = PegarTd[2]
 
         let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, novoNumeroCabos)
-        let novoNumCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
+        let novoNumCordoalhas = novoResultado[0]
         let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
-        let novoSigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]  
+        let novoSigmapi = novoResultado[1]
 
+        TdNovoNumeroCordoalhas.innerText = novoNumCordoalhasArredondado
+
+        TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+        TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 
         
         
