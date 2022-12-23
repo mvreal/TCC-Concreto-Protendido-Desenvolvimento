@@ -703,8 +703,12 @@ function salvarResultados(contador){
         TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
         TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 
+        dadosFinal[(linha-1)]['PInfProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100)))
+        dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000)
+        dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
+        dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
         
-        
+        console.log(dadosFinal)
     })
 
 }
