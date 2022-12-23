@@ -680,7 +680,7 @@ function salvarResultados(contador){
         numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value
     })
 
-    console.log(dadosFinal)
+    enviarDados(dadosFinal)
 
     celulas[8].addEventListener('change',(element)=>{
         let el = element.target
@@ -708,7 +708,7 @@ function salvarResultados(contador){
         dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
         dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
         
-        console.log(dadosFinal)
+        enviarDados(dadosFinal)
     })
 
 }
@@ -721,4 +721,7 @@ function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, p
     return [numeroCordoalhas,sigmapi]
 }
 
+function enviarDados(dados){
+    window.api.dadosRotina3(dados)
+}
 
