@@ -534,11 +534,7 @@ btnSave.addEventListener('click',()=>{
         contadorDeRespostasSalvas++
 
         window.api.dadosRotina1(respostasSalvas);
-        console.log(respostasSalvas)
-
-  
     }
-
 })
 
 //Criando os campos da área de save
@@ -594,7 +590,6 @@ if( typeof dadosSalvosdaRotina1[0].tipo == 'string'){
 
         respostasSalvas[contadorDeRespostasSalvas] = dadosSalvosdaRotina1[contadorDeRespostasSalvas] 
         contadorDeRespostasSalvas++
-
     }; 
 }
 

@@ -737,15 +737,29 @@ function adicionarLinhasColunas(number){
     createTr.classList.add('linha'+(Number(contador)+1))
 
     //Criando 9 células para os registros da seção 'Salvar'
-    for(let i = 0; i<9; i++){
+    for(let j = 0; j<9; j++){
         let createTd = document.createElement('td')
         createTr.appendChild(createTd)
-        createTd.classList.add('elemento' + (i+1))
-    }}    
+        createTd.classList.add('elemento' + (j+1))
+    }
+
+    pegarTrTd(contador+1,1).innerText = dadosSalvosdaRotina3[contador]['id']
+    pegarTrTd(contador+1,2).innerText = dadosSalvosdaRotina3[contador]['tipoProtensao']
+    pegarTrTd(contador+1,3).innerText = dadosSalvosdaRotina3[contador]['pInfCalc'].toFixed(2) + ' kN'
+    pegarTrTd(contador+1,4).innerText = dadosSalvosdaRotina3[contador]['PInfProj'].toFixed(2) + ' kN'
+    pegarTrTd(contador+1,5).innerText = dadosSalvosdaRotina3[contador]['pIniCalc'].toFixed(2) + ' kN'
+    pegarTrTd(contador+1,6).innerText = dadosSalvosdaRotina3[contador]['pIniProj'].toFixed(2) + ' kN'
+    pegarTrTd(contador+1,7).innerText = dadosSalvosdaRotina3[contador]['tipoArmadura']
+    pegarTrTd(contador+1,8).innerText = dadosSalvosdaRotina3[contador]['numCordoalhasArredondado']
+    pegarTrTd(contador+1,9).innerText = dadosSalvosdaRotina3[contador]['numCabos']
+
+}    
 }
 
 if(typeof dadosSalvosdaRotina3 == 'object') {
-    for (cont in dadosSalvosdaRotina3){
+    dadosFinal = dadosSalvosdaRotina3
+    for (let i = 0; i < dadosSalvosdaRotina3.length; i++){
+        console.log(i, contador)
         adicionarLinhasColunas(1)
         
         contador++
@@ -753,18 +767,7 @@ if(typeof dadosSalvosdaRotina3 == 'object') {
 }
 
 function pegarTrTd(n1,n2){
-    let linha = document.querySelector('.linha'+ n1)
-    let linha_celula = linha.querySelector('elemento'+ n2)
+    let linha_celula = document.querySelector(`[class ="linha${n1}"] > [class ="elemento${n2}"]`)
     return linha_celula
 }
 
-/*id: contador,
-        tipoProtensao: pegarUltimoRegistro[0]['protensao'],
-        pInfCalc: registroMinimo,
-        PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
-        pIniCalc: pZero,
-        pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
-        tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
-        numCordoalhasArredondado: numCordoalhasArredondado,
-        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value
- */
