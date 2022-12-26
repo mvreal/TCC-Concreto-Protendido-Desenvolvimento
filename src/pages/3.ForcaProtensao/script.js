@@ -607,7 +607,7 @@ function salvarResultados(contador){
     resTBody.appendChild(createTr)
     createTr.classList.add('linha'+(contador+1))
 
-    //Criando 8 células para os registros da seção 'Salvar'
+    //Criando 9 células para os registros da seção 'Salvar'
     for(let i = 0; i<9; i++){
         let createTd = document.createElement('td')
         createTr.appendChild(createTd)
@@ -725,3 +725,46 @@ function enviarDados(dados){
     window.api.dadosRotina3(dados)
 }
 
+//Rotina para verificar se existem dados prévios
+
+function adicionarLinhasColunas(number){
+    resTBody = document.getElementById('res-tbody')
+
+    for(let i = 0; i<number; i++){
+    //Criando a linha inserindo no DOM
+    let createTr = document.createElement('tr')
+    resTBody.appendChild(createTr)
+    createTr.classList.add('linha'+(Number(contador)+1))
+
+    //Criando 9 células para os registros da seção 'Salvar'
+    for(let i = 0; i<9; i++){
+        let createTd = document.createElement('td')
+        createTr.appendChild(createTd)
+        createTd.classList.add('elemento' + (i+1))
+    }}    
+}
+
+if(typeof dadosSalvosdaRotina3 == 'object') {
+    for (cont in dadosSalvosdaRotina3){
+        adicionarLinhasColunas(1)
+        
+        contador++
+    }
+}
+
+function pegarTrTd(n1,n2){
+    let linha = document.querySelector('.linha'+ n1)
+    let linha_celula = linha.querySelector('elemento'+ n2)
+    return linha_celula
+}
+
+/*id: contador,
+        tipoProtensao: pegarUltimoRegistro[0]['protensao'],
+        pInfCalc: registroMinimo,
+        PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
+        pIniCalc: pZero,
+        pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
+        tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
+        numCordoalhasArredondado: numCordoalhasArredondado,
+        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value
+ */
