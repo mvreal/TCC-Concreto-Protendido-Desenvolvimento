@@ -486,8 +486,6 @@ let areaConvertida, w1Convertido, w2Convertido, completaELSDSorteado = []
 
 //Pegar o esforço distribuido em que a viga é sujeita nas combinacoes quase permanente e frequente
 
-
-
 let btnDimFinal = document.getElementById('btnDimFinal')
 btnDimFinal.addEventListener('click', dimensionarForcaFinal)
 
@@ -578,7 +576,7 @@ function calcularFct(){
         fct_f = 1.5 * fctk_inf
         break
         case 'I':
-        fct_f = 1.2 * fctk_inf //Depois trocar para 1.3
+        fct_f = 1.3 * fctk_inf //Depois trocar para 1.3
         break
         case 'T':
         fct_f = 1.2 * fctk_inf
@@ -677,8 +675,10 @@ function salvarResultados(contador){
         pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
         numCordoalhasArredondado: numCordoalhasArredondado,
-        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value
+        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value,
+        secoes: resultadosDaRotina3[contador]
     })
+    console.log(dadosFinal)
 
     enviarDados(dadosFinal)
 
@@ -759,9 +759,7 @@ function adicionarLinhasColunas(number){
 if(typeof dadosSalvosdaRotina3 == 'object') {
     dadosFinal = dadosSalvosdaRotina3
     for (let i = 0; i < dadosSalvosdaRotina3.length; i++){
-        console.log(i, contador)
         adicionarLinhasColunas(1)
-        
         contador++
     }
 }
