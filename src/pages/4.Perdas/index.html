@@ -1,3 +1,18 @@
+<script>
+    let dadosSalvosdaRotina1 = []
+    let dadosSalvosdaRotina2 = []
+    let dadosSalvosdaRotina3 = []
+    let dadosSalvosdaRotina4 = []
+
+    window.api.enviarDados((data) => {
+        dadosSalvosdaRotina1 = data[0]
+        dadosSalvosdaRotina2 = data[1]
+        dadosSalvosdaRotina3 = data[2]
+       // dadosSalvosdaRotina4 = data[3]
+
+    })
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +20,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <div id="ctnInputs">
+        <label for="dadosEntrada">Situação a ser dimensionada:</label>
+        <select name="dadosEntrada" id="dadosEntrada">
+
+        </select>
+    </div>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
