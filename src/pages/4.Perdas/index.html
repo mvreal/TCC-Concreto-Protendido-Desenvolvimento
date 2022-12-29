@@ -1,7 +1,7 @@
 <script>
     let dadosSalvosdaRotina1 = []
     let dadosSalvosdaRotina2 = []
-    let dadosSalvosdaRotina3 = []
+    let dadosSalvosdaRotina3 = [1]
     let dadosSalvosdaRotina4 = []
 
     window.api.enviarDados((data) => {
@@ -20,15 +20,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <div id="ctnInputs">
-        <label for="dadosEntrada">Situação a ser dimensionada:</label>
-        <select name="dadosEntrada" id="dadosEntrada">
-
-        </select>
-    </div>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div id="ctnInputs">
+        <label for="dadosEntrada">Situação a ser dimensionada:</label>
+        <select name="dadosEntrada" id="dadosEntrada">
+        </select>
+    </div>
+    <div id="ctnPerdas" class="ctnPerdas">
+        <div id="ctnPerdasAtrito">
+            <label for="coefAtrito">Coeficiente de Atrito (&micro)</label>
+            <select name="coefAtrito" id="coefAtrito">
+                <option value="0.1">0,1</option>
+                <option value="0.2" selected>0,2</option>
+                <option value="0.3">0,3</option>
+                <option value="0.4">0,4</option>
+                <option value="0.5">0,5</option>
+            </select>
+        </div>
+        <div id="ctnPerdasAcomodacao"></div>
+        <div id="ctnPerdasEncurtamento"></div>
+        <div id="ctnPerdasProgressivas"></div>
+    </div>
     <script src="./script.js"></script>
 </body>
 </html>
