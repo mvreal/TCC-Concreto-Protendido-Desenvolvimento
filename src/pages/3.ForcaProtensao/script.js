@@ -551,7 +551,11 @@ function dimensionarForcaFinal(){
             'completa-ELS-F': ((momentoRara/w1Convertido) + fct_f)/((1/areaConvertida) + (ep/w1Convertido)),
             'limitada-ELS-D': momentoQP/(((1/areaConvertida) + (ep/w1Convertido)) * w1Convertido),
             'limitada-ELS-F': ((momentoFrequente/w1Convertido) + fct_f)/((1/areaConvertida) + (ep/w1Convertido)),
-            'protensao': grauProtensao
+            'protensao': grauProtensao,
+            'posicaoCaboProtensao':{
+                inicio: m,
+                meioVao: n
+            }
        }
 
         resultadosDaRotina3[contador].push(objRotina3)
