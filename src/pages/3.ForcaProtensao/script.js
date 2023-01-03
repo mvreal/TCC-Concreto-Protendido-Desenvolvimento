@@ -543,6 +543,7 @@ function dimensionarForcaFinal(){
 
        objRotina3 = {
             'X': posicao,
+            'Vao':vao,
             'CaboY': equacaoDoCaboDeProtensao,
             'ep': ep, //Excentricidade em metros
             'momentoQP': momentoQP,
