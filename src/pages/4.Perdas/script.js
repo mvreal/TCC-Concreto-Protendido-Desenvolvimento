@@ -37,8 +37,10 @@ function verificarIndex(){
 function pegarSecoes(objeto){
     let arr = objeto.secoes
     let secoes = arr.map((sec)=>{
-        return sec.x
+        return sec.X
+
     })
+    console.log(objeto, arr, secoes)
     return secoes
 }
 
