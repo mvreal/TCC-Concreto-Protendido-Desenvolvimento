@@ -21,14 +21,12 @@ getSelect.addEventListener('change',mudarOption)
 
 function mudarOption(){
     let indexSelecionado = verificarIndex()
-    let secoes = pegarSecoes(dadosSalvosdaRotina3[indexSelecionado]) //Não esta funcionando
-    let pontoInicial = dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['posicaoCaboProtensao']['inicio']
-    let pontoIntermediario = dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['posicaoCaboProtensao']['meioVao']
-    let vao = dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao']
-
-    console.log(calcularPerdasAtrito(pontoInicial, pontoIntermediario, vao, secoes))
-
+    let secoes = pegarSecoes(dadosSalvosdaRotina3[indexSelecionado])
+    let info = dadosSalvosdaRotina3[indexSelecionado]
+    let epMax = Math.min(...(info['secoes']).map(el=>el['ep']))
+    let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
     
+    calcularPerdasAtrito(epMax, vao, secoes)
 }
 
 function verificarIndex(){
@@ -44,18 +42,10 @@ function pegarSecoes(objeto){
     return secoes
 }
 
-function calcularPerdasAtrito(pontoInicial, pontoIntermediario, vao, posicao){
+function calcularPerdasAtrito(epMax, vao, secoes){
 
-    //Os resultados não são os esperados - rever
-    let derivadaY = posicao.map((posi)=>{
-        return ((-8*pontoIntermediario + 8*pontoInicial)/((vao**2)/100))*((posi**2)/100) + ((4*pontoIntermediario - 4*pontoInicial)/(vao/100)) 
-    })
-    console.log(derivadaY)
-
-    let anguloAnfa = derivadaY.map((derY)=>{
-        return Math.atan(derY)
-    })
-    console.log(anguloAnfa)
-
-    return anguloAnfa
+    let derivadaY = secoes.map(sec => (((-8 * epMax)/(vao ** 2)) * sec) + ((4 * epMax)/vao))
+    
+    let anguloAlfa = derivadaY.map(el => Math.atan(el))
+    console.log(derivadaY,anguloAlfa)
 }
