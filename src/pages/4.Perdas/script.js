@@ -25,8 +25,10 @@ function mudarOption(){
     let info = dadosSalvosdaRotina3[indexSelecionado]
     let epMax = Math.min(...(info['secoes']).map(el=>el['ep']))
     let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
-    
-    calcularPerdasAtrito(epMax, vao, secoes)
+    let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
+    let coeficienteK = document.getElementById('coefAtrito').value
+
+    calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, coeficienteK)
 }
 
 function verificarIndex(){
@@ -42,10 +44,7 @@ function pegarSecoes(objeto){
     return secoes
 }
 
-function calcularPerdasAtrito(epMax, vao, secoes){
-
+function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, coeficienteK){
     let derivadaY = secoes.map(sec => (((-8 * epMax)/(vao ** 2)) * sec) + ((4 * epMax)/vao))
-    
-    let anguloAlfa = derivadaY.map(el => Math.atan(el))
-    console.log(derivadaY,anguloAlfa)
+    Px = forçaInicialdeProtensao * Math.exp()
 }
