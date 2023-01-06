@@ -26,7 +26,7 @@ function mudarOption(){
     let epMax = Math.min(...(info['secoes']).map(el=>el['ep']))
     let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
     let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
-    let coeficienteK = document.getElementById('coefAtrito').value
+    let coeficienteK = document.getElementById('coefAtrito').value * 0.01
 
     calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, coeficienteK)
 }
