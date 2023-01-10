@@ -581,7 +581,7 @@ function calcularFct(){
         fct_f = 1.5 * fctk_inf
         break
         case 'I':
-        fct_f = 1.3 * fctk_inf //Depois trocar para 1.3
+        fct_f = 1.2 * fctk_inf //Depois trocar para 1.3
         break
         case 'T':
         fct_f = 1.2 * fctk_inf

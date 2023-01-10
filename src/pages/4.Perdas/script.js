@@ -26,9 +26,10 @@ function mudarOption(){
     let epMax = Math.min(...(info['secoes']).map(el=>el['ep']))
     let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
     let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
-    let coeficienteK = document.getElementById('coefAtrito').value * 0.01
+    let mi = Number(document.getElementById('coefAtrito').value)
+    let coeficienteK = mi * 0.01
 
-    calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, coeficienteK)
+    console.log(calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK))
 }
 
 function verificarIndex(){
@@ -44,7 +45,22 @@ function pegarSecoes(objeto){
     return secoes
 }
 
-function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, coeficienteK){
+function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK){
     let derivadaY = secoes.map(sec => (((-8 * epMax)/(vao ** 2)) * sec) + ((4 * epMax)/vao))
-    Px = forçaInicialdeProtensao * Math.exp()
+    let anguloAlfa = derivadaY.map(el => Math.abs(Math.atan(el)))
+    let deltaAlfa = []
+    for (let i = 0; i < anguloAlfa.length - 1; i++) {
+        deltaAlfa.push(Math.abs(anguloAlfa[i] - anguloAlfa[i+1]))
+    }
+    //----Até aqui eu verifiquei que ta certo
+    console.log(anguloAlfa,deltaAlfa)
+    let PxsemIndex0 = []
+    
+    for(let i = 0; i<secoes.length - 1; i++){
+        PxsemIndex0.push(forçaInicialdeProtensao * Math.exp(-mi * (deltaAlfa[i]) - coeficienteK * secoes[i]))
+    }
+
+    let Px = [forçaInicialdeProtensao,...PxsemIndex0]
+    console.log()
+    return Px
 }
