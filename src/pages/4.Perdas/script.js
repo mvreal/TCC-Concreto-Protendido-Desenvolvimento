@@ -20,6 +20,8 @@ function inserirDadosSelect(dadosSalvosdaRotina3){
 getSelect.addEventListener('change',mudarOption)
 
 function mudarOption(){
+
+    //Perdas por atrito
     let indexSelecionado = verificarIndex()
     let secoes = pegarSecoes(dadosSalvosdaRotina3[indexSelecionado])
     let info = dadosSalvosdaRotina3[indexSelecionado]
@@ -28,8 +30,11 @@ function mudarOption(){
     let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01
-
     console.log(calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK))
+    //----------------------------------------------------------------------------------------------
+
+    
+
 }
 
 function verificarIndex(){
@@ -47,20 +52,18 @@ function pegarSecoes(objeto){
 
 function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK){
     let derivadaY = secoes.map(sec => (((-8 * epMax)/(vao ** 2)) * sec) + ((4 * epMax)/vao))
-    let anguloAlfa = derivadaY.map(el => Math.abs(Math.atan(el)))
+    let anguloAlfa = derivadaY.map(el => -(Math.atan(el)))
     let deltaAlfa = []
-    for (let i = 0; i < anguloAlfa.length - 1; i++) {
-        deltaAlfa.push(Math.abs(anguloAlfa[i] - anguloAlfa[i+1]))
+
+    for (let i = 0; i < anguloAlfa.length; i++) {
+        deltaAlfa.push(anguloAlfa[0]-anguloAlfa[i])
     }
     //----Até aqui eu verifiquei que ta certo
     console.log(anguloAlfa,deltaAlfa)
-    let PxsemIndex0 = []
+    let Px = []
     
-    for(let i = 0; i<secoes.length - 1; i++){
-        PxsemIndex0.push(forçaInicialdeProtensao * Math.exp(-mi * (deltaAlfa[i]) - coeficienteK * secoes[i]))
+    for(let i = 0; i<secoes.length; i++){
+        Px.push(forçaInicialdeProtensao * Math.exp(-mi * (deltaAlfa[i]) - coeficienteK * secoes[i]))
     }
-
-    let Px = [forçaInicialdeProtensao,...PxsemIndex0]
-    console.log()
     return Px
 }
