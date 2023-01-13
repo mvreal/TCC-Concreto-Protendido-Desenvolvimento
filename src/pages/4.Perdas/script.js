@@ -30,8 +30,11 @@ function mudarOption(){
     let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01
-    console.log(calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK))
+    let perdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
     //----------------------------------------------------------------------------------------------
+
+    let tgBeta = (perdasAtrito[0] - perdasAtrito[5])/(secoes[0] - secoes[5]) //kN/m
+    console.log(perdasAtrito, tgBeta)
 
     
 

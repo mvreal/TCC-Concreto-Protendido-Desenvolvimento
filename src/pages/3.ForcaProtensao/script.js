@@ -681,7 +681,8 @@ function salvarResultados(contador){
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
         numCordoalhasArredondado: numCordoalhasArredondado,
         numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value,
-        secoes: resultadosDaRotina3[contador]
+        secoes: resultadosDaRotina3[contador],
+        //Ap: this.numCabos * this.numCordoalhasArredondado
     })
     console.log(dadosFinal)
 
