@@ -671,8 +671,11 @@ function salvarResultados(contador){
     celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
     celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
 
+    let numCabos = document.querySelector(`[numero="${(contador+1)}"]`).value
+
     dadosFinal.push({
         id: contador,
+        areaArmaduraProtensao: areaArmaduraProtensao,
         tipoProtensao: pegarUltimoRegistro[0]['protensao'],
         pInfCalc: registroMinimo,
         PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
@@ -680,9 +683,14 @@ function salvarResultados(contador){
         pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
         numCordoalhasArredondado: numCordoalhasArredondado,
-        numCabos: document.querySelector(`[numero="${(contador+1)}"]`).value,
-        secoes: resultadosDaRotina3[contador]
+        numCabos: numCabos,
+        secoes: resultadosDaRotina3[contador],
+        Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao, //Ver a unidade
+        
     })
+
+
+
     console.log(dadosFinal)
 
     enviarDados(dadosFinal)
@@ -712,8 +720,11 @@ function salvarResultados(contador){
         dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000)
         dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
         dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
-        
+        //dadosFinal[(linha-1)]['Ap'] = novoNumCordoalhasArredondado * novoNumeroCabos * dadosFinal[(linha-1)]['areaArmaduraProtensao']
+
         enviarDados(dadosFinal)
+        console.log(dadosFinal)
+        
     })
 
 }

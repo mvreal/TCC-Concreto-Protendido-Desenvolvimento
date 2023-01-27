@@ -21,7 +21,11 @@ function mudarOption(){
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01
 
-    let perdasProtensao = calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
+    let perdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
+
+    //Necessário fazer a correção do tipo de ancoragem
+    let tgBeta = (perdasAtrito[0] - perdasAtrito[5])/(secoes[0] - secoes[5]) //kN/m
+    console.log(perdasAtrito, tgBeta)
     //-------------------------------------------------------------------------------------------------------
 
     
