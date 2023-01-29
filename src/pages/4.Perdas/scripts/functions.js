@@ -23,12 +23,16 @@ function pegarSecoes(objeto){
 
 //Ainda não foi testado
 function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
-    let tamanhoArr = arr.lenght
-    let repeticoes = Math.ceil(tamanhoArr/2)
+    let tamanhoArr = arr.length
+    let repeticoes = Math.floor(tamanhoArr/2)
+    console.log(tamanhoArr, repeticoes)
     for(let i=0; i<repeticoes; i++){
         arr[tamanhoArr-i] = arr[i]
     }
+    console.log(arr)
     return arr
 }
 
-export {inserirDadosSelect, verificarIndex, pegarSecoes}
+
+
+export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas}

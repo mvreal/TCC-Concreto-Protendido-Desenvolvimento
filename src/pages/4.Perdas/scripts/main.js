@@ -1,8 +1,8 @@
-import {inserirDadosSelect, verificarIndex, pegarSecoes} from './functions.js'
+import {inserirDadosSelect, verificarIndex, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas} from './functions.js'
 import { calcularPerdasAtrito } from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
-const getAncoragem = document.getElementById('ancoragem')
+const getAncoragem = document.getElementById('dadosAncoragem')
 
 let script = () => inserirDadosSelect(dadosSalvosdaRotina3)   
 window.addEventListener('DOMContentLoaded', script)
@@ -25,11 +25,12 @@ function mudarOption(){
 
     //Necessário fazer a correção do tipo de ancoragem
     let tgBeta = (perdasAtrito[0] - perdasAtrito[5])/(secoes[0] - secoes[5]) //kN/m
-    console.log(perdasAtrito, tgBeta)
+
     //-------------------------------------------------------------------------------------------------------
-
-    
-
+ 
+    //Considerando se a ancoragem é ativa ou passiva
+    let correcaoAtrito = getAncoragem.value == 1 ? correcaoPerdasAtritoCasoAncoragensAtivas(perdasAtrito): perdasAtrito
+    console.log(correcaoAtrito)
 }
 
 
