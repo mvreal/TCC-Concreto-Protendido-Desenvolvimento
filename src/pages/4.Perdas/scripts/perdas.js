@@ -14,4 +14,16 @@ function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, 
     return Px
 }
 
-export {calcularPerdasAtrito}
+//Em desenvolvimento
+function calcularPerdasAcomodacao(retorno, E, Ap, tgB, tipo){
+
+    //Arrumando as unidades
+    let retornoMetros = retorno / 1000
+    let EMPa = E * 1000000
+    let ApMetros2 = (Ap / 1000000)
+
+    let xr = Math.sqrt(retornoMetros * EMPa * ApMetros2 / tgB)
+    console.log(retornoMetros, EMPa, ApMetros2, tgB, tipo, xr)
+}
+
+export {calcularPerdasAtrito, calcularPerdasAcomodacao}

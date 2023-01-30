@@ -656,42 +656,39 @@ function salvarResultados(contador){
     let valorArmaduraProtensao = document.getElementById('armadura-protensao').value
     let resistenciaArmaduraProtensao = valorArmaduraProtensao.slice(0,3)
     let diametrocabo = valorArmaduraProtensao.slice(4,8)
-    let areaArmaduraProtensao = Number(valorArmaduraProtensao.slice(9))
+    let areaArmaduraProtensao1cordoalha = Number(valorArmaduraProtensao.slice(9))
 
     celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
     
-    let numCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[0]
-    let sigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero)[1]
+    let numCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[0]
+    let sigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[1]
 
     let numCordoalhasArredondado = Math.ceil(numCordoalhas)
 
     celulas[7].innerText = numCordoalhasArredondado
     celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select>`
 
-    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
+    celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+    celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
 
     let numCabos = document.querySelector(`[numero="${(contador+1)}"]`).value
 
     dadosFinal.push({
         id: contador,
-        areaArmaduraProtensao: areaArmaduraProtensao,
+        areaArmaduraProtensao1cordoalha: areaArmaduraProtensao1cordoalha,
         tipoProtensao: pegarUltimoRegistro[0]['protensao'],
         pInfCalc: registroMinimo,
-        PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
+        PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
         pIniCalc: pZero,
-        pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao * sigmapi/1000),
+        pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * sigmapi/1000),
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
         numCordoalhasArredondado: numCordoalhasArredondado,
         numCabos: numCabos,
         secoes: resultadosDaRotina3[contador],
-        Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao, //Ver a unidade
+        Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao1cordoalha, //Ver a unidade
         
     })
 
-
-
-    console.log(dadosFinal)
 
     enviarDados(dadosFinal)
 
@@ -706,33 +703,31 @@ function salvarResultados(contador){
         let TdForcaIniProjeto = PegarTd[1]
         let TdNovoNumeroCordoalhas = PegarTd[2]
 
-        let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, novoNumeroCabos)
+        let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, novoNumeroCabos)
         let novoNumCordoalhas = novoResultado[0]
         let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
         let novoSigmapi = novoResultado[1]
 
         TdNovoNumeroCordoalhas.innerText = novoNumCordoalhasArredondado
 
-        TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-        TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000).toFixed(2) + ' kN'
+        TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
+        TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
 
-        dadosFinal[(linha-1)]['PInfProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100)))
-        dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao * sigmapi/1000)
+        dadosFinal[(linha-1)]['PInfProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100)))
+        dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000)
         dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
         dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
-        //dadosFinal[(linha-1)]['Ap'] = novoNumCordoalhasArredondado * novoNumeroCabos * dadosFinal[(linha-1)]['areaArmaduraProtensao']
+        //Ainda não foi testado
+        dadosFinal[(linha-1)]['Ap'] = novoNumCordoalhasArredondado * novoNumeroCabos * dadosFinal[(linha-1)]['areaArmaduraProtensao1cordoalha']
 
         enviarDados(dadosFinal)
-        console.log(dadosFinal)
-        
     })
-
 }
 
-function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao, pZero, pegarNumeroCabos = 1){
+function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, pegarNumeroCabos = 1){
     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
     let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
-    let numeroCordoalhas = (areaAcoProtendido/(Number(areaArmaduraProtensao)/100))/pegarNumeroCabos
+    let numeroCordoalhas = (areaAcoProtendido/(Number(areaArmaduraProtensao1cordoalha)/100))/pegarNumeroCabos
     
     return [numeroCordoalhas,sigmapi]
 }

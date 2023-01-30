@@ -21,13 +21,12 @@ function pegarSecoes(objeto){
     return secoes
 }
 
-//Ainda não foi testado
 function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
     let tamanhoArr = arr.length
     let repeticoes = Math.floor(tamanhoArr/2)
     console.log(tamanhoArr, repeticoes)
     for(let i=0; i<repeticoes; i++){
-        arr[tamanhoArr-i] = arr[i]
+        arr[tamanhoArr-i-1] = arr[i]
     }
     console.log(arr)
     return arr
