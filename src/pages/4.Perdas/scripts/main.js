@@ -1,5 +1,5 @@
 import {inserirDadosSelect, verificarIndex, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas} from './functions.js'
-import { calcularPerdasAtrito, calcularPerdasAcomodacao } from './perdas.js'
+import {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2} from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
 const getAncoragem = document.getElementById('dadosAncoragem')
@@ -23,6 +23,7 @@ function mudarOption(){
     let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01
+    let Ap = dadosSalvosdaRotina3[indexSelecionado]['Ap']
 
     let perdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
 
@@ -33,9 +34,21 @@ function mudarOption(){
 
     //Considerando se a ancoragem é ativa ou passiva
     let arrCorrecaoAtrito = getAncoragem.value == 1 ? correcaoPerdasAtritoCasoAncoragensAtivas(perdasAtrito): perdasAtrito
-    let resPerdasAcomodacao = calcularPerdasAcomodacao(getRetorno.value, getE.value, dadosSalvosdaRotina3[indexSelecionado]['Ap'], tgBeta, getAncoragem.value)
+    let tipoAncoragem = getAncoragem.value ==1 ? 'Ativa e Ativa': 'Ativa e Passiva'
+    let pontoRepouso = calcularPontoRepousoAcomodacao(getRetorno.value, getE.value, Ap, tgBeta, getAncoragem.value)
 
+    let perdasAcomodacao
+
+    if(tipoAncoragem == 'Ativa e Ativa' && pontoRepouso>=vao/2){
+        //Tem que rever essa funcao não esta dando um resultado coerente
+        perdasAcomodacao = PerdasAcomodacaoXrMaiorLsobre2(tgBeta, vao, getRetorno.value, getE.value, Ap)
+    }else{
+        perdasAcomodacao = PerdasAcomodacaoXrMenorLsobre2(tgBeta, vao)
+    }
+    console.log(arrCorrecaoAtrito, perdasAcomodacao)
 }
+
+
 
 
 
