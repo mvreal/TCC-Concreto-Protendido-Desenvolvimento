@@ -40,7 +40,6 @@ function mudarOption(){
     let perdasAcomodacao
 
     if(tipoAncoragem == 'Ativa e Ativa' && pontoRepouso>=vao/2){
-        //Tem que rever essa funcao não esta dando um resultado coerente
         perdasAcomodacao = PerdasAcomodacaoXrMaiorLsobre2(tgBeta, vao, getRetorno.value, getE.value, Ap)
     }else{
         perdasAcomodacao = PerdasAcomodacaoXrMenorLsobre2(tgBeta, vao)
