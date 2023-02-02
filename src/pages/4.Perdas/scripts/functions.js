@@ -32,6 +32,16 @@ function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
     return arr
 }
 
+function moduloElasticidadeConcreto(fck){
+    let Ecs = ((0.8 + (0.2 * fck)/80)) * 5600 * Math.sqrt(fck)
+    return Ecs
+}
+
+function conversaoModuloElasticidadeGPaParaMPa(E){
+    return E * 1000
+}
 
 
-export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas}
+
+
+export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa}

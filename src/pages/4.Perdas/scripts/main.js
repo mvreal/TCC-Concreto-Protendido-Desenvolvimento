@@ -1,5 +1,5 @@
-import {inserirDadosSelect, verificarIndex, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas} from './functions.js'
-import {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2} from './perdas.js'
+import {inserirDadosSelect, verificarIndex, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto} from './functions.js'
+import {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, Panc} from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
 const getAncoragem = document.getElementById('dadosAncoragem')
@@ -45,7 +45,12 @@ function mudarOption(){
     }else{
         perdasAcomodacao = PerdasAcomodacaoXrMenorLsobre2(tgBeta, vao)
     }
-    console.log(arrCorrecaoAtrito, perdasAcomodacao)
+
+    //Tem que testar
+    let Panc1 = arrCorrecaoAtrito[0] + perdasAcomodacao
+    console.log(arrCorrecaoAtrito[0], perdasAcomodacao, Panc1)
+    let Pancoragem = Panc(secoes, tgBeta, Panc1)
+    console.log(Pancoragem)
 }
 
 

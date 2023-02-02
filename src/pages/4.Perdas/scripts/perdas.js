@@ -32,11 +32,30 @@ function PerdasAcomodacaoXrMenorLsobre2(tgB,l){
 }
 
 function PerdasAcomodacaoXrMaiorLsobre2(tgB, l, retorno, Ep, Ap){
-    let deltaP2 = ((retorno * Ep * Ap) - (((l/2)**2) * tgB) / (l/2))
+
+    let retornoMetros = retorno / 1000
+    let EMPa = Ep * 1000000
+    let ApMetros2 = (Ap / 1000000)
+
+    let deltaP2 = (((retornoMetros * EMPa * ApMetros2) - (((l/2)**2) * tgB)) / (l/2))
     let deltaP1 = l * tgB /2
     let deltaTotal = (2 * deltaP1) + deltaP2
     return deltaTotal
 }
 
+function Panc(cortes, tgBeta, Panc1){
+    let Pancoragem = cortes.map(secao => Panc1 - (tgBeta * secao))
+    return Pancoragem
+}
 
-export {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2}
+// function PerdasPorEncurtamentoElastico(Ep, Ec, n, excentricidadeCabo){
+//     let alfap = Ep / Ec
+//     let numeroCabos = n
+// }
+
+function SigmaCP(Panc, area, excentricidade, inercia){
+    let sigmaCP = -Panc * ((1/area) + ((excentricidade ** 2) / inercia))
+}
+
+
+export {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, Panc}
