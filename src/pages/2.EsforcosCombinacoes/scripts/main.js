@@ -13,7 +13,7 @@ let btnSave =document.querySelector('#btnSave')
 let novoDado = [];
 let tabelaResultados = document.querySelector('#tabelaResultados')
 let arrayInputs = [...document.querySelectorAll('.inputCalc')]
-let [combinacoes,dados] = calcular()
+
 
 
     btnSave.addEventListener('click',()=>{
@@ -23,6 +23,7 @@ let [combinacoes,dados] = calcular()
     //Para determinar qual figura foi selecionada
     let selectSelecionado = document.getElementById('selectCargas')
     let valorSelecionado = selectSelecionado.options[selectSelecionado.selectedIndex].value;
+    let [combinacoes,dados] = calcular()
 
     //Salvando os dados em um array de objetos
     novoDado[contador] = {
@@ -38,7 +39,9 @@ let [combinacoes,dados] = calcular()
     "&#947<sub>q</sub>": arrayInputs[8].value,
     'combinacoes': combinacoes,
     'dados':dados,
+    'rotina1':importarDados[Number(valorSelecionado)-1]
     }
+    console.log(importarDados[Number(valorSelecionado)-1])
      
     let novaLinha = tabelaResultados.insertRow()
     let novaCelula = novaLinha.insertCell()

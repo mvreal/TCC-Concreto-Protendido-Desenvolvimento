@@ -9,7 +9,6 @@ function desenharEsforcoCortante(combinacoesDados){
 
     let combinacoes = combinacoesDados[0]
     //Lembrar de transformar esse codigo todo num loop quando tiver tempo
-    console.log(combinacoes)
     let escalay = 50 / combinacoes['ultima'].esforcoCortanteMaximo
     //Combinacao última Máxima 
     ctx[3].beginPath()

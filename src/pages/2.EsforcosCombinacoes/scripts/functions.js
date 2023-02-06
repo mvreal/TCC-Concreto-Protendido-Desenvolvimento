@@ -77,15 +77,14 @@ function desenharBasico(){
 
 function calcular(){
     let todosInputsDeCalculo = document.querySelectorAll('.inputCalc')
-    let primeiroCarregamentoCompleto = document.getElementById('inputPrimeiroCarregamento').value
+    
     let [vao, g1, g2, q, qsi1, qsi2, gamag1, gamag2, gamaq] = todosInputsDeCalculo
     let dados = {
         'vao': Number(vao.value),
-        'carregamentos':{'g1':Number(primeiroCarregamentoCompleto),'g2':Number(g2.value),'q':Number(q.value)},
+        'carregamentos':{'g1':Number(g1.value),'g2':Number(g2.value),'q':Number(q.value)},
         'coeficientesServico':{'qsi1':Number(qsi1.value),'qsi2':Number(qsi2.value)},
         'coeficientesUltimo':{'gamag1':Number(gamag1.value),'gamag2':Number(gamag2.value),'gamaq':Number(gamaq.value)}
     }
-
     let combinacoes = {
     'quase-permanente':{
         'cargaDistribuidaMaxima': dados['carregamentos']['g1'] + dados['carregamentos']['g2'] + dados['coeficientesServico']['qsi2'] * dados['carregamentos']['q'],
@@ -114,7 +113,6 @@ function calcular(){
     combinacoes['frequente'].esforcoCortanteMinimo = combinacoes['frequente']['cargaDistribuidaMinima'] * (dados['vao'])/2
     combinacoes['rara'].esforcoCortanteMinimo = combinacoes['rara']['cargaDistribuidaMinima'] * (dados['vao'])/2
     combinacoes['ultima'].esforcoCortanteMinimo = combinacoes['ultima']['cargaDistribuidaMinima'] * (dados['vao'])/2
-
     return [combinacoes, dados]
 }
 

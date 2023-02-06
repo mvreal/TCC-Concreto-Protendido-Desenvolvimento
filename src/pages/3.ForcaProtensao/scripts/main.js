@@ -498,6 +498,8 @@ function dimensionarForcaFinal(){
     //Pegar o vao que eu quero dimensionar indexSelecionado
     let vao = dadosSalvosdaRotina2[indexSelecionado]['Vao']
     let secoes = Number(document.getElementById('subdivisoes-viga').value)
+    let dadosCombinacoes = dadosSalvosdaRotina2[indexSelecionado]['dados']
+    console.log(dadosSalvosdaRotina2)
 
     let ponto1 = [0, Number(inputep1.value) + centroide]
     let ponto2 = [vao/2,Number(inputep2.value)]
@@ -556,7 +558,8 @@ function dimensionarForcaFinal(){
             'posicaoCaboProtensao':{
                 inicio: m,
                 meioVao: n
-            }
+            },
+            'dadosCombinacoes':dadosCombinacoes
        }
 
         resultadosDaRotina3[contador].push(objRotina3)
@@ -686,10 +689,10 @@ function salvarResultados(contador){
         numCabos: numCabos,
         secoes: resultadosDaRotina3[contador],
         Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao1cordoalha, //Ver a unidade
+        rotina2: dadosSalvosdaRotina2[indexSelecionado]
         
     })
-
-
+    
     enviarDados(dadosFinal)
 
     celulas[8].addEventListener('change',(element)=>{

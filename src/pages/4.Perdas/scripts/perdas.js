@@ -53,9 +53,5 @@ function Panc(cortes, tgBeta, Panc1){
 //     let numeroCabos = n
 // }
 
-function SigmaCP(Panc, area, excentricidade, inercia){
-    let sigmaCP = -Panc * ((1/area) + ((excentricidade ** 2) / inercia))
-}
-
 
 export {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, Panc}

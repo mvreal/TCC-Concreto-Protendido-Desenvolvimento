@@ -1,4 +1,4 @@
-import {inserirDadosSelect, verificarIndex, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto} from './functions.js'
+import {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp} from './functions.js'
 import {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, Panc} from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
@@ -46,8 +46,12 @@ function mudarOption(){
     }
 
     let Panc1 = arrCorrecaoAtrito[0] + perdasAcomodacao
+
     let Pancoragem = Panc(secoes, tgBeta, Panc1)
 
+   // let {area,ixg} = dadosSalvosdaRotina3[indexSelecionado].rotina2.rotina1
+    let {area,ixg} = dadosSalvosdaRotina3[indexSelecionado]['rotina2']['rotina1']
+    console.log(area,ixg)
 }
 
 

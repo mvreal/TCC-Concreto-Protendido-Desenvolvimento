@@ -41,7 +41,15 @@ function conversaoModuloElasticidadeGPaParaMPa(E){
     return E * 1000
 }
 
+function momentoFletorPesoProprio(pesoProprio,vao,secoes){
+    secoes.map(sec => (pesoProprio * vao * sec/2) - (pesoProprio * (sec ** 2)/2))
+}
+
+function calcularSigma_cp(Panc, area, ep, Ic){
+    let sigma_cp = ep.map(epSecao => -Panc * ((1/area) + ((epSecao ** 2)/Ic))
+    )
+    return sigma_cp
+}
 
 
-
-export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa}
+export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp}
