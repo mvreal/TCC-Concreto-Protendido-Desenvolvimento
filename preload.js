@@ -11,7 +11,7 @@ const API = {
     dadosRotina3: (dados3) => ipcRenderer.send('enviarDados3', dados3),
     dadosRotina4: (dados4) => ipcRenderer.send('enviarDados4', dados4),
 
-    enviarDados: (callback) => ipcRenderer.on("dadosSalvos", (event,args) => {
+    enviarDados: async (callback) => ipcRenderer.on("dadosSalvos", (event,args) => {
         callback(args)
     })
 }
