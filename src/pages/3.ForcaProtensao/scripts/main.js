@@ -675,6 +675,7 @@ function salvarResultados(contador){
     celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
 
     let numCabos = document.querySelector(`[numero="${(contador+1)}"]`).value
+    let fck = document.getElementById('fck').value
 
     dadosFinal.push({
         id: contador,
@@ -689,6 +690,7 @@ function salvarResultados(contador){
         numCabos: numCabos,
         secoes: resultadosDaRotina3[contador],
         Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao1cordoalha, //Ver a unidade
+        fck: fck,
         rotina2: dadosSalvosdaRotina2[indexSelecionado]
         
     })

@@ -28,7 +28,6 @@ function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
     for(let i=0; i<repeticoes; i++){
         arr[tamanhoArr-i-1] = arr[i]
     }
-    console.log(arr)
     return arr
 }
 
@@ -41,15 +40,41 @@ function conversaoModuloElasticidadeGPaParaMPa(E){
     return E * 1000
 }
 
+function conversaoAreacm2param2(areaCm2){
+    return areaCm2/10000
+}
+
+function conversaoInerciacm4param4(inerciaCm4){
+    return inerciaCm4/100000000
+}
+
 function momentoFletorPesoProprio(pesoProprio,vao,secoes){
-    secoes.map(sec => (pesoProprio * vao * sec/2) - (pesoProprio * (sec ** 2)/2))
+    let momentoFletor = secoes.map(sec => (pesoProprio * vao * sec/2) - (pesoProprio * (sec ** 2)/2))
+    return momentoFletor
 }
 
 function calcularSigma_cp(Panc, area, ep, Ic){
-    let sigma_cp = ep.map(epSecao => -Panc * ((1/area) + ((epSecao ** 2)/Ic))
-    )
+    console.log(Panc,area,ep,Ic)
+    let sigma_cp = []
+    if(Panc.length == ep.length){
+        for(let i=0; i<Panc.length; i++){
+            sigma_cp.push(-Panc[i] * ((1/area) + ((ep[i] ** 2)/Ic)))
+        }
+    }else{
+        throw console.error('Panc e ep não tem o mesmo numero de seções');
+    }
     return sigma_cp
 }
 
+function conversaocmparam(cm){
+    return cm/100
+}
 
-export {inserirDadosSelect, verificarIndex, pegarSecoes,correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp}
+
+function ArrConversaocmparam(cmArr){
+    let metrosArr = cmArr.map(el=>el/100)
+    return metrosArr
+}
+
+
+export {inserirDadosSelect,ArrConversaocmparam, momentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}

@@ -15,7 +15,7 @@ function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, 
 }
 
 //Em desenvolvimento
-function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB, tipo){
+function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB){
 
     //Arrumando as unidades
     let retornoMetros = retorno / 1000
@@ -25,10 +25,9 @@ function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB, tipo){
     return xr
 }
 
-function PerdasAcomodacaoXrMenorLsobre2(tgB,l){
-    let deltaP1 = l * tgB /2
-    let deltaTotal = 2 * deltaP1
-    return deltaTotal
+function PerdasAcomodacaoXrMenorLsobre2(tgBeta, xr){
+    return 2 * tgBeta * xr
+    
 }
 
 function PerdasAcomodacaoXrMaiorLsobre2(tgB, l, retorno, Ep, Ap){
@@ -43,15 +42,57 @@ function PerdasAcomodacaoXrMaiorLsobre2(tgB, l, retorno, Ep, Ap){
     return deltaTotal
 }
 
-function Panc(cortes, tgBeta, Panc1){
-    let Pancoragem = cortes.map(secao => Panc1 - (tgBeta * secao))
-    return Pancoragem
+
+function arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes){
+    let xresquerda = xr
+    let Panc = []
+    let numeroSecoes = secoes.length
+
+    for(let i = 0; i<numeroSecoes; i++){
+        if(secoes[i] < xresquerda){
+            Panc.push(Panc1 + (tgBeta * secoes[i])) 
+        }else{
+            Panc.push(arrCorrecaoAtrito[i])
+        }
+    }
+
+    let repeticoes = Math.floor(numeroSecoes/2)
+
+    for(let i=0; i<repeticoes; i++){
+        Panc[numeroSecoes-i-1] = Panc[i]
+    }
+    return Panc
 }
 
-// function PerdasPorEncurtamentoElastico(Ep, Ec, n, excentricidadeCabo){
-//     let alfap = Ep / Ec
-//     let numeroCabos = n
-// }
+//tem que revisar essa funcao, resultados errados
+function arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, secoes){
+    let Panc = []
+    let repeticoesAncoragem = arrCorrecaoAtrito.length
+    let repeticoesEspelharArr = Math.floor(repeticoesAncoragem/2)
+
+    for(let i = 0; i < repeticoesAncoragem; i++){
+        Panc.push(Panc1 + (tgBeta * secoes[i]))
+    }
+
+    for(let i = 0; i < repeticoesEspelharArr; i++){
+        Panc[repeticoesEspelharArr-i-1] = Panc[i]
+    }
+    return Panc
+}
+
+function arrPancPontoRepousoAncoragemAtivaPassiva(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes){
+    let tamanhoSecoes = secoes.length
+    let Panc = []
+    for(let i = 0; i < tamanhoSecoes; i++){
+        if(secoes[i]<xr){
+            Panc.push(Panc1 + (tgBeta * secoes[i]))
+        }else{
+            Panc.push(arrCorrecaoAtrito[i])
+        }
+    }
+    return Panc
+}
 
 
-export {calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, Panc}
+
+export {arrPancPontoRepousoAncoragemAtivaPassiva, arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva}
