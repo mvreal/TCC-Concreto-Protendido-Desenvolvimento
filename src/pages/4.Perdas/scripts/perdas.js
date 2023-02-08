@@ -15,7 +15,6 @@ function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, 
 }
 
 function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB){
-    console.log(retorno, E, Ap, tgB)
     //Arrumando as unidades
     let retornoMetros = retorno / 1000
     let EMPa = E * 1000000

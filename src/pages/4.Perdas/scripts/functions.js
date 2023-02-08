@@ -24,7 +24,6 @@ function pegarSecoes(objeto){
 function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
     let tamanhoArr = arr.length
     let repeticoes = Math.floor(tamanhoArr/2)
-    console.log(tamanhoArr, repeticoes)
     for(let i=0; i<repeticoes; i++){
         arr[tamanhoArr-i-1] = arr[i]
     }
@@ -34,6 +33,12 @@ function correcaoPerdasAtritoCasoAncoragensAtivas(arr){
 function moduloElasticidadeConcreto(fck){
     let Ecs = ((0.8 + (0.2 * fck)/80)) * 5600 * Math.sqrt(fck)
     return Ecs
+}
+
+function variacaoTensaoEncurtamentoElastico(alfap, tensoesTotais, numeroCabos){
+    console.log(alfap, tensoesTotais, numeroCabos)
+    const deltaSigmaP = tensoesTotais.map(el=> alfap * (el) * ((numeroCabos-1)/(2 * numeroCabos))) //MPa
+    return deltaSigmaP
 }
 
 function conversaoModuloElasticidadeGPaParaMPa(E){
@@ -48,10 +53,9 @@ function conversaoInerciacm4param4(inerciaCm4){
     return inerciaCm4/100000000
 }
 
-function calcularMomentoFletorPesoProprio(pesosProprios, vao, secoes){
-    let somaPesoProprio = pesosProprios[0] + pesosProprios[1]
-    let momentoFletor = secoes.map(sec => (somaPesoProprio * vao * sec/2) - (somaPesoProprio * (sec ** 2)/2))
-    return momentoFletor
+function calcularMomentoFletorPesoProprioViga(pesosProprioViga, vao, secoes){
+    let momentoFletorViga = secoes.map(sec => (pesosProprioViga * vao * sec/2) - (pesosProprioViga * (sec ** 2)/2))
+    return momentoFletorViga
 }
 
 function calcularSigma_cp(Panc, area, ep, Ic){
@@ -92,5 +96,13 @@ function ArrConversaocmparam(cmArr){
     return metrosArr
 }
 
+function forcaProtensaoInstante0(PancoragemkN, perdaProtensaoEncurtamentoElastico){ //Parâmetros em kN
+    let forcaProtInstante0 = []
+    for(let i = 0; i < PancoragemkN.length; i++){
+        forcaProtInstante0[i] = PancoragemkN[i] - perdaProtensaoEncurtamentoElastico[i]
+    }
+    return forcaProtInstante0
+}
 
-export {somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
+
+export {forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprioViga, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
