@@ -1,4 +1,4 @@
-import {calcularMomentoFletorPesoProprio,inserirDadosSelect,ArrConversaocmparam,conversaocmparam, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp} from './functions.js'
+import {somaSigmas,calcularMomentoFletorPesoProprio,inserirDadosSelect,ArrConversaocmparam,conversaocmparam, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp} from './functions.js'
 import {arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, arrPancPontoRepousoAncoragemAtivaPassiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2} from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
@@ -76,7 +76,8 @@ function mudarOption(){
     let momentoFletorPesoProprioSI = momentoFletorPesoProprio.map(el=>el * 1000)
     let sigma_cg = calcularSigma_cg(momentoFletorPesoProprioSI, ep, ixgm4)
     let sigma_cgMPa = sigma_cg.map(el=>el/1000000)
-    console.log(sigma_cgMPa)
+    let somasigmasMPA = somaSigmas(sigma_cpMPa, sigma_cgMPa)
+    console.log(somasigmasMPA)
 }
 
 

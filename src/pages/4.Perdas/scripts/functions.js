@@ -78,6 +78,14 @@ function conversaocmparam(cm){
     return cm/100
 }
 
+function somaSigmas(sigma_cp, sigma_cg){
+    let somaSigmas = []
+    for(let i = 0; i<sigma_cg.length; i++){
+        somaSigmas.push(sigma_cg[i]+sigma_cp[i])
+    }
+    return somaSigmas
+}
+
 
 function ArrConversaocmparam(cmArr){
     let metrosArr = cmArr.map(el=>el/100)
@@ -85,4 +93,4 @@ function ArrConversaocmparam(cmArr){
 }
 
 
-export {calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
+export {somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
