@@ -14,9 +14,8 @@ function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, 
     return Px
 }
 
-//Em desenvolvimento
 function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB){
-
+    console.log(retorno, E, Ap, tgB)
     //Arrumando as unidades
     let retornoMetros = retorno / 1000
     let EMPa = E * 1000000
@@ -42,7 +41,6 @@ function PerdasAcomodacaoXrMaiorLsobre2(tgB, l, retorno, Ep, Ap){
     return deltaTotal
 }
 
-
 function arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes){
     let xresquerda = xr
     let Panc = []
@@ -66,16 +64,20 @@ function arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, P
 
 //tem que revisar essa funcao, resultados errados
 function arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, secoes){
+
     let Panc = []
     let repeticoesAncoragem = arrCorrecaoAtrito.length
     let repeticoesEspelharArr = Math.floor(repeticoesAncoragem/2)
 
+    console.log(repeticoesAncoragem,repeticoesEspelharArr)
+
     for(let i = 0; i < repeticoesAncoragem; i++){
         Panc.push(Panc1 + (tgBeta * secoes[i]))
+
     }
 
     for(let i = 0; i < repeticoesEspelharArr; i++){
-        Panc[repeticoesEspelharArr-i-1] = Panc[i]
+        Panc[repeticoesAncoragem-i-1] = Panc[i]
     }
     return Panc
 }

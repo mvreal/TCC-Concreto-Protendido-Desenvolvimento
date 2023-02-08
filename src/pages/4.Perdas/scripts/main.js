@@ -1,4 +1,4 @@
-import {inserirDadosSelect,ArrConversaocmparam,conversaocmparam, momentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp} from './functions.js'
+import {calcularMomentoFletorPesoProprio,inserirDadosSelect,ArrConversaocmparam,conversaocmparam, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp} from './functions.js'
 import {arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, arrPancPontoRepousoAncoragemAtivaPassiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2} from './perdas.js'
 
 const getSelect = document.getElementById('dadosEntrada')
@@ -20,15 +20,16 @@ function mudarOption(){
     let info = dadosSalvosdaRotina3[indexSelecionado]
     let epMax = Math.min(...(info['secoes']).map(el=>el['ep']))
     let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
-    let forçaInicialdeProtensao =  dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
+    let forcaInicialdeProtensao =  -dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
+    console.log(forcaInicialdeProtensao)
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01
     let Ap = dadosSalvosdaRotina3[indexSelecionado]['Ap']
 
-    let perdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
-    
+    let perdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forcaInicialdeProtensao, mi, coeficienteK)
+    console.log(perdasAtrito)
     //Necessário fazer a correção do tipo de ancoragem
-    let tgBeta = (perdasAtrito[0] - perdasAtrito[2])/(secoes[0] - secoes[2]) //kN/m
+    let tgBeta = (perdasAtrito[0] - perdasAtrito[2])/(secoes[2] - secoes[0]) //kN/m
 
     //-------------------------------------------------------------------------------------------------------
 
@@ -45,20 +46,19 @@ function mudarOption(){
 
     if(tipoAncoragem == 'Ativa e Ativa' && pontoRepouso >= vao/2){
         perdasAcomodacao = PerdasAcomodacaoXrMaiorLsobre2(tgBeta, vao, getRetorno.value, getE.value, Ap)
-        Panc1 = arrCorrecaoAtrito[0] + perdasAcomodacao
+        Panc1 = arrCorrecaoAtrito[0] - perdasAcomodacao
         arrPanc = arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1,tgBeta, secoes)
     }else if(tipoAncoragem == 'Ativa e Ativa' && pontoRepouso <= vao/2){
         perdasAcomodacao = PerdasAcomodacaoXrMenorLsobre2(tgBeta, pontoRepouso)
-        Panc1 = arrCorrecaoAtrito[0] + perdasAcomodacao
+        Panc1 = arrCorrecaoAtrito[0] - perdasAcomodacao
         arrPanc = arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, pontoRepouso, secoes)
     }else if(tipoAncoragem == 'Ativa e Passiva'){
         perdasAcomodacao = PerdasAcomodacaoXrMenorLsobre2(tgBeta, pontoRepouso)
-        Panc1 = arrCorrecaoAtrito[0] + perdasAcomodacao
+        Panc1 = arrCorrecaoAtrito[0] - perdasAcomodacao
         arrPanc = arrPancPontoRepousoAncoragemAtivaPassiva(arrCorrecaoAtrito, Panc1, tgBeta, pontoRepouso, secoes)
     }
     console.log('Perdas Acomodação '+ perdasAcomodacao)
-    console.log('PancoragemItem1 '+ Panc1)
-    console.log('Array Panc ' + arrPanc)
+    console.log(arrPanc)
 
     let PancoragemNewton = arrPanc.map(el=>el*1000)
     let {area,ixg} = dadosSalvosdaRotina3[indexSelecionado]['rotina2']['rotina1']
@@ -68,8 +68,15 @@ function mudarOption(){
     let relacaoEntreModuloElasticidadeAcoModuloElasticidadeConcreto = moduloElasticidadeAco/moduloElasticConcreto
     let aream2 = conversaoAreacm2param2(area)
     let ixgm4 = conversaoInerciacm4param4(ixg)
-    let sigma_cp = calcularSigma_cp(PancoragemNewton,aream2,ep,ixgm4) 
-
+    let sigma_cp = calcularSigma_cp(PancoragemNewton,aream2, ep, ixgm4) 
+    let sigma_cpMPa = sigma_cp.map(el=>el/1000000)
+    console.log(sigma_cpMPa)
+    let pesosProprios = [dadosSalvosdaRotina3[indexSelecionado]['rotina2']['dados']['carregamentos']['g1'],dadosSalvosdaRotina3[indexSelecionado]['rotina2']['dados']['carregamentos']['g2']]
+    let momentoFletorPesoProprio = calcularMomentoFletorPesoProprio(pesosProprios,vao,secoes) //kN * m
+    let momentoFletorPesoProprioSI = momentoFletorPesoProprio.map(el=>el * 1000)
+    let sigma_cg = calcularSigma_cg(momentoFletorPesoProprioSI, ep, ixgm4)
+    let sigma_cgMPa = sigma_cg.map(el=>el/1000000)
+    console.log(sigma_cgMPa)
 }
 
 

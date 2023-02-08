@@ -48,13 +48,13 @@ function conversaoInerciacm4param4(inerciaCm4){
     return inerciaCm4/100000000
 }
 
-function momentoFletorPesoProprio(pesoProprio,vao,secoes){
-    let momentoFletor = secoes.map(sec => (pesoProprio * vao * sec/2) - (pesoProprio * (sec ** 2)/2))
+function calcularMomentoFletorPesoProprio(pesosProprios, vao, secoes){
+    let somaPesoProprio = pesosProprios[0] + pesosProprios[1]
+    let momentoFletor = secoes.map(sec => (somaPesoProprio * vao * sec/2) - (somaPesoProprio * (sec ** 2)/2))
     return momentoFletor
 }
 
 function calcularSigma_cp(Panc, area, ep, Ic){
-    console.log(Panc,area,ep,Ic)
     let sigma_cp = []
     if(Panc.length == ep.length){
         for(let i=0; i<Panc.length; i++){
@@ -64,6 +64,14 @@ function calcularSigma_cp(Panc, area, ep, Ic){
         throw console.error('Panc e ep não tem o mesmo numero de seções');
     }
     return sigma_cp
+}
+
+function calcularSigma_cg(momentoPesoProprio, ep, Ic){
+    let sigma_cg = []
+    for(let i = 0; i < momentoPesoProprio.length; i++){
+        sigma_cg.push((-momentoPesoProprio[i] * ep[i])/Ic)
+    }
+    return sigma_cg
 }
 
 function conversaocmparam(cm){
@@ -77,4 +85,4 @@ function ArrConversaocmparam(cmArr){
 }
 
 
-export {inserirDadosSelect,ArrConversaocmparam, momentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
+export {calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprio, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
