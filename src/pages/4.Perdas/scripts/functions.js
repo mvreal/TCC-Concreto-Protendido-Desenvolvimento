@@ -104,5 +104,42 @@ function forcaProtensaoInstante0(PancoragemkN, perdaProtensaoEncurtamentoElastic
     return forcaProtInstante0
 }
 
+function pegarPerimetro(posicao){
+    const perimetroFigura = dadosSalvosdaRotina3[posicao]['rotina2']['rotina1']['perimetro']
+    return perimetroFigura
+}
 
-export {forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprioViga, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam}
+function imprimirPerimetro(perimetro){
+    const inputPerimetroTotal = document.getElementById('perimetroTotal')
+    inputPerimetroTotal.value = perimetro
+}
+
+function mudarOption(evento){
+    const indexSelecionado = verificarIndex(evento.target)
+    const perimetro = pegarPerimetro(indexSelecionado)
+    imprimirPerimetro(perimetro)
+}
+
+function recalcularPerimetrocm(evento){
+    const inputPorcentagemValue = evento.target.value
+    const inputPerimetroAr = document.getElementById('perimetroAr')
+    const perimetroTotal = document.getElementById('perimetroTotal')
+    inputPerimetroAr.value = (Number(perimetroTotal.value) * Number(inputPorcentagemValue) / 100).toFixed(1)
+}
+
+function recalcularPerimetroPorcentagem(evento){
+    const inputPerimetrocmValue = evento.target.value
+    const inputPerimetroTotal = document.getElementById('perimetroTotal')
+    const autoOption = document.getElementById('autoOptionPerimetroPorcentagem')
+    const selectPerimetro = document.getElementById('PorcentagemPerimetro')
+    autoOption.value = ((Number(inputPerimetrocmValue) / Number(inputPerimetroTotal.value)) * 100).toFixed(1)
+
+    autoOption.innerText = autoOption.value + '%'
+    selectPerimetro.value = autoOption.value
+}
+
+function pegarPerimetroAr_cm(){
+    return Number(document.getElementById('perimetroAr').value)
+}
+
+export { pegarPerimetroAr_cm, recalcularPerimetroPorcentagem, recalcularPerimetrocm,mudarOption, imprimirPerimetro, pegarPerimetro, forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprioViga, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam }

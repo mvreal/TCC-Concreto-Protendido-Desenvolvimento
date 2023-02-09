@@ -1,6 +1,7 @@
-import {forcaProtensaoInstante0, somaSigmas,calcularMomentoFletorPesoProprioViga,inserirDadosSelect,ArrConversaocmparam,conversaocmparam, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp, variacaoTensaoEncurtamentoElastico} from './functions.js'
+import {pegarPerimetroAr_cm, forcaProtensaoInstante0, somaSigmas,calcularMomentoFletorPesoProprioViga,inserirDadosSelect,ArrConversaocmparam,conversaocmparam, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp, variacaoTensaoEncurtamentoElastico} from './functions.js'
 import {arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, arrPancPontoRepousoAncoragemAtivaPassiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2} from './perdas.js'
 
+const btnCalcular = document.getElementById('btnCalcular')
 const getSelect = document.getElementById('dadosEntrada')
 const getAncoragem = document.getElementById('dadosAncoragem')
 const getE = document.getElementById('E')
@@ -9,7 +10,7 @@ const getRetorno = document.getElementById('retornoCabo')
 let script = () => inserirDadosSelect(dadosSalvosdaRotina3)   
 window.addEventListener('DOMContentLoaded', script)
 
-getSelect.addEventListener('change',mudarOption)
+btnCalcular.addEventListener('click',mudarOption)
 
 function mudarOption(){
 
@@ -78,7 +79,9 @@ function mudarOption(){
     const perdaProtensaoEncurtamentoElastico = deltaTensaoEncurtamentoElastico.map(el=>(-el*1000) * conversaoAreacm2param2((areaProtensao/100)))
     const PancoragemkN = PancoragemNewton.map(el=>el/1000)
     const forcaProtInstante0 = forcaProtensaoInstante0(PancoragemkN, perdaProtensaoEncurtamentoElastico)
-    
+    //Verificar se essa parte está correta
+    const espessuraFicticia = ((2 * Number(area))/ Number(pegarPerimetroAr_cm()))
+    console.log(espessuraFicticia)
 }
 
 
