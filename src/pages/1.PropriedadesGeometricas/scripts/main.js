@@ -183,6 +183,7 @@ btnSave.addEventListener('click',()=>{
         contadorDeRespostasSalvas++
 
         window.api.dadosRotina1(respostasSalvas);
+        console.log(respostasSalvas)
     }
 })
 

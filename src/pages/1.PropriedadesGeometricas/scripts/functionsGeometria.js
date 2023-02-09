@@ -64,11 +64,14 @@ function verificacaoVigaT(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bmis, 
     let ixgMisula = ((bmis * (hmis**3))/36) + (areaMisula * ((centroideY - centroideYMisula)**2))
     let ixg = ixgMesa + ixgAlma + ixgMisula + ixgMisula
 
+    const perimetroVigaT = calcularPerimetroVigaT(bf, hf, bw, h, bmis, hmis)
+
     resInerciaBaricentricaX.innerText = NotacaoCientifica(ixg)
     return {
         centroide:centroideY,
         tipo:"T",
         slug:"T",
+        perimetro: perimetroVigaT,
         area: area,
         ixg: ixg,
         w1: -ixg/centroideY,
@@ -150,12 +153,15 @@ function verificacaoVigaI(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bi, hi
 
     let ixg = (ixgMesaSuperior + ixgMesaInferior + ixgAlma + (2 * ixgMisulaSuperior) + (2 * ixgMisulainferior))
 
+    const perimetroVigaI = calcularPerimetroVigaI(bf, hf, bw, h, bi, hi, bmissup,hmissup, bmisinf, hmisinf)
+
     resInerciaBaricentricaX.innerText = NotacaoCientifica(ixg)
     return {
         centroide: centroideY,
         tipo:'I',
         slug:"&#9014",
         area: area,
+        perimetro: perimetroVigaI,
         ixg: ixg,
         w1: -ixg/centroideY,
         w2: ixg/(h - centroideY),
@@ -174,21 +180,27 @@ function verificacaoVigaI(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bi, hi
     }
 }
 
-function perimetroVigaT(bf, hf, bw, h, bmis, hmis){
-    const perimetroSemMisula = (2 * bf) + (2 * h)
-    const correcaoMisula = -2 * (hmis + bmis) + 2 * Math.sqrt((hmis**2) + (bmis**2))
+function calcularPerimetroVigaT(bf, hf, bw, h, bmis, hmis){
+    let perimetroSemMisula = (2 * bf) + (2 * h)
+    let correcaoMisula = -2 * (hmis + bmis) + 2 * Math.sqrt((hmis**2) + (bmis**2))
     perimetroSemMisula = Number(perimetroSemMisula)
     correcaoMisula = Number(correcaoMisula)
 
-    return perimetroSemMisula - correcaoMisula
+    return perimetroSemMisula + correcaoMisula
 }
 
-function PerimetroVigaI(bf, hf, bw, h, bi, hi, bmissup,hmissup, bmisinf, hmisinf){
+function calcularPerimetroVigaI(bf, hf, bw, h, bi, hi, bmissup,hmissup, bmisinf, hmisinf){
+    console.log(bf, hf, bw, h, bi, hi, bmissup,hmissup, bmisinf, hmisinf)
     const perimetroMesaSuperiorSemMisula = (2 * bf) + (2 * hf) - bw
     const perimetroAlmaSemMisula = (2 * (h - hf - hi))
     const perimetroMesaInferiorSemMisula = (2 * bi) + (2 * hi) - bw
+    hmissup = Number(hmissup)
+    bmissup = Number(bmissup)
+    bmisinf = Number(bmisinf)
+    hmisinf = Number(hmisinf)
     const correcaoMisulaSuperior = -2 * (hmissup + bmissup) + 2 * Math.sqrt((hmissup**2) + (bmissup**2))
     const correcaoMisulaInferior = -2 * (hmisinf + bmisinf) + 2 * Math.sqrt((hmisinf**2) + (bmisinf**2))
+    console.log(perimetroMesaSuperiorSemMisula, perimetroAlmaSemMisula, perimetroMesaInferiorSemMisula, correcaoMisulaSuperior, correcaoMisulaInferior)
     const perimetro = perimetroMesaSuperiorSemMisula + perimetroAlmaSemMisula + perimetroMesaInferiorSemMisula + correcaoMisulaSuperior + correcaoMisulaInferior
     return perimetro
 }
