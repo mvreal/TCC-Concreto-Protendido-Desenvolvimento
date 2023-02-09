@@ -1,6 +1,6 @@
 import {sucess, erro, NotacaoCientifica} from "./functions.js"
 
-function verificacaoVigaRet(resArea,resInerciaBaricentricaX,b,h){
+function verificacaoVigaRet(resArea,resInerciaBaricentricaX, b, h){
     let area = b * h
     let perimetro = 2 * (b + h)
     resArea.innerText = NotacaoCientifica(area)
@@ -28,7 +28,7 @@ function verificacaoVigaRet(resArea,resInerciaBaricentricaX,b,h){
     }
 }
 
-function verificacaoVigaT(resArea,resInerciaBaricentricaX,bf,hf,bw,h,bmis,hmis,message){
+function verificacaoVigaT(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bmis, hmis, message){
     if(bmis == ""){bmis = 0}
     if(hmis == ""){hmis = 0}
 
@@ -43,7 +43,7 @@ function verificacaoVigaT(resArea,resInerciaBaricentricaX,bf,hf,bw,h,bmis,hmis,m
     sucess()
 
     let areaMesa = bf * hf
-    let areaAlma = bw*(h - hf)
+    let areaAlma = bw * (h - hf)
     let areaMisula = hmis * bmis /2
 
     let area = areaMesa + areaAlma + (2 * areaMisula)
@@ -84,7 +84,7 @@ function verificacaoVigaT(resArea,resInerciaBaricentricaX,bf,hf,bw,h,bmis,hmis,m
     }
 }
 
-function verificacaoVigaI(resArea,resInerciaBaricentricaX,bf,hf,bw,h,bi,hi,bmissup,hmissup,bmisinf,hmisinf,message){
+function verificacaoVigaI(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bi, hi, bmissup, hmissup, bmisinf, hmisinf, message){
 
     if(bmissup == ""){
         bmissup = 0
@@ -174,6 +174,23 @@ function verificacaoVigaI(resArea,resInerciaBaricentricaX,bf,hf,bw,h,bi,hi,bmiss
     }
 }
 
+function perimetroVigaT(bf, hf, bw, h, bmis, hmis){
+    const perimetroSemMisula = (2 * bf) + (2 * h)
+    const correcaoMisula = -2 * (hmis + bmis) + 2 * Math.sqrt((hmis**2) + (bmis**2))
+    perimetroSemMisula = Number(perimetroSemMisula)
+    correcaoMisula = Number(correcaoMisula)
 
+    return perimetroSemMisula - correcaoMisula
+}
+
+function PerimetroVigaI(bf, hf, bw, h, bi, hi, bmissup,hmissup, bmisinf, hmisinf){
+    const perimetroMesaSuperiorSemMisula = (2 * bf) + (2 * hf) - bw
+    const perimetroAlmaSemMisula = (2 * (h - hf - hi))
+    const perimetroMesaInferiorSemMisula = (2 * bi) + (2 * hi) - bw
+    const correcaoMisulaSuperior = -2 * (hmissup + bmissup) + 2 * Math.sqrt((hmissup**2) + (bmissup**2))
+    const correcaoMisulaInferior = -2 * (hmisinf + bmisinf) + 2 * Math.sqrt((hmisinf**2) + (bmisinf**2))
+    const perimetro = perimetroMesaSuperiorSemMisula + perimetroAlmaSemMisula + perimetroMesaInferiorSemMisula + correcaoMisulaSuperior + correcaoMisulaInferior
+    return perimetro
+}
 
 export {verificacaoVigaRet, verificacaoVigaT, verificacaoVigaI}
