@@ -78,7 +78,7 @@ function mudarOption(){
     const perdaProtensaoEncurtamentoElastico = deltaTensaoEncurtamentoElastico.map(el=>(-el*1000) * conversaoAreacm2param2((areaProtensao/100)))
     const PancoragemkN = PancoragemNewton.map(el=>el/1000)
     const forcaProtInstante0 = forcaProtensaoInstante0(PancoragemkN, perdaProtensaoEncurtamentoElastico)
-
+    
 }
 
 
