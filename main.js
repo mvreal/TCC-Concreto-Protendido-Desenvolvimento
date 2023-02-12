@@ -1,6 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 
+
 var dados = ['','','','','',''];
 
 
@@ -55,7 +56,7 @@ ipcMain.on('enviarDados3', (evento, args) => {dados[2] = args})
 
 function criarJanelaSecundaria4() {
     let janelaSecundaria4 = new BrowserWindow({
-        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
+        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js'), nodeIntegration:true}
     })
     janelaSecundaria4.loadFile('./src/pages/4.Perdas/index.html')
     janelaSecundaria4.webContents.send("dadosSalvos", dados)
