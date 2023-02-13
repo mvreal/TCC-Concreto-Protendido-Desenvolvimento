@@ -618,10 +618,7 @@ function salvarResultados(contador){
         let createTd = document.createElement('td')
         createTr.appendChild(createTd)
         createTd.classList.add('elemento' + (i+1))
-        
-    
     }
-
 
     celulas = document.querySelector('.linha'+(contador + 1)).children
     pegarUltimoRegistro = resultadosDaRotina3[resultadosDaRotina3.length -1]

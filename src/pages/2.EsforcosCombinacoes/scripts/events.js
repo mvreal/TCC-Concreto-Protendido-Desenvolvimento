@@ -7,6 +7,7 @@ const getSelect = document.getElementById('selectCargas')
 const getBtnCalcular = document.getElementById('btnCalcular')
 const pegarInputs = document.querySelectorAll('input[type=number]')
 
+
 getBtnDiagramas[1].addEventListener('click',function(){
     apagarCanvas()
     desenharBasico()

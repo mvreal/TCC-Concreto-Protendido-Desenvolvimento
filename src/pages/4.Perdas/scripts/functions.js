@@ -36,7 +36,6 @@ function moduloElasticidadeConcreto(fck){
 }
 
 function variacaoTensaoEncurtamentoElastico(alfap, tensoesTotais, numeroCabos){
-    console.log(alfap, tensoesTotais, numeroCabos)
     const deltaSigmaP = tensoesTotais.map(el=> alfap * (el) * ((numeroCabos-1)/(2 * numeroCabos))) //MPa
     return deltaSigmaP
 }
@@ -53,9 +52,20 @@ function conversaoInerciacm4param4(inerciaCm4){
     return inerciaCm4/100000000
 }
 
-function calcularMomentoFletorPesoProprioViga(pesosProprioViga, vao, secoes){
+function calcularMomentoFletor(pesosProprioViga, vao, secoes){
     let momentoFletorViga = secoes.map(sec => (pesosProprioViga * vao * sec/2) - (pesosProprioViga * (sec ** 2)/2))
     return momentoFletorViga
+}
+
+function calcularsigmaPermanente(P0, area, ep, Ic, momentocargaspermanentes){
+    console.log(P0, area, ep, Ic, momentocargaspermanentes)
+    let tensaodevidocargasPermanentes = []
+    for(let i = 0; i < momentocargaspermanentes.length; i++){
+        console.log(P0[i], area, ep[i], Ic, momentocargaspermanentes[i])
+        tensaodevidocargasPermanentes[i] = (-P0[i] * ((1/area) + ((ep[i]**2)/Ic))) - ((momentocargaspermanentes[i] * ep[i])/Ic)
+    }
+    return tensaodevidocargasPermanentes.map(el=>el/1000000
+    )
 }
 
 function calcularSigma_cp(Panc, area, ep, Ic){
@@ -89,7 +99,6 @@ function somaSigmas(sigma_cp, sigma_cg){
     }
     return somaSigmas
 }
-
 
 function ArrConversaocmparam(cmArr){
     let metrosArr = cmArr.map(el=>el/100)
@@ -142,4 +151,39 @@ function pegarPerimetroAr_cm(){
     return Number(document.getElementById('perimetroAr').value)
 }
 
-export { pegarPerimetroAr_cm, recalcularPerimetroPorcentagem, recalcularPerimetrocm,mudarOption, imprimirPerimetro, pegarPerimetro, forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletorPesoProprioViga, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam }
+function escreverPerdas(arrAtrito, arrAncoragem, arrEncurtamento, arrPerdasDiferidas, secoes){
+    console.log(arrAtrito, arrAncoragem, arrEncurtamento, arrPerdasDiferidas)
+
+    const repeticoes = arrAtrito.length
+
+    let txtAtrito, txtAncoragem, txtEncurtamento, txtDiferidas = ''
+
+    const divArrAtrito = document.getElementById('arrPerdasAtrito')
+    const divArrAcomodacao = document.getElementById('arrPerdasAcomodacao')
+    const divArrEncurtamento = document.getElementById('arrPerdasEncurtamento')
+    const divArrDiferidas = document.getElementById('arrPerdasProgressivas')
+
+   for(let i = 0; i < repeticoes; i++){
+    txtAtrito += 'Seção: ' + secoes[i] + 'm - ' + arrAtrito[i].toFixed(2) + 'kN' + '</br>' 
+    txtAncoragem += 'Seção: ' + secoes[i] + 'm - ' + arrAncoragem[i].toFixed(2) + 'kN' + '</br>' 
+    txtEncurtamento += 'Seção: ' + secoes[i] + 'm - ' + arrEncurtamento[i].toFixed(2) + 'kN' + '</br>' 
+    txtDiferidas += 'Seção: ' + secoes[i] + 'm - ' + arrPerdasDiferidas[i].toFixed(2) + 'kN' + '</br>' 
+   }
+   txtAtrito = txtAtrito.replace('undefined','')
+   txtAncoragem = txtAncoragem.replace('undefined','')
+   txtEncurtamento = txtEncurtamento.replace('undefined','')
+   txtDiferidas = txtDiferidas.replace('undefined','')
+
+    divArrAtrito.innerHTML = txtAtrito
+    divArrAcomodacao.innerHTML = txtAncoragem
+    divArrEncurtamento.innerHTML = txtEncurtamento
+    divArrDiferidas.innerHTML = txtDiferidas
+}
+
+function salvarDados(obj, indice){
+    alert('Reposta Salva com sucesso: id =' + indice)
+    window.api.dadosRotina4(obj)
+
+}
+
+export { salvarDados, escreverPerdas, calcularsigmaPermanente, pegarPerimetroAr_cm, recalcularPerimetroPorcentagem, recalcularPerimetrocm,mudarOption, imprimirPerimetro, pegarPerimetro, forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletor, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam }

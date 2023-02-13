@@ -94,6 +94,21 @@ function arrPancPontoRepousoAncoragemAtivaPassiva(arrCorrecaoAtrito, Panc1, tgBe
     return Panc
 }
 
+function calcularPercentualPerdasDiferidas(alfap, coeficienteFluencia, sigmaPermanente){
+    console.log(alfap, coeficienteFluencia, sigmaPermanente)
+    let deltasigma = []
+    for(let i = 0; i < sigmaPermanente.length; i++){
+        deltasigma[i] = 7.4 + (alfap/18.7) * (coeficienteFluencia ** 1.07 * (3 - sigmaPermanente[i]))
+    }
+    return deltasigma
+}
 
+function calcularForcaFinalProtensao(P0, percentualPerdas){
+    let PFinal = []
+    for(let i = 0; i < P0.length; i++){
+        PFinal[i] = P0[i] * ((100 - percentualPerdas[i])/100)
+    }
+    return PFinal
+}
 
-export {arrPancPontoRepousoAncoragemAtivaPassiva, arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva}
+export { calcularForcaFinalProtensao, calcularPercentualPerdasDiferidas, arrPancPontoRepousoAncoragemAtivaPassiva, arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2, arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva }
