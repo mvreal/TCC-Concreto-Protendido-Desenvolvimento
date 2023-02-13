@@ -1,4 +1,4 @@
-import { importarDados, salvarDados, calcularsigmaPermanente, pegarPerimetroAr_cm, forcaProtensaoInstante0, somaSigmas, calcularMomentoFletor, inserirDadosSelect, ArrConversaocmparam, conversaocmparam, conversaoInerciacm4param4, verificarIndex, conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa, calcularSigma_cp, variacaoTensaoEncurtamentoElastico, escreverPerdas } from './functions.js'
+import { importarDados, calcularsigmaPermanente, pegarPerimetroAr_cm, forcaProtensaoInstante0, somaSigmas, calcularMomentoFletor, inserirDadosSelect, ArrConversaocmparam, conversaocmparam, conversaoInerciacm4param4, verificarIndex, conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, calcularSigma_cg, conversaoModuloElasticidadeGPaParaMPa, calcularSigma_cp, variacaoTensaoEncurtamentoElastico, escreverPerdas } from './functions.js'
 import { arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva, calcularForcaFinalProtensao, calcularPercentualPerdasDiferidas, arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva, arrPancPontoRepousoAncoragemAtivaPassiva, calcularPerdasAtrito, calcularPontoRepousoAcomodacao, PerdasAcomodacaoXrMenorLsobre2, PerdasAcomodacaoXrMaiorLsobre2 } from './perdas.js'
 import { calcularCoeficienteFluencia, calcularInterpolacaoCoeficienteFluencia } from './fluencia.js'
 
@@ -8,8 +8,14 @@ const getSelect = document.getElementById('dadosEntrada')
 const getAncoragem = document.getElementById('dadosAncoragem')
 const getE = document.getElementById('E')
 const getRetorno = document.getElementById('retornoCabo')
+let resposta
 
-let resposta = dadosSalvosdaRotina4
+if(typeof dadosSalvosdaRotina4 !== 'object'){
+    resposta = []
+}else{
+    resposta = dadosSalvosdaRotina4
+}
+
 
 let script = () => inserirDadosSelect(dadosSalvosdaRotina3)
 window.addEventListener('DOMContentLoaded', script)
@@ -105,8 +111,9 @@ function mudarOption() {
         perdaFinal: forcaFinalProtensao,
         dadosSalvosdaRotina3: dadosSalvosdaRotina3[indexSelecionado]
     })
-    window.api.dadosSalvosdaRotina4(resposta)
-    alert('Dados salvos, id = ' + resposta.length-1)
+    console.log(resposta)
+    window.api.dadosRotina4(resposta)
+    alert('Dados salvos, id = ' + (Number(resposta.length)-1))
 }
 
 

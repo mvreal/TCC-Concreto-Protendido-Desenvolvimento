@@ -62,7 +62,9 @@ function criarJanelaSecundaria4() {
     janelaSecundaria4.webContents.send("dadosSalvos", dados)
 }
 ipcMain.on('abrirJanelaSecundaria4', (event, args) => {criarJanelaSecundaria4()})
-ipcMain.on('enviarDados4', (evento, args) => {dados[3] = args})
+ipcMain.on('enviarDados4', (evento, args) => {dados[3] = args
+console.log(args)
+})
 
 //---------------------------------------------------------------------------------------------------------------
 
