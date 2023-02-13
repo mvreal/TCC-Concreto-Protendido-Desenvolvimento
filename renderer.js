@@ -19,6 +19,11 @@ window.addEventListener('DOMContentLoaded', () => {
     rotina4.addEventListener('click', () => {
       window.api.abrirJanela4();
     })
+
+    const rotina5 = document.getElementById('rotina5')
+    rotina5.addEventListener('click', () => {
+      window.api.abrirJanela5();
+    })
   
   });
   

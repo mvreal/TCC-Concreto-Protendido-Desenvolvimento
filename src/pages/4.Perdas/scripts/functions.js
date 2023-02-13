@@ -58,10 +58,8 @@ function calcularMomentoFletor(pesosProprioViga, vao, secoes){
 }
 
 function calcularsigmaPermanente(P0, area, ep, Ic, momentocargaspermanentes){
-    console.log(P0, area, ep, Ic, momentocargaspermanentes)
     let tensaodevidocargasPermanentes = []
     for(let i = 0; i < momentocargaspermanentes.length; i++){
-        console.log(P0[i], area, ep[i], Ic, momentocargaspermanentes[i])
         tensaodevidocargasPermanentes[i] = (-P0[i] * ((1/area) + ((ep[i]**2)/Ic))) - ((momentocargaspermanentes[i] * ep[i])/Ic)
     }
     return tensaodevidocargasPermanentes.map(el=>el/1000000
@@ -180,10 +178,8 @@ function escreverPerdas(arrAtrito, arrAncoragem, arrEncurtamento, arrPerdasDifer
     divArrDiferidas.innerHTML = txtDiferidas
 }
 
-function salvarDados(obj, indice){
-    alert('Reposta Salva com sucesso: id =' + indice)
-    window.api.dadosRotina4(obj)
-
+function importarDados(){
+    return dadosSalvosdaRotina4
 }
 
-export { salvarDados, escreverPerdas, calcularsigmaPermanente, pegarPerimetroAr_cm, recalcularPerimetroPorcentagem, recalcularPerimetrocm,mudarOption, imprimirPerimetro, pegarPerimetro, forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletor, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam }
+export { importarDados, salvarDados, escreverPerdas, calcularsigmaPermanente, pegarPerimetroAr_cm, recalcularPerimetroPorcentagem, recalcularPerimetrocm,mudarOption, imprimirPerimetro, pegarPerimetro, forcaProtensaoInstante0, variacaoTensaoEncurtamentoElastico, somaSigmas, calcularSigma_cg,inserirDadosSelect,ArrConversaocmparam, calcularMomentoFletor, conversaoInerciacm4param4, verificarIndex,conversaoAreacm2param2, pegarSecoes, correcaoPerdasAtritoCasoAncoragensAtivas, moduloElasticidadeConcreto, conversaoModuloElasticidadeGPaParaMPa,calcularSigma_cp,conversaocmparam }

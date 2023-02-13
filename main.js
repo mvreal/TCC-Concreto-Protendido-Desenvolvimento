@@ -56,13 +56,25 @@ ipcMain.on('enviarDados3', (evento, args) => {dados[2] = args})
 
 function criarJanelaSecundaria4() {
     let janelaSecundaria4 = new BrowserWindow({
-        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js'), nodeIntegration:true}
+        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
     })
     janelaSecundaria4.loadFile('./src/pages/4.Perdas/index.html')
     janelaSecundaria4.webContents.send("dadosSalvos", dados)
 }
 ipcMain.on('abrirJanelaSecundaria4', (event, args) => {criarJanelaSecundaria4()})
 ipcMain.on('enviarDados4', (evento, args) => {dados[3] = args})
+
+//---------------------------------------------------------------------------------------------------------------
+
+function criarJanelaSecundaria5() {
+    let janelaSecundaria5 = new BrowserWindow({
+        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
+    })
+    janelaSecundaria5.loadFile('./src/pages/5.Verificacoes/index.html')
+    janelaSecundaria5.webContents.send("dadosSalvos", dados)
+}
+ipcMain.on('abrirJanelaSecundaria5', (event, args) => {criarJanelaSecundaria5()})
+ipcMain.on('enviarDados5', (evento, args) => {dados[4] = args})
 
 //---------------------------------------------------------------------------------------------------------------
 

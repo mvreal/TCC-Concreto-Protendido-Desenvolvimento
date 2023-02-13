@@ -68,8 +68,6 @@ function arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, P
     let repeticoesAncoragem = arrCorrecaoAtrito.length
     let repeticoesEspelharArr = Math.floor(repeticoesAncoragem/2)
 
-    console.log(repeticoesAncoragem,repeticoesEspelharArr)
-
     for(let i = 0; i < repeticoesAncoragem; i++){
         Panc.push(Panc1 + (tgBeta * secoes[i]))
 

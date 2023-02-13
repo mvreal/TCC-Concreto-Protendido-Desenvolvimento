@@ -1,7 +1,6 @@
 import fluencia from '../data/fluencia.js'
 
 function calcularCoeficienteFluencia(umidade, espessura, classeConcreto, tempo){
-    console.log(umidade, espessura, classeConcreto, tempo)
     let filtroEspessura, filtroTipoConcreto, filtroTempo, filtroUmidade = []
 
     //Filtro da espessura fictícia
@@ -43,7 +42,6 @@ function calcularCoeficienteFluencia(umidade, espessura, classeConcreto, tempo){
 }
 
 function calcularInterpolacaoCoeficienteFluencia(espessura, arr){
-    console.log(espessura, arr)
     let coeficienteFluencia
 
     if(arr.length == 1){
