@@ -11,9 +11,31 @@
 <body>
     <label for="situacoes"> Identificador:</label>
     <select name="situacoes" id="situacoes">
-        
     </select>
     <button id="btnCalcular" class="btnCalcular">Verificar</button>
+    <h3>Análise de Tensões no Ato da Protensão</h3>
+    <div>
+        <div>
+            <p>&#963<sub>1</sub></p>
+            <div id="sigmac1"></div>
+        </div>
+        <div>
+            <p>Limite: 0.70 f<sub>ckj</sub></p>
+        </div>
+    </div>
+    <div>
+        <div>
+            <p>&#963<sub>2</sub></p> 
+            <div id="sigmac2"></div>
+        </div>
+        <div>
+            <span>Limite:<span id="divcoeficientefctm">x</span>f<sub>ctm</sub></span>
+        </div>
+    </div>
+    
+
+
+   
     <script src="./scripts/main.js" type="module"></script>
     <script src="./scripts/events.js" type="module"></script>
 </body>

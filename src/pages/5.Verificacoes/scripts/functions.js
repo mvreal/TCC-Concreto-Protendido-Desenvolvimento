@@ -90,4 +90,38 @@ function pegarDadosRotina4(index){
     }
 }
 
-export { pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+function escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes){
+    const divSigmac1 = document.getElementById('sigmac1')
+    const divSigmac2 = document.getElementById('sigmac2')
+    const repeticoes = sigmac1.length
+
+    let txtSigmac1 = ''
+    let txtSigmac2 = ''
+
+    for(let i = 0; i < repeticoes; i++){
+        txtSigmac1 += 'Seção: ' + secoes[i] + 'm - ' + sigmac1[i].toFixed(2) + ' MPa' + '</br>' 
+        txtSigmac2 += 'Seção: ' + secoes[i] + 'm - ' + sigmac2[i].toFixed(2) + ' MPa' + '</br>' 
+    }
+    divSigmac1.innerHTML = txtSigmac1
+    divSigmac2.innerHTML = txtSigmac2
+}
+
+function coeficientefctm(tipo){
+    if(tipo == 'Retangular'){
+        return 1.5
+    }else if(tipo == 'I'){
+        return 1.3
+    }else if(tipo == 'T'){
+        return 1.2
+    }else{
+        console.log('Erro na funcao fctm')
+    }
+}
+
+function escreverCoeficientefctm(tipo){
+    const div = document.getElementById('divcoeficientefctm')
+    div.innerText = coeficientefctm(tipo)
+
+}
+
+export { escreverCoeficientefctm , escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
