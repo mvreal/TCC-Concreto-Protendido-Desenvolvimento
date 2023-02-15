@@ -2,41 +2,56 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Verificações ELS e ELU</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
+    <div id="div-titulos">
+        <h1>Verificações ELS e ELU</h1>
+    </div>
     <label for="situacoes"> Identificador:</label>
     <select name="situacoes" id="situacoes">
     </select>
     <button id="btnCalcular" class="btnCalcular">Verificar</button>
     <h3>Análise de Tensões no Ato da Protensão</h3>
-    <div>
-        <div>
-            <p>&#963<sub>1</sub></p>
-            <div id="sigmac1"></div>
+    <div id='ctnResultados' class="flex">
+        <div class="flex">
+            <div>
+                <p>&#963<sub>1</sub></p>
+                <div id="sigmac1"></div>
+            </div>
+            <div>
+                <p id="limite-sigmac1">Limite: 0.70 f<sub>ck<sub>j</sub></sub><span id="adicionarTxtSigmac1"></span></p>
+            </div>
         </div>
-        <div>
-            <p>Limite: 0.70 f<sub>ckj</sub></p>
+        <div class="flex">
+            <div>
+                <p>&#963<sub>2</sub></p>
+                <div id="sigmac2"></div>
+            </div>
+            <div>
+                <span id="limite-sigmac2">Limite: 1.2 f<sub>ctm<sub>j</sub></sub><span id="adicionarTxtSigmac2"></span></span>
+            </div>
         </div>
     </div>
-    <div>
-        <div>
-            <p>&#963<sub>2</sub></p> 
-            <div id="sigmac2"></div>
+    <div id="ctnResultadosServico">
+        <div id="ctnTituloServico">
+            <h3 id="tituloServico">Concreto Protendido nível<span id="adicionarTextoTituloServico"></span></h3>
         </div>
-        <div>
-            <span>Limite:<span id="divcoeficientefctm">x</span>f<sub>ctm</sub></span>
+        <div id="combinacoesServico">
+            <div id="divCombinacao1"></div>
+            <div id="divCombinacao2"></div>
         </div>
+        
     </div>
-    
-
-
-   
     <script src="./scripts/main.js" type="module"></script>
     <script src="./scripts/events.js" type="module"></script>
 </body>
+
 </html>

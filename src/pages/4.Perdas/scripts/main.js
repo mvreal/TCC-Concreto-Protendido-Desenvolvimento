@@ -109,6 +109,7 @@ function mudarOption() {
         perdaAncoragem: arrPanc,
         perdaEncurtamento: forcaProtInstante0,
         perdaFinal: forcaFinalProtensao,
+        dataProtensao: instanteAplicacaoCarga,
         dadosSalvosdaRotina3: dadosSalvosdaRotina3[indexSelecionado]
     })
     console.log(resposta)

@@ -22,6 +22,7 @@ function calcularSigmac1(P0, Ac, ep, w1, Mg1){
     Ac = Ac / 10000 // convertendo para m² 
     w1 = w1 / 1000000 //convertendo para m³
     Mg1 = Mg1.map(el => el * 1000) //convertendo para N * m 
+    console.log(Mg1, w1)
 
     for(let i = 0; i < P0.length; i++){
         sigmac1[i] = (-1.1 * P0[i] * ((1 / Ac) + (ep[i] / w1))) - (Mg1[i] / w1)
@@ -75,7 +76,8 @@ function pegarDadosRotina3(index){
         Ap: dadosRotina3['Ap'],
         ep: dadosRotina3['secoes'].map(el=>el['ep']),
         vao: dadosRotina3['secoes'][0]['Vao'],
-        secoes: dadosRotina3['secoes'].map(el=>el['X'])
+        secoes: dadosRotina3['secoes'].map(el => el['X']),
+        tipoProtensao: dadosRotina3['tipoProtensao']
     }
 }
 
@@ -86,7 +88,8 @@ function pegarDadosRotina4(index){
         perdaAtrito: dadosRotina4['perdaAtrito'],
         perdaAncoragem: dadosRotina4['perdaAncoragem'],
         perdaEncurtamento: dadosRotina4['perdaEncurtamento'],
-        perdaFinal: dadosRotina4['perdaFinal']
+        perdaFinal: dadosRotina4['perdaFinal'],
+        dataProtensao: dadosRotina4['dataProtensao']
     }
 }
 
@@ -106,22 +109,49 @@ function escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes){
     divSigmac2.innerHTML = txtSigmac2
 }
 
-function coeficientefctm(tipo){
-    if(tipo == 'Retangular'){
-        return 1.5
-    }else if(tipo == 'I'){
-        return 1.3
-    }else if(tipo == 'T'){
-        return 1.2
+function calcularFckjFctj(fck, j){
+    const fckj = fck * (Math.E ** ((0.2) * (1 - Math.sqrt(28 / j))))
+    const fctmj = 0.3 * (fckj)**(2/3)
+    
+    return [fckj, fctmj]
+}
+
+function limitesSigmac1Sigmac2(fckj, fctmj){
+    const limiteSigmac1 = 0.7 * fckj
+    const limiteSigmac2 = 1.2 * fctmj
+
+    return [limiteSigmac1, limiteSigmac2]
+}
+
+function escreverLimites(limiteSigmac1, limiteSigmac2){
+    const txtLimiteSigmac1 = document.getElementById('adicionarTxtSigmac1')
+    const txtLimiteSigmac2 = document.getElementById('adicionarTxtSigmac2')
+
+    txtLimiteSigmac1.innerHTML = ` = -${limiteSigmac1.toFixed(2)} MPa`
+    txtLimiteSigmac2.innerHTML = ` = ${limiteSigmac2.toFixed(2)} MPa`
+}
+
+function escreverCombinacao(tipoProtensao){
+
+    const tituloServico = document.getElementById('adicionarTextoTituloServico')
+    const divCombinacao1 = document.getElementById('divCombinacao1')
+    const divCombinacao2 = document.getElementById('divCombinacao2')
+
+    let adicionarTxtTitulo
+
+
+    if(tipoProtensao == 'limitada'){
+        divCombinacao1.innerText = 'ELS-F: Combinação frequente'
+        divCombinacao2.innerText = 'ELS-D: Combinação quase permanente'
+        adicionarTxtTitulo = ' 2 (protensão limitada)'
+    }else if(tipoProtensao == 'completa'){
+        divCombinacao1.innerText = 'ELS-F: Combinação rara'
+        divCombinacao2.innerText = 'ELS-D: Combinação frequente'
+        adicionarTxtTitulo = ' 3 (protensão completa)'
     }else{
-        console.log('Erro na funcao fctm')
+        console.log('Erro ao importar o dado do tipo de protensão')
     }
+    tituloServico.innerText = adicionarTxtTitulo
 }
 
-function escreverCoeficientefctm(tipo){
-    const div = document.getElementById('divcoeficientefctm')
-    div.innerText = coeficientefctm(tipo)
-
-}
-
-export { escreverCoeficientefctm , escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+export { escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
