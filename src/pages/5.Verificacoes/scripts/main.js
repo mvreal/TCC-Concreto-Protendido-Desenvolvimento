@@ -1,4 +1,4 @@
-import { escreverCombinacao, limitesSigmac1Sigmac2, escreverLimites, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
+import { calcularCombinacoesProtensaoLimitada, escreverCombinacao, limitesSigmac1Sigmac2, escreverLimites, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
 
 function main(){
     const select = document.getElementById('situacoes')
@@ -12,6 +12,8 @@ function main(){
     const {perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao} = pegarDadosRotina4(index)
 
     const Mg1 = calcularMomentoFletor(g1, vao, secoes)
+    const Mg = calcularMomentoFletor(g1 + g2, vao, secoes)
+    const Mq = calcularMomentoFletor(q, vao, secoes)
     const sigmac1 = calcularSigmac1(perdaEncurtamento, areaConcreto, ep, w1, Mg1)
     const sigmac2 = calcularSigmac2(perdaEncurtamento, areaConcreto, ep, w2, Mg1)
     
@@ -20,7 +22,8 @@ function main(){
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
     escreverLimites(limiteSigmac1, limiteSigmac2)
     escreverCombinacao(tipoProtensao)
-
+    const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
+    
 }
 
 export {main}

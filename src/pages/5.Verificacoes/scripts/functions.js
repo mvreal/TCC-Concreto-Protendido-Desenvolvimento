@@ -60,8 +60,8 @@ function pegarDadosRotina2(index){
     const dadosRotina2 = dadosSalvosdaRotina4[index]['dadosSalvosdaRotina3']['rotina2']
 
     return{
-        psi1: dadosRotina2['&#936<sub>1</sub>'],
-        psi2: dadosRotina2['&#936<sub>2</sub>'],
+        psi1: Number(dadosRotina2['&#936<sub>1</sub>']),
+        psi2: Number(dadosRotina2['&#936<sub>2</sub>']),
         g1: dadosRotina2['g<sub>1</sub>'],
         g2: dadosRotina2['g<sub>2</sub>'],
         q: dadosRotina2['q']
@@ -72,7 +72,7 @@ function pegarDadosRotina3(index){
     const dadosRotina3 = dadosSalvosdaRotina4[index]['dadosSalvosdaRotina3']
 
     return{
-        fck: dadosRotina3['fck'],
+        fck: Number(dadosRotina3['fck']),
         Ap: dadosRotina3['Ap'],
         ep: dadosRotina3['secoes'].map(el=>el['ep']),
         vao: dadosRotina3['secoes'][0]['Vao'],
@@ -154,4 +154,46 @@ function escreverCombinacao(tipoProtensao){
     tituloServico.innerText = adicionarTxtTitulo
 }
 
-export { escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck){
+    console.log(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck)
+    // Combinação quase permanente - QP Frequente - F
+    let sigmac1QP = []
+    let sigmac2QP = []
+    let sigmac1F = []
+    let sigmac2F = []
+    let limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F, 
+
+    Pinf1 = Pinf.map(el => el * 1000) // convertendo para N
+    Ac = Ac / 10000 // convertendo para m² 
+    w1 = w1 / 1000000 //convertendo para m³
+    Mg = Mg.map(el => el * 1000) //convertendo para N * m 
+    Mq = Mq.map(el => el * 1000) //convertendo para N * m 
+
+    for(let i = 0; i < Pinf1.length; i++){
+
+        sigmac1QP[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi1 * Mq[i])) / w1)
+        sigmac2QP[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
+
+        sigmac1F[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi2 * Mq[i])) / w1)
+        sigmac2F[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi2 * Mq[i])) / w2)
+    }
+
+    limiteSigmac1QP = fctm
+    limiteSigmac2QP = 0.7 * fck
+
+    limiteSigmac1F = 0
+    limiteSigmac2F = 0.7 * fck
+
+    return {
+        sigmac1QP: sigmac1QP, 
+        sigmac2QP: sigmac2QP, 
+        sigmac1F: sigmac1F, 
+        sigmac2F: sigmac2F,
+        limiteSigmac1QP: limiteSigmac1QP,
+        limiteSigmac2QP: limiteSigmac2QP,
+        limiteSigmac1F: limiteSigmac1F,
+        limiteSigmac2F: limiteSigmac2F
+    }
+}
+
+export { calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
