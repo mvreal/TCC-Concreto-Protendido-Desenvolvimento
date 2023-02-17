@@ -196,4 +196,25 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     }
 }
 
-export { calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F){
+    //Entradas em N * m - Limites em MPa
+    sigmac1QP = sigmac1QP.map(el => el/1000000)
+    sigmac2QP = sigmac1QP.map(el => el/1000000)
+    sigmac1F = sigmac1F.map(el => 1000000)
+    sigmac2F = sigmac2F.map(el => 1000000)
+
+    let sigmac1Servico = document.getElementById('sigmac1Servico')
+    let adicionarTxtSigmac1Servico = document.getElementById('adicionarTxtSigmac1Servico')
+    let sigmac2Servico = document.getElementById('sigmac2Servico')
+    let adicionarTxtSigmac2Servico = document.getElementById('adicionarTxtSigmac2Servico')
+
+    let txtadicionado1 = ''
+    let txtadocionado2 = ''
+
+    for(let i = 0; i < sigmac1QP.length; i++){
+        
+    }
+
+}
+
+export { escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
