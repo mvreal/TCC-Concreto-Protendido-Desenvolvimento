@@ -1,4 +1,4 @@
-import { escreverSigmasLimitesLimitada, calcularCombinacoesProtensaoLimitada, escreverCombinacao, limitesSigmac1Sigmac2, escreverLimites, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
+import { escreverSigmasLimitesLimitada, calcularCombinacoesProtensaoLimitada, escreverCombinacao, limitesSigmac1Sigmac2, escreverLimitesAtoProtensao, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
 
 function main(){
     const select = document.getElementById('situacoes')
@@ -20,9 +20,10 @@ function main(){
     escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes)
     const [fckj, fctmj] = calcularFckjFctj(fck, dataProtensao)
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
-    escreverLimites(limiteSigmac1, limiteSigmac2)
+    escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
     escreverCombinacao(tipoProtensao)
     const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
+    console.log(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
     escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
 }
 

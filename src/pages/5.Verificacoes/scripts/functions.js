@@ -123,7 +123,7 @@ function limitesSigmac1Sigmac2(fckj, fctmj){
     return [limiteSigmac1, limiteSigmac2]
 }
 
-function escreverLimites(limiteSigmac1, limiteSigmac2){
+function escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2){
     const txtLimiteSigmac1 = document.getElementById('adicionarTxtSigmac1')
     const txtLimiteSigmac2 = document.getElementById('adicionarTxtSigmac2')
 
@@ -134,19 +134,19 @@ function escreverLimites(limiteSigmac1, limiteSigmac2){
 function escreverCombinacao(tipoProtensao){
 
     const tituloServico = document.getElementById('adicionarTextoTituloServico')
-    const divCombinacao1 = document.getElementById('divCombinacao1')
-    const divCombinacao2 = document.getElementById('divCombinacao2')
+    const tituloCombinacao1 = document.getElementById('tituloCombinacao1Servico')
+    const tituloCombinacao2 = document.getElementById('tituloCombinacao2Servico')
 
     let adicionarTxtTitulo
 
 
     if(tipoProtensao == 'limitada'){
-        divCombinacao1.innerText = 'ELS-F: Combinação frequente'
-        divCombinacao2.innerText = 'ELS-D: Combinação quase permanente'
+        tituloCombinacao1.innerText = 'ELS-F: Combinação frequente'
+        tituloCombinacao2.innerText = 'ELS-D: Combinação quase permanente'
         adicionarTxtTitulo = ' 2 (protensão limitada)'
     }else if(tipoProtensao == 'completa'){
-        divCombinacao1.innerText = 'ELS-F: Combinação rara'
-        divCombinacao2.innerText = 'ELS-D: Combinação frequente'
+        tituloCombinacao1.innerText = 'ELS-F: Combinação rara'
+        tituloCombinacao2.innerText = 'ELS-D: Combinação frequente'
         adicionarTxtTitulo = ' 3 (protensão completa)'
     }else{
         console.log('Erro ao importar o dado do tipo de protensão')
@@ -197,24 +197,48 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
 }
 
 function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F){
+
+    console.log(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
+    
     //Entradas em N * m - Limites em MPa
     sigmac1QP = sigmac1QP.map(el => el/1000000)
-    sigmac2QP = sigmac1QP.map(el => el/1000000)
-    sigmac1F = sigmac1F.map(el => 1000000)
-    sigmac2F = sigmac2F.map(el => 1000000)
+    sigmac2QP = sigmac2QP.map(el => el/1000000)
+    sigmac1F = sigmac1F.map(el => el/1000000)
+    sigmac2F = sigmac2F.map(el => el/1000000)
 
-    let sigmac1Servico = document.getElementById('sigmac1Servico')
-    let adicionarTxtSigmac1Servico = document.getElementById('adicionarTxtSigmac1Servico')
-    let sigmac2Servico = document.getElementById('sigmac2Servico')
-    let adicionarTxtSigmac2Servico = document.getElementById('adicionarTxtSigmac2Servico')
+    let sigmac1ServicoCombinacao1 = document.getElementById('sigmac1ServicoCombinacao1') //Array com sigmac1 frequente
+    let adicionarTxtSigmac1ServicoCombinacao1 = document.getElementById('adicionarTxtSigmac1ServicoCombinacao1')
+    let sigmac2ServicoCombinacao1 = document.getElementById('sigmac2ServicoCombinacao1')
+    let adicionarTxtSigmac2ServicoCombinacao1 = document.getElementById('adicionarTxtSigmac2ServicoCombinacao1')
 
-    let txtadicionado1 = ''
-    let txtadocionado2 = ''
+    let sigmac1ServicoCombinacao2 = document.getElementById('sigmac1ServicoCombinacao2')
+    let adicionarTxtSigmac1ServicoCombinacao2 = document.getElementById('adicionarTxtSigmac1ServicoCombinacao2')
+    let sigmac2ServicoCombinacao2 = document.getElementById('sigmac2ServicoCombinacao2')
+    let adicionarTxtSigmac2ServicoCombinacao2 = document.getElementById('adicionarTxtSigmac2ServicoCombinacao2')
+
+    let txtadicionado11 = ''
+    let txtadocionado12 = ''
+    let txtadicionado21 = ''
+    let txtadocionado22 = ''
 
     for(let i = 0; i < sigmac1QP.length; i++){
-        
+        txtadicionado11 += sigmac1F[i].toFixed(2) + ' MPa' + '</br>'
+        txtadocionado12 += sigmac2F[i].toFixed(2) + ' MPa' + '</br>'
+        txtadicionado21 += sigmac1QP[i].toFixed(2) + ' MPa' + '</br>'
+        txtadocionado22 += sigmac2QP[i].toFixed(2) + ' MPa' + '</br>'
     }
+
+    sigmac1ServicoCombinacao1.innerHTML = txtadicionado11
+    sigmac2ServicoCombinacao1.innerHTML = txtadocionado12
+    sigmac1ServicoCombinacao2.innerHTML = txtadicionado21
+    sigmac2ServicoCombinacao2.innerHTML = txtadocionado22
+
+    adicionarTxtSigmac1ServicoCombinacao1.innerText = limiteSigmac1F.toFixed(2) + ' MPa'
+    adicionarTxtSigmac2ServicoCombinacao1.innerText = limiteSigmac2F.toFixed(2) + ' MPa'
+    adicionarTxtSigmac1ServicoCombinacao2.innerText = limiteSigmac1QP.toFixed(2) + ' MPa'
+    adicionarTxtSigmac2ServicoCombinacao2.innerText = limiteSigmac2QP.toFixed(2) + ' MPa'
+
 
 }
 
-export { escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimites, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+export { escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimitesAtoProtensao, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
