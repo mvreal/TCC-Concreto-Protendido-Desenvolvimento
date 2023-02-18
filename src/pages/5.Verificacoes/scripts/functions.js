@@ -22,7 +22,7 @@ function calcularSigmac1(P0, Ac, ep, w1, Mg1){
     Ac = Ac / 10000 // convertendo para m² 
     w1 = w1 / 1000000 //convertendo para m³
     Mg1 = Mg1.map(el => el * 1000) //convertendo para N * m 
-    console.log(Mg1, w1)
+
 
     for(let i = 0; i < P0.length; i++){
         sigmac1[i] = (-1.1 * P0[i] * ((1 / Ac) + (ep[i] / w1))) - (Mg1[i] / w1)
@@ -155,7 +155,7 @@ function escreverCombinacao(tipoProtensao){
 }
 
 function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck){
-    console.log(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck)
+
     // Combinação quase permanente - QP Frequente - F
     let sigmac1QP = []
     let sigmac2QP = []
@@ -166,6 +166,7 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     Pinf1 = Pinf.map(el => el * 1000) // convertendo para N
     Ac = Ac / 10000 // convertendo para m² 
     w1 = w1 / 1000000 //convertendo para m³
+    w2 = w2 / 1000000 //convertendo para m³
     Mg = Mg.map(el => el * 1000) //convertendo para N * m 
     Mq = Mq.map(el => el * 1000) //convertendo para N * m 
 
@@ -179,10 +180,10 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     }
 
     limiteSigmac1QP = fctm
-    limiteSigmac2QP = 0.7 * fck
+    limiteSigmac2QP = -0.7 * fck
 
     limiteSigmac1F = 0
-    limiteSigmac2F = 0.7 * fck
+    limiteSigmac2F = -0.7 * fck
 
     return {
         sigmac1QP: sigmac1QP, 
@@ -197,9 +198,7 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
 }
 
 function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F){
-
-    console.log(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
-    
+  
     //Entradas em N * m - Limites em MPa
     sigmac1QP = sigmac1QP.map(el => el/1000000)
     sigmac2QP = sigmac2QP.map(el => el/1000000)
@@ -235,8 +234,8 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
     adicionarTxtSigmac1ServicoCombinacao1.innerText = limiteSigmac1F.toFixed(2) + ' MPa'
     adicionarTxtSigmac2ServicoCombinacao1.innerText = limiteSigmac2F.toFixed(2) + ' MPa'
-    adicionarTxtSigmac1ServicoCombinacao2.innerText = limiteSigmac1QP.toFixed(2) + ' MPa'
-    adicionarTxtSigmac2ServicoCombinacao2.innerText = limiteSigmac2QP.toFixed(2) + ' MPa'
+    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1QP.toFixed(2)} MPa`
+    adicionarTxtSigmac2ServicoCombinacao2.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2QP.toFixed(2)} MPa`
 
 
 }

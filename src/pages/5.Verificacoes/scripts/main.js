@@ -23,7 +23,6 @@ function main(){
     escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
     escreverCombinacao(tipoProtensao)
     const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
-    console.log(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
     escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
 }
 
