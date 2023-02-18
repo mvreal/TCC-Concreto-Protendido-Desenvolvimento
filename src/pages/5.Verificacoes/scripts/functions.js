@@ -154,6 +154,55 @@ function escreverCombinacao(tipoProtensao){
     tituloServico.innerText = adicionarTxtTitulo
 }
 
+function calcularCombinacoesProtensaoCompleta(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck){
+    //Combinação Rara - R Frequente F
+    let sigmac1R = []
+    let sigmac2R = []
+    let sigmac1F = []
+    let sigmac2F = []
+
+    let limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F
+
+    Pinf = Pinf.map(el => el * 1000) // convertendo para N
+    Ac = Ac / 10000 // convertendo para m² 
+    w1 = w1 / 1000000 //convertendo para m³
+    w2 = w2 / 1000000 //convertendo para m³
+    Mg = Mg.map(el => el * 1000) //convertendo para N * m 
+    Mq = Mq.map(el => el * 1000) //convertendo para N * m 
+
+    for(let i = 0; i < Pinf.length; i++){
+
+        sigmac1R[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + Mq[i]) / w1)
+        sigmac2R[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + Mq[i]) / w2)
+
+        sigmac1F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi1 * Mq[i])) / w1)
+        sigmac2F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
+    }
+
+    limiteSigmac1R = fctm
+    limiteSigmac2R = -0.7 * fck
+
+    limiteSigmac1F = 0
+    limiteSigmac2F = -0.7 * fck
+
+    return{
+        sigmac1R: sigmac1R,
+        sigmac2R: sigmac2R,
+        sigmac1F: sigmac1F,
+        sigmac2F: sigmac2F,
+        limiteSigmac1R: limiteSigmac1R,
+        limiteSigmac2R: limiteSigmac2R,
+        limiteSigmac1F: limiteSigmac1F,
+        limiteSigmac2F: limiteSigmac2F
+    }
+}
+
+//Em desenvolvimento
+
+function escreverSigmasLimitesCompleta(){
+
+}
+
 function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck){
 
     // Combinação quase permanente - QP Frequente - F
@@ -161,22 +210,22 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     let sigmac2QP = []
     let sigmac1F = []
     let sigmac2F = []
-    let limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F, 
+    let limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F
 
-    Pinf1 = Pinf.map(el => el * 1000) // convertendo para N
+    Pinf = Pinf.map(el => el * 1000) // convertendo para N
     Ac = Ac / 10000 // convertendo para m² 
     w1 = w1 / 1000000 //convertendo para m³
     w2 = w2 / 1000000 //convertendo para m³
     Mg = Mg.map(el => el * 1000) //convertendo para N * m 
     Mq = Mq.map(el => el * 1000) //convertendo para N * m 
 
-    for(let i = 0; i < Pinf1.length; i++){
+    for(let i = 0; i < Pinf.length; i++){
 
-        sigmac1QP[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi1 * Mq[i])) / w1)
-        sigmac2QP[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
+        sigmac1QP[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi2 * Mq[i])) / w1)
+        sigmac2QP[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi2 * Mq[i])) / w2)
 
-        sigmac1F[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi2 * Mq[i])) / w1)
-        sigmac2F[i] = (-Pinf1[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi2 * Mq[i])) / w2)
+        sigmac1F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi1 * Mq[i])) / w1)
+        sigmac2F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
     }
 
     limiteSigmac1QP = fctm
@@ -240,4 +289,4 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 }
 
-export { escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimitesAtoProtensao, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+export { escreverSigmasLimitesCompleta, calcularCombinacoesProtensaoCompleta, escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimitesAtoProtensao, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }

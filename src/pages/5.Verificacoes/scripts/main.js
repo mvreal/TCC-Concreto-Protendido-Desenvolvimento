@@ -1,4 +1,4 @@
-import { escreverSigmasLimitesLimitada, calcularCombinacoesProtensaoLimitada, escreverCombinacao, limitesSigmac1Sigmac2, escreverLimitesAtoProtensao, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
+import { escreverSigmasLimitesCompleta, calcularCombinacoesProtensaoCompleta, escreverSigmasLimitesLimitada, calcularCombinacoesProtensaoLimitada, escreverCombinacao, limitesSigmac1Sigmac2, escreverLimitesAtoProtensao, calcularFckjFctj, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularMomentoFletor, criaroption, calcularSigmac1, calcularSigmac2 } from "./functions.js"
 
 function main(){
     const select = document.getElementById('situacoes')
@@ -21,9 +21,18 @@ function main(){
     const [fckj, fctmj] = calcularFckjFctj(fck, dataProtensao)
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
     escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
+
     escreverCombinacao(tipoProtensao)
-    const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
-    escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
+
+    if(tipoProtensao == 'limitada'){
+        const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
+        escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
+    }else if(tipoProtensao == 'completa'){
+        const {sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoCompleta(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
+        escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F)
+    }
+
+
 }
 
 export {main}
