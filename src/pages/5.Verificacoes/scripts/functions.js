@@ -199,8 +199,45 @@ function calcularCombinacoesProtensaoCompleta(Pinf, Ac, ep, w1, w2, psi1, psi2, 
 
 //Em desenvolvimento
 
-function escreverSigmasLimitesCompleta(){
+function escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F){
 
+    //Entrada em N * m - Limites em MPa
+    sigmac1R = sigmac1R.map(el => el/1000000)
+    sigmac2R = sigmac2R.map(el => el/1000000)
+    sigmac1F = sigmac1F.map(el => el/1000000)
+    sigmac2F = sigmac2F.map(el => el/1000000)
+
+    let sigmac1ServicoCombinacao1 = document.getElementById('sigmac1ServicoCombinacao1') //Array com sigmac1 frequente
+    let adicionarTxtSigmac1ServicoCombinacao1 = document.getElementById('adicionarTxtSigmac1ServicoCombinacao1')
+    let sigmac2ServicoCombinacao1 = document.getElementById('sigmac2ServicoCombinacao1')
+    let adicionarTxtSigmac2ServicoCombinacao1 = document.getElementById('adicionarTxtSigmac2ServicoCombinacao1')
+
+    let sigmac1ServicoCombinacao2 = document.getElementById('sigmac1ServicoCombinacao2')
+    let adicionarTxtSigmac1ServicoCombinacao2 = document.getElementById('adicionarTxtSigmac1ServicoCombinacao2')
+    let sigmac2ServicoCombinacao2 = document.getElementById('sigmac2ServicoCombinacao2')
+    let adicionarTxtSigmac2ServicoCombinacao2 = document.getElementById('adicionarTxtSigmac2ServicoCombinacao2')
+
+    let txtadicionado11 = ''
+    let txtadocionado12 = ''
+    let txtadicionado21 = ''
+    let txtadocionado22 = ''
+
+    for(let i = 0; i < sigmac1R.length; i++){
+        txtadicionado11 += sigmac1R[i].toFixed(2) + ' MPa' + '</br>'
+        txtadocionado12 += sigmac2R[i].toFixed(2) + ' MPa' + '</br>'
+        txtadicionado21 += sigmac1F[i].toFixed(2) + ' MPa' + '</br>'
+        txtadocionado22 += sigmac2F[i].toFixed(2) + ' MPa' + '</br>'
+    }
+
+    sigmac1ServicoCombinacao1.innerHTML = txtadicionado11
+    sigmac2ServicoCombinacao1.innerHTML = txtadocionado12
+    sigmac1ServicoCombinacao2.innerHTML = txtadicionado21
+    sigmac2ServicoCombinacao2.innerHTML = txtadocionado22
+
+    adicionarTxtSigmac1ServicoCombinacao1.innerText = limiteSigmac1R.toFixed(2) + ' MPa'
+    adicionarTxtSigmac2ServicoCombinacao1.innerText = limiteSigmac2R.toFixed(2) + ' MPa'
+    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1F.toFixed(2)} MPa`
+    adicionarTxtSigmac2ServicoCombinacao2.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2F.toFixed(2)} MPa`
 }
 
 function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, Mg, Mq, fctm, fck){
