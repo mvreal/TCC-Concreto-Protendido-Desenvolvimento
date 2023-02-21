@@ -35,3 +35,8 @@ h1{
     text-align: center;
     margin-bottom: 10px;
 }
+
+button{
+    display: block;
+    padding: 5px;
+}

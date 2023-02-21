@@ -48,3 +48,5 @@ function pegarDadosRotina4(index){
         dataProtensao: dadosRotina4['dataProtensao']
     }
 }
+
+export { pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4 }
