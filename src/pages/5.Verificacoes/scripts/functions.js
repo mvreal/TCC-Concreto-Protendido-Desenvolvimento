@@ -326,4 +326,22 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 }
 
-export { escreverSigmasLimitesCompleta, calcularCombinacoesProtensaoCompleta, escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimitesAtoProtensao, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }
+function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador){
+
+    return{
+        'dadosRotina5':{   
+            index: contador,    
+            sigmaInferiorc1: sigmaInferiorc1,
+            sigmaSuperiorc1: sigmaSuperiorc1,
+            sigmaInferiorc2, sigmaInferiorc2,
+            sigmaSuperiorc2, sigmaSuperiorc2,
+            limiteInferiorc1: limiteInferiorc1,
+            limiteSuperiorc1, limiteSuperiorc1,
+            limiteInferiorc2, limiteInferiorc2,
+            limiteSuperiorc2: limiteSuperiorc2,
+        },
+        'dadosRotina4': dadosSalvos
+    }
+}
+
+export { salvarDados, escreverSigmasLimitesCompleta, calcularCombinacoesProtensaoCompleta, escreverSigmasLimitesLimitada,calcularCombinacoesProtensaoLimitada, escreverCombinacao, escreverLimitesAtoProtensao, calcularFckjFctj, limitesSigmac1Sigmac2, escreverSigmac1Sigmac2, pegarDadosRotina4, pegarDadosRotina3, pegarDadosRotina2, pegarDadosRotina1, calcularSigmac1, calcularSigmac2, calcularMomentoFletor, criaroption }

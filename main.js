@@ -80,4 +80,16 @@ ipcMain.on('enviarDados5', (evento, args) => {dados[4] = args})
 
 //---------------------------------------------------------------------------------------------------------------
 
+function criarJanelaSecundaria6() {
+    let janelaSecundaria6 = new BrowserWindow({
+        width: 900, height: 820, webPreferences:{preload: path.join(__dirname, 'preload.js')}
+    })
+    janelaSecundaria6.loadFile('./src/pages/6.ArmaduraPassiva/index.html')
+    janelaSecundaria6.webContents.send("dadosSalvos", dados)
+}
+ipcMain.on('abrirJanelaSecundaria6', (event, args) => {criarJanelaSecundaria6()})
+ipcMain.on('enviarDados6', (evento, args) => {dados[5] = args})
+
+//---------------------------------------------------------------------------------------------------------------
+
 app.whenReady().then(criarJanelaPrincipal)
