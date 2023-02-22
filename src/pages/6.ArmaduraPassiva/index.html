@@ -15,25 +15,22 @@
     <div class="div-titulos">
         <h1>Dimensionamento da Armadura Passiva</h1>
     </div>
-    
-    <form>
-        <div>
-            <label for="idSelect">Identificador:</label>
-            <select name="idSelect" id="idSelect">
-            </select>
-        </div>
-        <div>
-            <label for="distanciaInferior" class="l-label">Distância da face inferior da armadura passiva (cm)</label>
-            <input type="number" class='s-input' name="distanciaInferior" id="distanciaInferior" value="5">
-        </div>
-        <div>
-            <label for="distanciaSuperior" class="l-label">Distância da face superior da armadura passiva (cm)</label>
-            <input type="number" class='s-input' name="distanciaSuperior" id="distanciaSuperior" value="5">
-            <button>Calcular</button>
-        </div>
-    </form>
+
+    <div>
+        <label for="idSelect">Identificador:</label>
+        <select name="idSelect" id="idSelect">
+        </select>
+    </div>
+    <div>
+        <label for="distanciaInferior" class="l-label">Distância da face inferior da armadura passiva (cm)</label>
+        <input type="number" class='s-input' name="distanciaInferior" id="distanciaInferior" value="5">
+    </div>
+    <div>
+        <button id="btnMain">Calcular</button>
+    </div>
 </body>
 <script src="./scripts/main.js" type="module"></script>
 <script src="./scripts/events.js" type="module"></script>
 <script src="../../scripts/functions.js" type="module"></script>
+
 </html>

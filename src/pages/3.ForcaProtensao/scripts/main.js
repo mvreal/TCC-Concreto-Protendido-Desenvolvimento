@@ -3,7 +3,7 @@
 let PropriedadesDasFiguras = []
 let figuras = []
 let opcoesSalvas = document.getElementById('opcoes-salvas')
-let dadosFinal =[]
+let dadosFinal = []
 
 //Descobrir o index do input selecionado
 let indexSelecionado

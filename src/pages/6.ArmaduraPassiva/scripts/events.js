@@ -2,12 +2,12 @@ import { main } from "./main.js"
 
 
 const select = document.getElementById('idSelect')
+const btnMain = document.getElementById('btnMain')
 
 document.addEventListener('DOMContentLoaded', carregarDados)
-document.addEventListener('click', main)
+btnMain.addEventListener('click', main)
 
 function carregarDados(){
-    console.log('entrou')
     dadosSalvosdaRotina5.forEach(el=>{
         const createOption = document.createElement('option')
         const index = el['dadosRotina5']['index']
