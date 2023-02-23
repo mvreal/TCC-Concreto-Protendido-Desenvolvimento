@@ -675,6 +675,7 @@ function salvarResultados(contador){
     let fck = document.getElementById('fck').value
 
     dadosFinal.push({
+        tensaoCaracteristicaTracao: Number(resistenciaArmaduraProtensao) * 10, 
         id: contador,
         areaArmaduraProtensao1cordoalha: areaArmaduraProtensao1cordoalha,
         tipoProtensao: pegarUltimoRegistro[0]['protensao'],

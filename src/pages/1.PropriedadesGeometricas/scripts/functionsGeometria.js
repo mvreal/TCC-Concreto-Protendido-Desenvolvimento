@@ -174,7 +174,7 @@ function verificacaoVigaI(resArea, resInerciaBaricentricaX,bf, hf, bw, h, bi, hi
             hi: hi,
             bmissup: bmissup,
             hmissup: hmissup,
-            bmisins: bmisinf,
+            bmisinf: bmisinf,
             hmisinf: hmisinf
         }
     }

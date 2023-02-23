@@ -197,8 +197,6 @@ function calcularCombinacoesProtensaoCompleta(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     }
 }
 
-//Em desenvolvimento
-
 function escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F){
 
     //Entrada em N * m - Limites em MPa
@@ -326,11 +324,13 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 }
 
-function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador){
+function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2){
 
     return{
         'dadosRotina5':{   
-            index: contador,    
+            index: contador,  
+            sigmac1: sigmac1,
+            sigmac2: sigmac2,  
             sigmaInferiorc1: sigmaInferiorc1,
             sigmaSuperiorc1: sigmaSuperiorc1,
             sigmaInferiorc2, sigmaInferiorc2,
