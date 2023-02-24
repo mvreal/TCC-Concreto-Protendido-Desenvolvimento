@@ -1,4 +1,3 @@
-
 function pegarDadosRotina1(index){
     const dadosRotina1 = dadosSalvosdaRotina5[index]['dadosRotina4']['dadosSalvosdaRotina3']['rotina2']['rotina1']
     
@@ -56,7 +55,7 @@ function pegarDadosRotina4(index){
 }
 
 function pegarDadosRotina5(index){
-    const dadosRotina5 = dadosSalvosdaRotina5[index]
+    const dadosRotina5 = dadosSalvosdaRotina5[index]['dadosRotina5']
 
 
     return {
@@ -69,11 +68,14 @@ function pegarDadosRotina5(index){
         sigmaInferiorc2: dadosRotina5['sigmaInferiorc2'],
         sigmaSuperiorc1: dadosRotina5['sigmaSuperiorc1'],
         sigmaSuperiorc2: dadosRotina5['sigmaSuperiorc2'],
+        sigmac1: dadosRotina5['sigmac1'],
+        sigmac2: dadosRotina5['sigmac2']
     }
 }
 
-function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax){
+function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd, AsLinha = 0){
 
+    // AsLinha já está em m²
     Ap = Ap / 1000000 // m²
     ds = ds / 100 // m
     dp = dp / 100 // m
@@ -85,7 +87,7 @@ function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax){
 
     if(tipo == 'T' || tipo == 'I'){
         
-        const {bf, hf, bw, h, bmis, hmis} = dadosRotina1
+        let {bf, hf, bw, h, bmis, hmis} = dadosRotina1
         
         bf = bf/100
         hf = hf/100
@@ -94,18 +96,46 @@ function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax){
         bmis = bmis/100
         hmis = hmis/100
 
-        console.log(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, bf, hf, bw, h, bmis, hmis)
-
         //Tem que corrigir as unidades
         const a = - 0.32 * sigmacd * bw
         const b = 0.8 * sigmacd * bw * ds
-        const c = - fpyd * Ap * (ds - dp) - Mdmax
+        const c = (hf * sigmacd * (bf - bw) * (ds - (hf / 2))) + (AsLinha * fyd * (ds - 0.05)) (- fpyd * Ap * (ds - dp)) - Mdmax
 
         console.log(a,b,c)
         
         return bhaskara(a, b, c)  
     }
+}
 
+function pegarDistanciasRotina1(index){
+    
+    const dadosRotina1 = dadosSalvosdaRotina5[index]['dadosRotina4']['dadosSalvosdaRotina3']['rotina2']['rotina1']['dados']
+
+    if(tipo == 'T' || tipo == 'I'){ 
+
+        let {bf, hf, bw, h, bmis, hmis} = dadosRotina1
+        
+        return {
+            bf: bf,
+            hf: hf,
+            bw: bw,
+            h: h,
+            bmis: bmis,
+            hmis: hmis
+        }
+    }else if(tipo == 'Rentangular'){
+
+        let {b, h} = dadosRotina1
+        
+        return {
+            b: b,
+            h: h
+        }
+    }else{console.log('Erro ao definir a geometria da figura')}
+}
+
+function calcularfyd(number){
+    return number / 1.15
 }
 
 function bhaskara(a, b, c){
@@ -126,8 +156,7 @@ function textoDescricaoArmaduraBordaSuperior(boolean, As = 0){
     }
 }
 
-
-function distanciaTracaoAtoProtensao(h, bf, arrTensoes1, arrTensoes2){
+function armaduraTracaoAtoProtensao(h, bf, arrTensoes1, arrTensoes2){
 
     h = h / 100
     bf = bf / 100
@@ -145,4 +174,24 @@ function distanciaTracaoAtoProtensao(h, bf, arrTensoes1, arrTensoes2){
     return As
 }
 
- export { textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
+function verificarLinhaNeutra(arr){
+    //Verifica as duas raizes e analisa qual delas se deve utilizar, verifica se existe alguma negativa, caso não exista a rotina pega o menor valor
+    if(arr[0] < 0){
+        return arr[1]
+    }else if(arr[1] < 0){
+        return arr[0]
+    }else{
+        var menor = arr[0] < arr[1] ? arr[0] : arr[1]
+    }
+    return menor
+}
+
+function verificarTensoesTracao(arr){
+    return arr.some((element)=>{
+        if(element > 0){
+            return true
+        }
+    })
+}
+
+ export { verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
