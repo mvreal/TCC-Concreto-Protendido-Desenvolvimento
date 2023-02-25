@@ -1,5 +1,5 @@
 import { calcularMomentoFletor, fpyk, fpyd } from "../../../scripts/functions.js"
-import { calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 } from "./functions.js"
+import { calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
 
 function main(event){
   const index = document.getElementById('idSelect').value
@@ -10,7 +10,7 @@ function main(event){
   const {fck, Ap, ep, vao, secoes, tipoProtensao, fptk, dlinhaProtensao} = pegarDadosRotina3(index)
   const {perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao} = pegarDadosRotina4(index)
   const {indexRotina5, limiteInferiorc1, limiteInferiorc2, limiteSuperiorc1, limiteSuperiorc2, sigmaInferiorc1, sigmaInferiorc2, sigmaSuperiorc1, sigmaSuperiorc2, sigmac1,
-  sigmac2} = pegarDadosRotina5(index)
+  sigmac2, fctmj} = pegarDadosRotina5(index)
 
   const fpydCalculado = fpyd(fpyk(fptk)) 
 
@@ -41,25 +41,36 @@ function main(event){
   if(verificarTensoesTracao(sigmac2) == true){
     const infoDistancias = pegarDistanciasRotina1(index)
     const distanciaBordaSuperior = infoDistancias.hasOwnProperty('bf') ? infoDistancias['bf'] : infoDistancias['b'] 
+    console.log(h, distanciaBordaSuperior, sigmac1, sigmac2)
     const AsLinha = armaduraTracaoAtoProtensao(h, distanciaBordaSuperior, sigmac1, sigmac2) // em m²
     const linhaNeutra = calcularLinhaNeutra(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha) // Retorna um array com tamanho 2, cada posição é uma possível raiz
+    const linhaNeutraVerificada = verificarLinhaNeutra(linhaNeutra)
+
+    if(linhaNeutraVerificada > Number(infoDistancias['hf'])/100){
+      const linhaNeutraAlma = calcularLinhaNeutraAlma(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha)
+      const linhaNeutraAlmaVerificada = verificarLinhaNeutra(linhaNeutraAlma)
+    }
+
+    //Essa função é apenas para viga I e T, depois deve-se deduzir a equação para viga retangular
+    const armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(infoDistancias['bf'], infoDistancias['bw'], infoDistancias['hf'], sigmacd, Ap, fpydCalculado, fyd) 
+    const armaduraMinima = calcularArmaduraMinimaLongitudinal(fctmj, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto)
+    const armaduraLongitudinalAdotada = Math.max(armaduraLongitudinalCalculada, armaduraMinima) // Armadura final em m²
+
+    
   }
   
 
 
-  console.log('dadosCalcularLinhaNeutra:' + tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index)
 
-  const raiz = calcularLinhaNeutra(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index)
 
-  console.log(raiz)
+  //const raiz = calcularLinhaNeutra(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index)
+
+
 
     
 
 
-    
-
-
-
+  
 }
 
 export {main}

@@ -11,7 +11,11 @@ function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, 
     for(let i = 0; i<secoes.length; i++){
         Px.push(forçaInicialdeProtensao * Math.exp(-mi * (deltaAlfa[i]) - coeficienteK * secoes[i]))
     }
-    return Px
+    return {
+        Px: Px,
+        anguloAlfa: anguloAlfa
+    }
+
 }
 
 function calcularPontoRepousoAcomodacao(retorno, E, Ap, tgB){

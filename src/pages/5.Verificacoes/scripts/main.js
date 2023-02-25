@@ -51,7 +51,7 @@ function main(){
     }else if(tipoProtensao == 'completa'){
         const {sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoCompleta(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
         escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F)
-        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2)
+        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj)
     }
     console.log(contador)
     window.api.dadosRotina5(dados)

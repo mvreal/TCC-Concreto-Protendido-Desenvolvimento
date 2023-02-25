@@ -263,10 +263,10 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
         sigmac2F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
     }
 
-    limiteSigmac1QP = fctm
+    limiteSigmac1QP = 0
     limiteSigmac2QP = -0.7 * fck
 
-    limiteSigmac1F = 0
+    limiteSigmac1F = fctm
     limiteSigmac2F = -0.7 * fck
 
     return {
@@ -324,7 +324,7 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 }
 
-function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2){
+function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2, fctmj){
 
     return{
         'dadosRotina5':{   
@@ -339,6 +339,7 @@ function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSup
             limiteSuperiorc1, limiteSuperiorc1,
             limiteInferiorc2, limiteInferiorc2,
             limiteSuperiorc2: limiteSuperiorc2,
+            fctmj: fctmj
         },
         'dadosRotina4': dadosSalvos
     }
