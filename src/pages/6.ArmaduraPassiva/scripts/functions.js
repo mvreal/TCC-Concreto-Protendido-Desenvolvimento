@@ -71,7 +71,8 @@ function pegarDadosRotina5(index) {
         sigmaSuperiorc2: dadosRotina5['sigmaSuperiorc2'],
         sigmac1: dadosRotina5['sigmac1'],
         sigmac2: dadosRotina5['sigmac2'],
-        fctmj: dadosRotina5['fctmj']
+        fctmj: dadosRotina5['fctmj'],
+        fctm: dadosRotina5['fctm']
     }
 }
 
@@ -310,5 +311,71 @@ function calcularEsforcoCortanteReduzidoProjeto(gamag1, gamag2, gamaq, esforcoCo
     return esforcoCortanteReduzidoProjeto   
 }
 
+function calcularTensaoConvencional(esforcoCortanteReduzidoProjeto, bwcorrigido, ds){
 
-export { calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
+    ds = ds/100
+
+    const tensaoConvencional = []
+    for(let i = 0; i < esforcoCortanteReduzidoProjeto.length; i++){
+        tensaoConvencional[i] = esforcoCortanteReduzidoProjeto[i] / (bwcorrigido * ds)
+    }
+    return tensaoConvencional
+}
+
+function compararTensoesEsforcoCortante(tauwd, tauwu){
+
+    tauwd = tauwd.map(el => el / 1000000)
+    tauwu = tauwu / 1000000
+
+    for(let i = 0; i < tauwd.length; i++){
+        if(tauwd[i] > tauwu){
+            return {
+                estado: false,
+                msg: `A tensão convencional na seção ${i} foi superior a tensão limite, ${tauwd[i].toFixed(2)} é superior a ${tauwu[i].toFixed(2)}`
+            }
+        }
+    }
+    return {
+        estado: true,
+        msg: 'Não houve problema ao verificar as tensões nas bielas na viga'
+    }
+}
+
+function calcularMomentoAnulaTensaoCompressao(FNP, areaConcreto, ep, w1){
+
+    const areaConcreto = areaConcreto / 10000 // m²
+    const w1 = w1 / 1000000
+
+    const momento0 = - 0.9 * FNP * ((1 / areaConcreto) + (ep / w1)) // N * m
+    return momento0    
+}
+
+function calcularCoeficienteCorrecao(momentoAnulaTensaoCompressao, Mdmax){
+    Mdmax = Mdmax * 1000 // N
+    const coeficiente = Math.min(0.09 * (1 + (momentoAnulaTensaoCompressao/Mdmax)),0.18)
+    return coeficiente
+}
+
+function calculartaud(tauwd, tauC){
+    maxtauwd = Math.max(...tauwd)
+    const taud = Math.max(1.11 * (maxtauwd - tauC), 0)
+    return taud
+}
+
+function calcularTaxaArmaduraTransversal(taud, fyd, fctm){
+    fyd = fyd / 1000000
+    fctm = fctm / 1000000
+
+    const taxaArmaduraTransversal = Math.max((taud/fyd),((0.2 * fctm)/fyd))
+
+    return taxaArmaduraTransversal
+}
+
+function calcularAreaAco(taxaArmaduraTransversal, bw){
+
+    const areaAco = taxaArmaduraTransversal * bw * 100
+    return areaAco / 10000
+}
+
+
+export { calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
