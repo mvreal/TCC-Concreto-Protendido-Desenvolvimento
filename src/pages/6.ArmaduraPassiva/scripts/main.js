@@ -1,5 +1,5 @@
 import { calcularMomentoFletor, fpyk, fpyd } from "../../../scripts/functions.js"
-import { calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
+import { calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularEsforcoCortante, calcularForcaVerticalProtensao, calcularForcaNormalProtensao, calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
 
 function main(event){
   const index = document.getElementById('idSelect').value
@@ -8,7 +8,7 @@ function main(event){
   const {areaConcreto, centroide, w1, w2, ixg, tipo, h} = pegarDadosRotina1(index)
   const {psi1, psi2, g1, g2, q, gamag1, gamag2, gamaq} = pegarDadosRotina2(index)
   const {fck, Ap, ep, vao, secoes, tipoProtensao, fptk, dlinhaProtensao} = pegarDadosRotina3(index)
-  const {perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao} = pegarDadosRotina4(index)
+  const {perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao, anguloAlfa} = pegarDadosRotina4(index)
   const {indexRotina5, limiteInferiorc1, limiteInferiorc2, limiteSuperiorc1, limiteSuperiorc2, sigmaInferiorc1, sigmaInferiorc2, sigmaSuperiorc1, sigmaSuperiorc2, sigmac1,
   sigmac2, fctmj} = pegarDadosRotina5(index)
 
@@ -56,7 +56,15 @@ function main(event){
     const armaduraMinima = calcularArmaduraMinimaLongitudinal(fctmj, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto)
     const armaduraLongitudinalAdotada = Math.max(armaduraLongitudinalCalculada, armaduraMinima) // Armadura final em m²
 
-    
+    //Cálculo da armadura transversal
+    const FNP = calcularForcaNormalProtensao(perdaFinal, anguloAlfa)
+    const FVP = calcularForcaVerticalProtensao(perdaFinal, anguloAlfa) // acho que N
+
+    const esforcoCortanteCarregamentoPermanenteg1 = calcularEsforcoCortante(g1, secoes, vao) // N
+    const esforcoCortanteCarregamentoPermanenteg2 = calcularEsforcoCortante(g2, secoes, vao) // N
+    const esforcoCortanteCarregamentoVariavel = calcularEsforcoCortante(q, secoes, vao) // N
+
+    const esforcoCortanteReduzidoProjeto = calcularEsforcoCortanteReduzidoProjeto(gamag1, gamag2, gamaq, esforcoCortanteCarregamentoPermanenteg1, esforcoCortanteCarregamentoPermanenteg2, esforcoCortanteCarregamentoVariavel, FVP)
   }
   
 
