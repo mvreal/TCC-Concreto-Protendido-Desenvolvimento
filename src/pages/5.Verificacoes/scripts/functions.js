@@ -324,7 +324,7 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 }
 
-function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2, fctmj){
+function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2, fctmj, fctm){
 
     return{
         'dadosRotina5':{   
@@ -339,7 +339,8 @@ function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSup
             limiteSuperiorc1, limiteSuperiorc1,
             limiteInferiorc2, limiteInferiorc2,
             limiteSuperiorc2: limiteSuperiorc2,
-            fctmj: fctmj
+            fctmj: fctmj,
+            fctm: Number(fctm)
         },
         'dadosRotina4': dadosSalvos
     }

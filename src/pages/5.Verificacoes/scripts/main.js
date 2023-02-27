@@ -37,6 +37,7 @@ function main(){
     
     escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes)
     const [fckj, fctmj] = calcularFckjFctj(fck, dataProtensao)
+    const [,fctm] = calcularFckjFctj[fck, 28]
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
     escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
 
@@ -51,7 +52,7 @@ function main(){
     }else if(tipoProtensao == 'completa'){
         const {sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoCompleta(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
         escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F)
-        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj)
+        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj, fctm)
     }
     console.log(contador)
     window.api.dadosRotina5(dados)
