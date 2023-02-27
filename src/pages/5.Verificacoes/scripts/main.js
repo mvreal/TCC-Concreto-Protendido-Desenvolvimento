@@ -37,7 +37,7 @@ function main(){
     
     escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes)
     const [fckj, fctmj] = calcularFckjFctj(fck, dataProtensao)
-    const [,fctm] = calcularFckjFctj[fck, 28]
+    const [,fctm] = calcularFckjFctj(fck, 28)
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
     escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
 

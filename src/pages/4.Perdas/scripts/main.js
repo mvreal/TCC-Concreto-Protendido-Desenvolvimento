@@ -38,7 +38,7 @@ function mudarOption() {
 
     let infoPerdasAtrito = calcularPerdasAtrito(epMax, vao, secoes, forcaInicialdeProtensao, mi, coeficienteK)
     let perdasAtrito = infoPerdasAtrito['Px']
-    let angulosAlfa = infoPerdasAtrito['anguloAlfa']
+    let anguloAlfa = infoPerdasAtrito['anguloAlfa']
     //Necessário fazer a correção do tipo de ancoragem
     let tgBeta = (perdasAtrito[0] - perdasAtrito[2]) / (secoes[2] - secoes[0]) //kN/m
 
@@ -113,7 +113,7 @@ function mudarOption() {
         perdaFinal: forcaFinalProtensao,
         dataProtensao: instanteAplicacaoCarga,
         dadosSalvosdaRotina3: dadosSalvosdaRotina3[indexSelecionado],
-        angulosAlfa: angulosAlfa
+        anguloAlfa: anguloAlfa
     })
     window.api.dadosRotina4(resposta)
     alert('Dados salvos, id = ' + (Number(resposta.length)-1))

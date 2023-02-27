@@ -51,7 +51,7 @@ function pegarDadosRotina4(index) {
         perdaEncurtamento: dadosRotina4['perdaEncurtamento'],
         perdaFinal: dadosRotina4['perdaFinal'],
         dataProtensao: dadosRotina4['dataProtensao'],
-        anguloAnfa: dadosRotina4['angulosAlfa']
+        anguloAlfa: dadosRotina4['anguloAlfa']
     }
 }
 
@@ -283,30 +283,35 @@ function calcularArmaduraMinimaLongitudinal(fctmj, w1, bf, ds, sigmacd, fyd, Ac)
 }
 
 function calcularForcaNormalProtensao(perdaFinal, anguloAlfa){
-    const FNP = []
+    let FNP = []
     for(let i = 0; i < perdaFinal.length; i++){
-        FNP[i] = perdaFinal * Math.cos(anguloAlfa)
+        FNP[i] = perdaFinal[i] * Math.cos(anguloAlfa[i])
     }
     return FNP
 }
 
 function calcularForcaVerticalProtensao(perdaFinal, anguloAlfa){
-    const FVP = []
+    let FVP = []
         for(let i = 0; i < perdaFinal.length; i++){
-            FVP[i] = perdaFinal * Math.sin(anguloAlfa)
+            FVP[i] = perdaFinal[i] * Math.abs(Math.sin(anguloAlfa[i]))
     }
     return FVP
 }
 
 function calcularEsforcoCortante(carga, secoes, vao){
-    const arrEsforcoCortante = secoes.map((sec => ((carga * vao )/ 2) - (carga * sec)) * 1000)
+    let arrEsforcoCortante = []
+    for(let i = 0; i < secoes.length; i++){
+        arrEsforcoCortante[i] = ((((carga * vao )/ 2) - (carga * secoes[i]))) * 1000
+    }
+
     return arrEsforcoCortante
 }
 
 function calcularEsforcoCortanteReduzidoProjeto(gamag1, gamag2, gamaq, esforcoCortanteCarregamentoPermanenteg1, esforcoCortanteCarregamentoPermanenteg2, esforcoCortanteCarregamentoVariavel, FVP){
-    const esforcoCortanteReduzidoProjeto = []
+    FVP = FVP.map(el => el * 1000)
+    let esforcoCortanteReduzidoProjeto = []
     for(let i = 0; i < esforcoCortanteCarregamentoPermanenteg1.length; i++){
-        esforcoCortanteReduzidoProjeto[i] = (gamag1 * esforcoCortanteCarregamentoPermanenteg1[i]) + (gamag2 * esforcoCortanteCarregamentoPermanenteg2[i]) + (gamaq * esforcoCortanteCarregamentoVariavel[i]) - (0.9 * FVP)
+        esforcoCortanteReduzidoProjeto[i] = (gamag1 * esforcoCortanteCarregamentoPermanenteg1[i]) + (gamag2 * esforcoCortanteCarregamentoPermanenteg2[i]) + (gamaq * esforcoCortanteCarregamentoVariavel[i]) - (0.9 * FVP[i])
     }
     return esforcoCortanteReduzidoProjeto   
 }
@@ -343,10 +348,14 @@ function compararTensoesEsforcoCortante(tauwd, tauwu){
 
 function calcularMomentoAnulaTensaoCompressao(FNP, areaConcreto, ep, w1){
 
-    const areaConcreto = areaConcreto / 10000 // m²
-    const w1 = w1 / 1000000
+    console.log(FNP, areaConcreto, ep, w1)
+    FNP = FNP.map(el => el * 1000)
 
-    const momento0 = - 0.9 * FNP * ((1 / areaConcreto) + (ep / w1)) // N * m
+    areaConcreto = areaConcreto / 10000 // m²
+    w1 = w1 / 1000000 // m³
+
+    const momento0 =  - 0.9 * FNP[0] * (((1 / areaConcreto) + (ep[0] / w1)) * w1) // N * m
+
     return momento0    
 }
 
@@ -357,7 +366,7 @@ function calcularCoeficienteCorrecao(momentoAnulaTensaoCompressao, Mdmax){
 }
 
 function calculartaud(tauwd, tauC){
-    maxtauwd = Math.max(...tauwd)
+    const maxtauwd = Math.max(...tauwd)
     const taud = Math.max(1.11 * (maxtauwd - tauC), 0)
     return taud
 }
@@ -378,4 +387,4 @@ function calcularAreaAco(taxaArmaduraTransversal, bw){
 }
 
 
-export { calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
+export { calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }

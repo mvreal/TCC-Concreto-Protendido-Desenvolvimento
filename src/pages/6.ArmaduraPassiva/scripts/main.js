@@ -1,5 +1,5 @@
 import { calcularMomentoFletor, fpyk, fpyd } from "../../../scripts/functions.js"
-import { calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularEsforcoCortante, calcularForcaVerticalProtensao, calcularForcaNormalProtensao, calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
+import { calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaVerticalProtensao, calcularForcaNormalProtensao, calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
 
 function main(event){
   const index = document.getElementById('idSelect').value
@@ -58,14 +58,24 @@ function main(event){
     const armaduraLongitudinalAdotada = Math.max(armaduraLongitudinalCalculada, armaduraMinima) // Armadura final em m²
 
     //Cálculo da armadura transversal
-    const FNP = calcularForcaNormalProtensao(perdaFinal, anguloAlfa)
-    const FVP = calcularForcaVerticalProtensao(perdaFinal, anguloAlfa) // acho que N
+    console.log(perdaFinal, anguloAlfa)
+    const FNP = calcularForcaNormalProtensao(perdaFinal, anguloAlfa) //KN
+    const FVP = calcularForcaVerticalProtensao(perdaFinal, anguloAlfa) // kN
+
+    console.log('FNP'+ FNP)
+    console.log('FVP'+ FVP)
 
     const esforcoCortanteCarregamentoPermanenteg1 = calcularEsforcoCortante(g1, secoes, vao) // N
     const esforcoCortanteCarregamentoPermanenteg2 = calcularEsforcoCortante(g2, secoes, vao) // N
     const esforcoCortanteCarregamentoVariavel = calcularEsforcoCortante(q, secoes, vao) // N
 
+    console.log('esforcoCortanteCarregamentoPermanenteg1' + esforcoCortanteCarregamentoPermanenteg1)
+    console.log('esforcoCortanteCarregamentoPermanenteg2' + esforcoCortanteCarregamentoPermanenteg2)
+    console.log('esforcoCortanteCarregamentoVariavel' + esforcoCortanteCarregamentoVariavel)
+
     const esforcoCortanteReduzidoProjeto = calcularEsforcoCortanteReduzidoProjeto(gamag1, gamag2, gamaq, esforcoCortanteCarregamentoPermanenteg1, esforcoCortanteCarregamentoPermanenteg2, esforcoCortanteCarregamentoVariavel, FVP) //N
+
+    console.log('esforcoCortanteReduzidoProjeto' + esforcoCortanteReduzidoProjeto)
 
     //Espessura da alma corrigida
     const bwcorrigido = (infoDistancias['bw']/100) - (diametroBainha/1000) // m
@@ -73,22 +83,28 @@ function main(event){
     const fcd = fck / 1.4 //MPa
     //Tensão limite
     const tauwu = (0.27 * (1 - (fck/250)) * fcd) * 1000000 //Pa
+    console.log('tauwu: ' + tauwu)
     //Tensão convencional
+
+
+    //Essa parte precisa ser conferida <-------------------------------------
     const tauwd = calcularTensaoConvencional(esforcoCortanteReduzidoProjeto, bwcorrigido, ds) //ds está em cm
+    console.log('tauwd: ' + tauwd)
+    // ---------------------------------------------------------------------
     const msgVerificaoTensoes = compararTensoesEsforcoCortante(tauwd, ep, tauwu)
 
     const momentoAnulaTensaoCompressao = calcularMomentoAnulaTensaoCompressao(FNP, areaConcreto, ep, w1)
-    console.log(momentoAnulaTensaoCompressao)
+    console.log('momentoAnulaTensaoCompressao ' + momentoAnulaTensaoCompressao)
     const coeficienteCorrecao = calcularCoeficienteCorrecao(momentoAnulaTensaoCompressao, Mdmax)
-    console.log(coeficienteCorrecao)
+    console.log('coeficienteCorrecao ' + coeficienteCorrecao)
     const tauC = (coeficienteCorrecao * fck ** (2/3)) * 1000000 // Tensão Complementar - Pa
-    console.log(tauC)
+    console.log('tauC ' + tauC)
     const taud = calculartaud(tauwd, tauC) //Pa
-    console.log(taud)
+    console.log('taud: ' + taud)
     const taxaArmaduraTransversal = calcularTaxaArmaduraTransversal(taud, fyd, fctm)
-    console.log(taxaArmaduraTransversal)
+    console.log('taxaArmaduraTransversal' + taxaArmaduraTransversal)
     const areaAco = calcularAreaAco(taxaArmaduraTransversal, infoDistancias['bw'])
-    console.log(areaAco)
+    console.log('areaAço ' + areaAco)
   }  
 }
 
