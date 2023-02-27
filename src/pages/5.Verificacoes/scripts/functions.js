@@ -326,6 +326,7 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
 
 function salvarDados(sigmaInferiorc1, sigmaSuperiorc1, sigmaInferiorc2, sigmaSuperiorc2, limiteInferiorc1, limiteSuperiorc1, limiteInferiorc2, limiteSuperiorc2, dadosSalvos, contador, sigmac1, sigmac2, fctmj, fctm){
 
+    console.log('salvarDados: ' + 'fctmj ' +fctmj + 'fctm' + fctm)
     return{
         'dadosRotina5':{   
             index: contador,  

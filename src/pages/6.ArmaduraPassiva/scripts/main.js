@@ -78,7 +78,7 @@ function main(event){
     console.log('esforcoCortanteReduzidoProjeto' + esforcoCortanteReduzidoProjeto)
 
     //Espessura da alma corrigida
-    const bwcorrigido = (infoDistancias['bw']/100) - (diametroBainha/1000) // m
+    const bwcorrigido = (infoDistancias['bw']/100) - (diametroBainha/2000) // m
     //Verificação do esmagamento do concreto
     const fcd = fck / 1.4 //MPa
     //Tensão limite

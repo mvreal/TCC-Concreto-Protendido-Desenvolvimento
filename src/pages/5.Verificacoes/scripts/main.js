@@ -37,7 +37,8 @@ function main(){
     
     escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes)
     const [fckj, fctmj] = calcularFckjFctj(fck, dataProtensao)
-    const [,fctm] = calcularFckjFctj(fck, 28)
+    const [fck28,fctm28] = calcularFckjFctj(fck, 28)
+    
     const [limiteSigmac1, limiteSigmac2] = limitesSigmac1Sigmac2(fckj, fctmj)
     escreverLimitesAtoProtensao(limiteSigmac1, limiteSigmac2)
 
@@ -46,13 +47,13 @@ function main(){
     if(tipoProtensao == 'limitada'){
         const {sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoLimitada(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
         escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F)
-        dados[contador] = salvarDados(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2)
+        dados[contador] = salvarDados(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F, limiteSigmac1QP, limiteSigmac2QP, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj, fctm28)
 
 
     }else if(tipoProtensao == 'completa'){
         const {sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F} = calcularCombinacoesProtensaoCompleta(perdaFinal, areaConcreto, ep, w1, w2, psi1, psi2, Mg, Mq, fctmj, fckj)
         escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F)
-        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj, fctm)
+        dados[contador] = salvarDados(sigmac1R, sigmac2R, sigmac1F, sigmac2F, limiteSigmac1R, limiteSigmac2R, limiteSigmac1F, limiteSigmac2F, dadosSalvosdaRotina4[index], contador, sigmac1, sigmac2, fctmj, fctm28)
     }
     console.log(contador)
     window.api.dadosRotina5(dados)

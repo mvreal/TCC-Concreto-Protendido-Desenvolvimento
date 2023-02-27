@@ -320,6 +320,8 @@ function calcularTensaoConvencional(esforcoCortanteReduzidoProjeto, bwcorrigido,
 
     ds = ds/100
 
+    console.log(esforcoCortanteReduzidoProjeto, bwcorrigido, ds)
+
     const tensaoConvencional = []
     for(let i = 0; i < esforcoCortanteReduzidoProjeto.length; i++){
         tensaoConvencional[i] = esforcoCortanteReduzidoProjeto[i] / (bwcorrigido * ds)
@@ -375,13 +377,22 @@ function calcularTaxaArmaduraTransversal(taud, fyd, fctm){
     fyd = fyd / 1000000
     fctm = fctm / 1000000
 
-    const taxaArmaduraTransversal = Math.max((taud/fyd),((0.2 * fctm)/fyd))
+    console.log(taud, fyd, fctm)
+
+    //REVER A PARCELA 1 ESTÁ COM RESULTADO DIFERENTE DO ESPERADO
+    const parcela1 = taud/fyd
+    const parcela2 = (0.2 * fctm)/fyd
+    console.log('parcela1' + parcela1)
+    console.log('parcela2' + parcela2)
+
+    const taxaArmaduraTransversal = Math.max(parcela1, parcela2)
 
     return taxaArmaduraTransversal
 }
 
 function calcularAreaAco(taxaArmaduraTransversal, bw){
 
+    console.log(taxaArmaduraTransversal, bw)
     const areaAco = taxaArmaduraTransversal * bw * 100
     return areaAco / 10000
 }
