@@ -251,35 +251,57 @@ function verificarTensoesTracao(arr) {
     })
 }
 
-function calcularArmaduraLongitudinal(bf, bw, hf, sigmacd, Ap, fpyd, fyd){
+function calcularArmaduraLongitudinal(LN,bf, sigmacd, Ap, fpyd, fyd){
     bf = bf/100
-    bw = bw/100
     sigmacd = sigmacd * 1000000
     Ap = Ap/1000000
     fpyd = fpyd * 1000000
     fyd = fyd * 1000000
-    
-    const As = (((bf - bw) * hf *sigmacd) + (0.8 * bw * sigmacd) + (-Ap * fpyd))/fyd
+
+    const As = (0.8 * LN * bf * sigmacd - (fpyd * Ap))/fyd
+    console.log(As)
 
     return As
 }
 
-function calcularArmaduraMinimaLongitudinal(fctmj, w1, bf, ds, sigmacd, fyd, Ac){
+function calcularArmaduraMinimaLongitudinal(fctm, w1, bf, ds, sigmacd, fyd, Ac){
     
-    fctmj = fctmj * 1000000
+    fctm = fctm * 1000000
     bf = bf / 100
     ds = ds / 100
     sigmacd = sigmacd * 1000000
     fyd = fyd * 1000000
     Ac = Ac / 10000
+    w1 = w1 / 1000000
 
-    const fctksup = 1.3 * fctmj
+    console.log(fctm, w1, bf, ds, sigmacd, fyd, Ac)
+
+    const fctksup = 1.3 * fctm
+
+    console.log(fctksup)
 
     const momentoProjetoMinimo = Math.abs(0.8 * w1 * fctksup)
+
+    console.log(momentoProjetoMinimo)
+
     const momentoFletorReduzido = momentoProjetoMinimo/(bf * ds * ds * sigmacd)
+
+    console.log(momentoFletorReduzido)
+
     const posicaoRelativaLinhaNeutra = 1.25 * (1 - Math.sqrt(1 - 2 * momentoFletorReduzido))
+
+    console.log(posicaoRelativaLinhaNeutra)
+
     const areaEstimadaArmadura = 0.8 * posicaoRelativaLinhaNeutra * bf * ds * (sigmacd/fyd)
-    const areaMinimaAdotada = Math.max(areaEstimadaArmadura, 0.15 * Ac)
+
+    console.log(areaEstimadaArmadura)
+
+    console.log((0.15 * Ac)/100)
+
+    const areaMinimaAdotada = Math.max(areaEstimadaArmadura, (0.15 * Ac)/100)
+
+    console.log(areaMinimaAdotada)
+    return areaMinimaAdotada
 }
 
 function calcularForcaNormalProtensao(perdaFinal, anguloAlfa){
@@ -311,7 +333,12 @@ function calcularEsforcoCortanteReduzidoProjeto(gamag1, gamag2, gamaq, esforcoCo
     FVP = FVP.map(el => el * 1000)
     let esforcoCortanteReduzidoProjeto = []
     for(let i = 0; i < esforcoCortanteCarregamentoPermanenteg1.length; i++){
-        esforcoCortanteReduzidoProjeto[i] = (gamag1 * esforcoCortanteCarregamentoPermanenteg1[i]) + (gamag2 * esforcoCortanteCarregamentoPermanenteg2[i]) + (gamaq * esforcoCortanteCarregamentoVariavel[i]) - (0.9 * FVP[i])
+        if(esforcoCortanteCarregamentoPermanenteg1[i] > 0 ){
+            esforcoCortanteReduzidoProjeto[i] = (gamag1 * esforcoCortanteCarregamentoPermanenteg1[i]) + (gamag2 * esforcoCortanteCarregamentoPermanenteg2[i]) + (gamaq * esforcoCortanteCarregamentoVariavel[i]) - (0.9 * FVP[i])
+        }else{
+            esforcoCortanteReduzidoProjeto[i] = Math.abs((gamag1 * esforcoCortanteCarregamentoPermanenteg1[i]) + (gamag2 * esforcoCortanteCarregamentoPermanenteg2[i]) + (gamaq * esforcoCortanteCarregamentoVariavel[i]) + (0.9 * FVP[i]))
+        }
+        
     }
     return esforcoCortanteReduzidoProjeto   
 }
@@ -333,18 +360,23 @@ function compararTensoesEsforcoCortante(tauwd, tauwu){
 
     tauwd = tauwd.map(el => el / 1000000)
     tauwu = tauwu / 1000000
-
+    let estado, msg, secoes
     for(let i = 0; i < tauwd.length; i++){
-        if(tauwd[i] > tauwu){
-            return {
-                estado: false,
-                msg: `A tensão convencional na seção ${i} foi superior a tensão limite, ${tauwd[i].toFixed(2)} é superior a ${tauwu[i].toFixed(2)}`
+
+        for(let i = 0; i < tauwd.length; i++){
+            if(tauwd[i] > tauwu){
+                estado = false,
+                msg =  `A tensão convencional na seção ${i} foi superior a tensão limite, τ<sub>wd</sub> = ${tauwd[i].toFixed(2)} MPa é superior a τ<sub>wu</sub> = ${tauwu.toFixed(2)} MPa`
             }
         }
-    }
-    return {
-        estado: true,
-        msg: 'Não houve problema ao verificar as tensões nas bielas na viga'
+        if(estado !== false){
+            estado = true,
+            msg = `Não houve problema ao verificar as tensões nas bielas na viga, a tensão convencional τ<sub>wd</sub> = ${tauwd[i].toFixed(2)} MPa é inferior a τ<sub>wu</sub> = ${tauwu.toFixed(2)} MPa`
+        }
+        return {
+            estado: estado,
+            msg: msg
+        }
     }
 }
 
@@ -374,16 +406,15 @@ function calculartaud(tauwd, tauC){
 }
 
 function calcularTaxaArmaduraTransversal(taud, fyd, fctm){
-    fyd = fyd / 1000000
-    fctm = fctm / 1000000
+    fyd = fyd * 1000000
+    fctm = fctm * 1000000
 
     console.log(taud, fyd, fctm)
 
-    //REVER A PARCELA 1 ESTÁ COM RESULTADO DIFERENTE DO ESPERADO
     const parcela1 = taud/fyd
     const parcela2 = (0.2 * fctm)/fyd
-    console.log('parcela1' + parcela1)
-    console.log('parcela2' + parcela2)
+    console.log('parcela1 ' + parcela1)
+    console.log('parcela2 ' + parcela2)
 
     const taxaArmaduraTransversal = Math.max(parcela1, parcela2)
 
@@ -397,5 +428,42 @@ function calcularAreaAco(taxaArmaduraTransversal, bw){
     return areaAco / 10000
 }
 
+function escreverTextos(AsLinha, armaduraLongitudinalAdotada, tauwd, tauwu, areaAco){
 
-export { calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }
+    
+    tauwd = tauwd.map(el => el / 1000000) //MPa
+    tauwu = tauwu / 1000000 //MPa
+    let textoTauwd = ''
+
+    for(let i = 0; i < tauwd.length; i++){
+        textoTauwd += `τ<sub>wd<sub>${i+1}</sub></sub> = ${tauwd[i].toFixed(2)} MPa </br>`
+    }
+
+    console.log(textoTauwd)
+
+    let descricaoArmaduraSuperior = document.getElementById('descricaoArmaduraSuperior')
+    let descricaoArmaduraInferior = document.getElementById('descricaoArmaduraInferior')
+    let descricaoBielasViga = document.getElementById('descricaoBielasViga')
+    let descricaoArmaduraTransversal = document.getElementById('descricaoArmaduraTransversal')
+    let limiteBielasViga = document.getElementById('limiteBielasViga')
+
+    AsLinha = AsLinha * 10000
+    armaduraLongitudinalAdotada = armaduraLongitudinalAdotada * 10000
+    areaAco = areaAco * 10000
+
+    if(AsLinha > 0){
+        descricaoArmaduraSuperior.innerText = `Foi necessário uma armadura para resistir aos esfoços de tração na borda superior da viga de ${AsLinha.toFixed(2)} cm²`
+    }else{
+        descricaoArmaduraSuperior.innerText = 'Não foi necessário calcular uma armadura na borda superior pois as tensões são exclusivamente de compressão'
+    }
+    descricaoArmaduraInferior.innerText = `A armadura longitudinal para a seção inferior da viga foi calculada em ${armaduraLongitudinalAdotada.toFixed(2)} cm²`
+    descricaoBielasViga.innerHTML =  textoTauwd
+    descricaoArmaduraTransversal.innerText = `A armadura transversal calculada foi de ${areaAco.toFixed(2)} cm², esse cálculo desconsidera as verificações do tirante.`
+    limiteBielasViga.innerHTML = `τ<sub>wu</sub> = ${tauwu.toFixed(2)} MPa`
+
+}
+
+
+
+
+export { escreverTextos, calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaNormalProtensao, calcularForcaVerticalProtensao ,calcularArmaduraMinimaLongitudinal, calcularArmaduraLongitudinal, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, pegarDistanciasRotina1, verificarTensoesTracao, armaduraTracaoAtoProtensao, textoDescricaoArmaduraBordaSuperior, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5 }

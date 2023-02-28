@@ -1,5 +1,5 @@
 import { calcularMomentoFletor, fpyk, fpyd } from "../../../scripts/functions.js"
-import { calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaVerticalProtensao, calcularForcaNormalProtensao, calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
+import { escreverTextos, calcularAreaAco, calcularTaxaArmaduraTransversal, calculartaud, calcularCoeficienteCorrecao, calcularMomentoAnulaTensaoCompressao, compararTensoesEsforcoCortante, calcularTensaoConvencional, calcularEsforcoCortanteReduzidoProjeto, calcularEsforcoCortante, calcularForcaVerticalProtensao, calcularForcaNormalProtensao, calcularArmaduraLongitudinal, pegarDistanciasRotina1, calcularLinhaNeutraAlma, calcularfyd, verificarLinhaNeutra, armaduraTracaoAtoProtensao, verificarTensoesTracao, calcularLinhaNeutra, bhaskara, pegarDadosRotina1, pegarDadosRotina2, pegarDadosRotina3, pegarDadosRotina4, pegarDadosRotina5, calcularArmaduraMinimaLongitudinal } from "./functions.js"
 
 function main(event){
   const index = document.getElementById('idSelect').value
@@ -36,9 +36,8 @@ function main(event){
   const momentoProjetoELU = momentoProjeto.map(el => 1.4 * el) //kN * m
   const Mdmax = Math.max(...momentoProjetoELU) // kN * m
   const sigmacd = Number((fck * 0.85) / 1.4)
+  let linhaNeutraFinal
 
-  // Por padrão, quando for necessário armadura na região superior, a distância entre essa armadura e a borda será de 5 cm.
-  
   if(verificarTensoesTracao(sigmac2) == true){
     const infoDistancias = pegarDistanciasRotina1(index)
     const distanciaBordaSuperior = infoDistancias.hasOwnProperty('bf') ? infoDistancias['bf'] : infoDistancias['b'] 
@@ -46,15 +45,20 @@ function main(event){
     const AsLinha = armaduraTracaoAtoProtensao(h, distanciaBordaSuperior, sigmac1, sigmac2) // em m²
     const linhaNeutra = calcularLinhaNeutra(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha) // Retorna um array com tamanho 2, cada posição é uma possível raiz
     const linhaNeutraVerificada = verificarLinhaNeutra(linhaNeutra)
+    linhaNeutraFinal = linhaNeutraVerificada
 
     if(linhaNeutraVerificada > Number(infoDistancias['hf'])/100){
       const linhaNeutraAlma = calcularLinhaNeutraAlma(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha)
       const linhaNeutraAlmaVerificada = verificarLinhaNeutra(linhaNeutraAlma)
+      linhaNeutraFinal = linhaNeutraAlmaVerificada
     }
+    
 
     //Essa função é apenas para viga I e T, depois deve-se deduzir a equação para viga retangular
-    const armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(infoDistancias['bf'], infoDistancias['bw'], infoDistancias['hf'], sigmacd, Ap, fpydCalculado, fyd) 
-    const armaduraMinima = calcularArmaduraMinimaLongitudinal(fctmj, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto)
+    //TEM QUE VERIFICAR ISSO
+    const armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(linhaNeutraFinal, infoDistancias['bf'], sigmacd, Ap, fpydCalculado, fyd) 
+    const armaduraMinima = calcularArmaduraMinimaLongitudinal(fctm, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto) //m²
+    console.log(armaduraLongitudinalCalculada, armaduraMinima)
     const armaduraLongitudinalAdotada = Math.max(armaduraLongitudinalCalculada, armaduraMinima) // Armadura final em m²
 
     //Cálculo da armadura transversal
@@ -91,7 +95,9 @@ function main(event){
     const tauwd = calcularTensaoConvencional(esforcoCortanteReduzidoProjeto, bwcorrigido, ds) //ds está em cm
     console.log('tauwd: ' + tauwd)
     // ---------------------------------------------------------------------
+    //Bielas da viga
     const msgVerificaoTensoes = compararTensoesEsforcoCortante(tauwd, ep, tauwu)
+    const {estado, mensagem} = msgVerificaoTensoes
 
     const momentoAnulaTensaoCompressao = calcularMomentoAnulaTensaoCompressao(FNP, areaConcreto, ep, w1)
     console.log('momentoAnulaTensaoCompressao ' + momentoAnulaTensaoCompressao)
@@ -104,7 +110,8 @@ function main(event){
     const taxaArmaduraTransversal = calcularTaxaArmaduraTransversal(taud, fyd, fctm)
     console.log('taxaArmaduraTransversal' + taxaArmaduraTransversal)
     const areaAco = calcularAreaAco(taxaArmaduraTransversal, infoDistancias['bw'])
-    console.log('areaAço ' + areaAco)
+    
+    escreverTextos(AsLinha, armaduraLongitudinalAdotada, tauwd, tauwu, areaAco) //As' em m² 
   }  
 }
 
