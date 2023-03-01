@@ -22,7 +22,7 @@
         </select>
     </div>
     <div>
-        <label for="distanciaInferior" class="l-label">Distância da face inferior da armadura passiva (cm)</label>
+        <label for="distanciaInferior" class="l-label">Distância entre face inferior da viga e armadura passiva (cm)</label>
         <input type="number" class='s-input' name="distanciaInferior" id="distanciaInferior" value="5">
     </div>
     <div>
@@ -32,9 +32,24 @@
     <div>
         <button id="btnMain">Calcular</button>
     </div>
-    <div>
-        <h3>Armadura na borda superior</h3>
+    <div class="div-resultado">
+        <h3>Armadura longitudinal na borda superior</h3>
         <p id="descricaoArmaduraSuperior"></p>
+    </div>
+    <div class="div-resultado">
+        <h3>Armadura longitudinal na borda inferior</h3>
+        <p id="descricaoArmaduraInferior"></p>
+    </div>
+    <div class="div-resultado">
+        <h3>Bielas da viga</h3>
+        <div class="flex">
+        <p id="descricaoBielasViga"></p>
+        <p id="limiteBielasViga"></p>
+        </div>
+    </div>
+    <div class="div-resultado">
+        <h3>Armadura Transversal</h3>
+        <p id="descricaoArmaduraTransversal"></p>
     </div>
 </body>
 <script src="./scripts/main.js" type="module"></script>

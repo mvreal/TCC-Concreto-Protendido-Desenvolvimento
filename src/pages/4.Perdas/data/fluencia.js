@@ -1,4 +1,5 @@
-const fluencia = [{"i_id_fluencia":1, "i_umidade_fluencia":40, "f_espessura_fluencia":20.0, "i_tipoConcreto_fluencia":1, "i_tempo_fluencia":5, "f_coeficiente_fluencia":4.6},
+const fluencia = 
+[{"i_id_fluencia":1, "i_umidade_fluencia":40, "f_espessura_fluencia":20.0, "i_tipoConcreto_fluencia":1, "i_tempo_fluencia":5, "f_coeficiente_fluencia":4.6},
  {"i_id_fluencia":2, "i_umidade_fluencia":40, "f_espessura_fluencia":20.0, "i_tipoConcreto_fluencia":1, "i_tempo_fluencia":30, "f_coeficiente_fluencia":3.4},
  {"i_id_fluencia":3, "i_umidade_fluencia":40, "f_espessura_fluencia":20.0, "i_tipoConcreto_fluencia":1, "i_tempo_fluencia":60, "f_coeficiente_fluencia":2.9},
  {"i_id_fluencia":4, "i_umidade_fluencia":40, "f_espessura_fluencia":20.0, "i_tipoConcreto_fluencia":2, "i_tempo_fluencia":5, "f_coeficiente_fluencia":2.7},

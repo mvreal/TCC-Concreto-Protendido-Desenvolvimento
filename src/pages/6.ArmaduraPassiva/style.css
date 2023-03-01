@@ -9,13 +9,18 @@
     font-size: 11px;
 }
 
+body{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .s-input{
     width: 40px;
     text-align: center;
 }
 
 .l-label{
-    min-width: 340px;
+    min-width: 350px;
     display: inline-block;
 }
 
@@ -43,4 +48,16 @@ button{
 
 h3{
     text-align: center;
+}
+
+.div-resultado{
+    min-height: 50px;
+}
+
+.flex{
+    display: flex;
+}
+
+.flex > * {
+    flex: 1;
 }

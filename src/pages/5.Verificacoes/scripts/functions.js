@@ -102,8 +102,8 @@ function escreverSigmac1Sigmac2(sigmac1, sigmac2, secoes){
     let txtSigmac2 = ''
 
     for(let i = 0; i < repeticoes; i++){
-        txtSigmac1 += 'Seção: ' + secoes[i] + 'm - ' + sigmac1[i].toFixed(2) + ' MPa' + '</br>' 
-        txtSigmac2 += 'Seção: ' + secoes[i] + 'm - ' + sigmac2[i].toFixed(2) + ' MPa' + '</br>' 
+        txtSigmac1 += 'Seção ' + secoes[i] + 'm: ' + sigmac1[i].toFixed(2) + ' MPa' + '</br>' 
+        txtSigmac2 += 'Seção ' + secoes[i] + 'm: ' + sigmac2[i].toFixed(2) + ' MPa' + '</br>' 
     }
     divSigmac1.innerHTML = txtSigmac1
     divSigmac2.innerHTML = txtSigmac2
@@ -232,9 +232,9 @@ function escreverSigmasLimitesCompleta(sigmac1R, sigmac2R, sigmac1F, sigmac2F, l
     sigmac1ServicoCombinacao2.innerHTML = txtadicionado21
     sigmac2ServicoCombinacao2.innerHTML = txtadocionado22
 
-    adicionarTxtSigmac1ServicoCombinacao1.innerText = limiteSigmac1R.toFixed(2) + ' MPa'
-    adicionarTxtSigmac2ServicoCombinacao1.innerText = limiteSigmac2R.toFixed(2) + ' MPa'
-    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1F.toFixed(2)} MPa`
+    adicionarTxtSigmac1ServicoCombinacao1.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1R.toFixed(2)} MPa`
+    adicionarTxtSigmac2ServicoCombinacao1.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2R.toFixed(2)} MPa`
+    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `${limiteSigmac1F.toFixed(2)} MPa`
     adicionarTxtSigmac2ServicoCombinacao2.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2F.toFixed(2)} MPa`
 }
 
@@ -316,9 +316,9 @@ function escreverSigmasLimitesLimitada(sigmac1QP, sigmac2QP, sigmac1F, sigmac2F,
     sigmac1ServicoCombinacao2.innerHTML = txtadicionado21
     sigmac2ServicoCombinacao2.innerHTML = txtadocionado22
 
-    adicionarTxtSigmac1ServicoCombinacao1.innerText = limiteSigmac1F.toFixed(2) + ' MPa'
-    adicionarTxtSigmac2ServicoCombinacao1.innerText = limiteSigmac2F.toFixed(2) + ' MPa'
-    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1QP.toFixed(2)} MPa`
+    adicionarTxtSigmac1ServicoCombinacao1.innerHTML = `f<sub>ctm</sub> = ${limiteSigmac1F.toFixed(2)} MPa`
+    adicionarTxtSigmac2ServicoCombinacao1.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2F.toFixed(2)} MPa`
+    adicionarTxtSigmac1ServicoCombinacao2.innerHTML = `${limiteSigmac1QP.toFixed(2)} MPa`
     adicionarTxtSigmac2ServicoCombinacao2.innerHTML = `0.70 f<sub>ck</sub> = ${limiteSigmac2QP.toFixed(2)} MPa`
 
 

@@ -56,3 +56,8 @@ h1{
     background-color: rgb(94, 148, 193);
     box-shadow: 0 4px 5px 0 rgba(0,0,0,0.24);
 }
+
+.l-label{
+    min-width: 200px;
+    display: inline-block;
+}

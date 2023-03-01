@@ -18,13 +18,13 @@
     <div class="ctnMain" id="ctnMain">
         <div id="ctnInputs">
             <div class="block">
-                <label for="dadosEntrada">Situação a ser dimensionada:</label>
+                <label class="l-label" for="dadosEntrada">Situação a ser dimensionada:</label>
 
                 <select name="dadosEntrada" id="dadosEntrada">
 
                 </select>
             </div>
-            <label for="dadosAncoragem">Ancoragem:</label>
+            <label for="dadosAncoragem" class="l-label">Ancoragem:</label>
             <select name="dadosAncoragem" id="dadosAncoragem">
                 <option value="0"> Ativa e Passiva </option>
                 <option value="1"> Ativa e Ativa </option>
@@ -32,7 +32,7 @@
         </div>
         <div id="ctnPerdas" class="ctnPerdas">
             <div id="ctnPerdasAtrito">
-                <label for="coefAtrito">Coeficiente de Atrito (&micro)</label>
+                <label for="coefAtrito" class="l-label">Coeficiente de Atrito (&micro)</label>
                 <select name="coefAtrito" id="coefAtrito">
                     <option value="0.1">0,1</option>
                     <option value="0.2" selected>0,2</option>
@@ -43,12 +43,14 @@
 
             </div>
             <div id="ctnPerdasAcomodacao">
-                <label for="retornoCabo">Retorno do cabo de Protensão</label>
+                <label for="retornoCabo" class="l-label">Retorno do cabo de Protensão</label>
                 <select name="retornoCabo" id="retornoCabo">
                     <option value="5">5mm</option>
                     <option value="6">6mm</option>
                 </select>
-                <label for="E">E</label>
+            </div>
+            <div>
+                <label for="E" class="l-label">E<sub>p</sub></label>
                 <select name="E" id="E">
                     <option value="195">195 GPa</option>
                     <option value="200">200 GPa</option>
@@ -57,7 +59,7 @@
             </div>
         </div>
         <div id="ctnPerdasProgressivas">
-            <label for="perimetroAr">Perímetro em contato com o ar</label>
+            <label for="perimetroAr" class="l-label">Perímetro em contato com o ar</label>
             <input type="number" name="perimetroAr" id="perimetroAr">/<input type="number" name="perimetroTotal"
                 id="perimetroTotal" disabled>cm
             <select name="PorcentagemPerimetro" id="PorcentagemPerimetro">
@@ -84,7 +86,7 @@
                 <option id="autoOptionPerimetroPorcentagem" value="" disabled></option>
             </select>
             <div class="block">
-                <label for="umidadeMedia">Umidade Média Ambiente</label>
+                <label for="umidadeMedia" class="l-label">Umidade Média Ambiente</label>
                 <select name="umidadeMedia" id="umidadeMedia">
                     <option value="40">40%</option>
                     <option value="55">55%</option>
@@ -92,7 +94,7 @@
                     <option value="90">90%</option>
                 </select>
             </div>
-            <label for="instanteAplicacaoCarga">Aplicação da Protensão</label>
+            <label for="instanteAplicacaoCarga" class="l-label">Aplicação da Protensão</label>
             <select name="instanteAplicacaoCarga" id="instanteAplicacaoCarga">
                 <option value="5">5 dias</option>
                 <option value="30" selected>30 dias</option>
@@ -108,7 +110,7 @@
             <div id="arrPerdasAtrito"></div>
         </div>
         <div>
-            <h4>P<sub>acomodação</sub></h4>
+            <h4>P<sub>ancoragem</sub></h4>
         <div id="arrPerdasAcomodacao"></div>
         </div>
         <div>
