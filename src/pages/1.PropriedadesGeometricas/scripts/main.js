@@ -242,9 +242,3 @@ if( typeof dadosSalvosdaRotina1[0].tipo == 'string'){
         contadorDeRespostasSalvas++
     }; 
 }
-
-
-
-
-
-
