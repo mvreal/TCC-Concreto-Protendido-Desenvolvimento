@@ -6,12 +6,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 })
 
-inputep1.addEventListener('change', changeInputs)
-inputep2.addEventListener('change', changeInputs)
+btnDesenhar.addEventListener('click', desenhar)
+
+// inputep1.addEventListener('change', changeInputs)
+// inputep2.addEventListener('change', changeInputs)
 
 
 function carregarElementos(){
-
+    const opcoesSalvas = document.getElementById('opcoes-salvas')
     dadosSalvosdaRotina2.forEach((element, index)=>{
         let createOption = document.createElement('option')
         createOption.innerHTML = "Id: " + index + "; "
@@ -73,4 +75,15 @@ function changeInputs(){
     //Escrever o texto da referente a cota do cabo de protenção do desenho 3
     escreverCotaCaboProtensao3()
 
+}
+
+function desenhar(){
+    const objetoSelecionado = objeto()
+
+}
+
+function objeto(){
+    const optionSelected = document.getElementById('opcoes-salvas').value
+    const objetoSelecionado = dadosSalvosdaRotina2[optionSelected]
+    return objetoSelecionado
 }
