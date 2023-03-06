@@ -44,34 +44,102 @@ function apagarCanvas(){
     })
 }
 
-// function desenharDesenhoInicial(){
+function pontosIniciais(){
+    //Variavis que determinam o tamanho do retângulo que representa a viga (desenho 1)
+    let inicialEmX = 10
+    let inicialEmY = 10
+    let finalEmX = 590
+    let finalEmY = 110
 
-//     ctx1.beginPath()
-//     ctx1.lineWidth = 2
-//     ctx1.strokeStyle ='black'
-//     ctx1.setLineDash([])
+    return {
+        inicialEmX: inicialEmX,
+        inicialEmY: inicialEmY,
+        finalEmX: finalEmX,
+        finalEmY: finalEmY
+    }
+}
 
-//     ctx1.moveTo(inicialEmX,inicialEmY)
-//     ctx1.lineTo(inicialEmX,finalEmY)
-//     ctx1.lineTo(finalEmX,finalEmY)
-//     ctx1.lineTo(finalEmX,inicialEmX)
-//     ctx1.lineTo(inicialEmX,inicialEmY)
-//     ctx1.stroke()
+function desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide){
 
-//     relacaoEntreCentroideEAlturaTotal = Number(PropriedadesDasFiguras[indexSelecionado]['centroide'])/Number(PropriedadesDasFiguras[indexSelecionado]['dados']['h'])
-//     centroide = Number(PropriedadesDasFiguras[indexSelecionado]['centroide'])
+    ctx1.beginPath()
+    ctx1.lineWidth = 2
+    ctx1.strokeStyle ='black'
+    ctx1.setLineDash([])
 
-//     ctx1.beginPath()
-//     ctx1.strokeStyle ='grey'
-//     ctx1.setLineDash([5,5])
-//     ctx1.moveTo(inicialEmX, finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)
-//     ctx1.lineTo(finalEmX, finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)
-//     ctx1.stroke()
+    console.log(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
 
-//     ctx1.beginPath()
-//     ctx1.fillStyle ='grey'
-//     ctx1.fillText('C.G.',(inicialEmX + finalEmX )/2 - 8, (finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)-10)
-// }
+    ctx1.moveTo(inicialEmX,inicialEmY)
+    ctx1.lineTo(inicialEmX,finalEmY)
+    ctx1.lineTo(finalEmX,finalEmY)
+    ctx1.lineTo(finalEmX,inicialEmX)
+    ctx1.lineTo(inicialEmX,inicialEmY)
+    ctx1.stroke()
+
+    console.log(centroide, dados, dados.h)
+    const relacaoEntreCentroideEAlturaTotal = centroide/dados.h
+    
+    ctx1.beginPath()
+    ctx1.strokeStyle ='grey'
+    ctx1.setLineDash([5,5])
+    ctx1.moveTo(inicialEmX, finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)
+    ctx1.lineTo(finalEmX, finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)
+    ctx1.stroke()
+
+    ctx1.beginPath()
+    ctx1.fillStyle ='grey'
+    ctx1.fillText('C.G.',(inicialEmX + finalEmX )/2 - 8, (finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)-10)
+}
+
+function pegarctx(){
+    const canvas1 = document.getElementById('canvas1')
+    const canvas2 = document.getElementById('canvas2')
+    const canvas3 = document.getElementById('canvas3')
+
+    const ctx1 = canvas1.getContext('2d')
+    const ctx2 = canvas2.getContext('2d')
+    const ctx3 = canvas3.getContext('2d')
+
+    return {
+        ctx1: ctx1,
+        ctx2: ctx2,
+        ctx3: ctx3
+    }
+}
+
+function arrumarEscala(){
+    
+const canvas1 = document.getElementById('canvas1')
+const canvas2 = document.getElementById('canvas2')
+const canvas3 = document.getElementById('canvas3')
+
+
+// Arrumando a escala do gráfico 1
+let displayWidth = 600;
+let displayHeight = 150;
+let scale = 1;
+canvas1.style.width = displayWidth + 'px';
+canvas1.style.height = displayHeight + 'px';
+canvas1.width = displayWidth * scale;
+canvas1.height = displayHeight * scale;
+
+// Arrumando a escala do gráfico 2
+let displayWidth2 = 300;
+let displayHeight2 = 300;
+let scale2 = 1;
+canvas2.style.width = displayWidth2 + 'px';
+canvas2.style.height = displayHeight2 + 'px';
+canvas2.width = displayWidth2 * scale2;
+canvas2.height = displayHeight2 * scale2;
+
+// Arrumando a escala do gráfico 3
+let displayWidth3 = 300;
+let displayHeight3 = 300;
+let scale3 = 1;
+canvas3.style.width = displayWidth3 + 'px';
+canvas3.style.height = displayHeight3 + 'px';
+canvas3.width = displayWidth3 * scale3;
+canvas3.height = displayHeight3 * scale3;
+}
 
 // function desenharPontosIniciais(){
 //     ctx1.beginPath()
@@ -296,4 +364,4 @@ function apagarCanvas(){
 //     ctx3.fillText(Number(inputep2.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight3 - margem - (Number(inputep2.value)/2) * escala)
 // }
 
-// export { modificarCanvas, mudarRange, apagarCanvas, desenharDesenhoInicial, desenharPontosIniciais, desenharPontoIntermediario, zerarInputs, desenhoInicial2e3, CGDesenho2, CGDesenho3, escalaAlturaDesenho2, desenharRetangulo2, escreverTextoAltura2, desenharRetangulo3, desenharArmaduraProtensao2, desenharArmaduraProtensao3, novoPontoExtremo, novoPontoIntermediario, novoPontoExtremoDesenho2, novoPontoCentroDesenho3, desenharCotaCG2, escreverCotaCG2, desenharCotaCaboProtensao2, escreverCotaCaboProtensao2, desenharCotaCaboProtensao3, escreverCotaCaboProtensao3 }
+ export { pegarctx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala }

@@ -1,3 +1,7 @@
+import { pontosIniciais, apagarCanvas, pegarctx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
+import { objeto, pegarDados } from "./functions.js"
+
+
 const [inputep1, inputep2] = document.querySelectorAll('.inputep')
 const btnDesenhar = document.getElementById('btnDesenhar')
 
@@ -29,15 +33,21 @@ function carregarElementos(){
         + "&#947<sub>q</sub>" + ": " + element["&#947<sub>q</sub>"] + ";  "
         opcoesSalvas.appendChild(createOption)
         createOption.value = index
-
     })
 }
 
+
+
 function changeInputs(){
+
+    const {inicialEmX, iniciamEmY, finalEmX, finalEmY} = pontosIniciais()
+    const {ctx1, ctx2, ctx3} = pegarctx()
+    
+
     //Aoagar tudo o que há no canvas 1,2 e 3
     apagarCanvas()
     //Desenhar a seção no canvas 1 (desenho principal)
-    desenharDesenhoInicial()
+    desenharDesenhoInicial(inicialEmX, iniciamEmY, finalEmX, finalEmY, ctx1)
     //Desenhar a seção transversal no canvas 2 e 3
     desenhoInicial2e3()
     //Desenhar o ponto vermelho referente a posição do cabo de protenção na extremidade da viga
@@ -78,12 +88,18 @@ function changeInputs(){
 }
 
 function desenhar(){
+
     const objetoSelecionado = objeto()
+    const {inicialEmX, inicialEmY, finalEmX, finalEmY} = pontosIniciais()
+
+    arrumarEscala()
+    const {ctx1, ctx2, ctx3} = pegarctx()
+    const {tipo, dados, centroide} = pegarDados(objetoSelecionado)
+    console.log(tipo, dados, centroide)
+
+    apagarCanvas()
+    desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
+
 
 }
 
-function objeto(){
-    const optionSelected = document.getElementById('opcoes-salvas').value
-    const objetoSelecionado = dadosSalvosdaRotina2[optionSelected]
-    return objetoSelecionado
-}
