@@ -1,4 +1,4 @@
-import { pontosIniciais, apagarCanvas, pegarctx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
+import { desenharContornoDesenho23, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
 import { objeto, pegarDados } from "./functions.js"
 
 
@@ -89,17 +89,19 @@ function changeInputs(){
 
 function desenhar(){
 
+    
+
     const objetoSelecionado = objeto()
     const {inicialEmX, inicialEmY, finalEmX, finalEmY} = pontosIniciais()
 
     arrumarEscala()
-    const {ctx1, ctx2, ctx3} = pegarctx()
+    const {canvas1, canvas2, canvas3, ctx1, ctx2, ctx3} = pegarCanvasCtx()
     const {tipo, dados, centroide} = pegarDados(objetoSelecionado)
-    console.log(tipo, dados, centroide)
+    const relacaoEntreCentroideEAlturaTotal = centroide/dados.h
 
     apagarCanvas()
     desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
-
+    desenharContornoDesenho23(tipo, dados, canvas2, canvas3)
 
 }
 

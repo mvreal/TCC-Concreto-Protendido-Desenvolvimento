@@ -90,7 +90,7 @@ function desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1
     ctx1.fillText('C.G.',(inicialEmX + finalEmX )/2 - 8, (finalEmY - (finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal)-10)
 }
 
-function pegarctx(){
+function pegarCanvasCtx(){
     const canvas1 = document.getElementById('canvas1')
     const canvas2 = document.getElementById('canvas2')
     const canvas3 = document.getElementById('canvas3')
@@ -100,6 +100,9 @@ function pegarctx(){
     const ctx3 = canvas3.getContext('2d')
 
     return {
+        canvas1: canvas1,
+        canvas2: canvas2,
+        canvas3: canvas3,
         ctx1: ctx1,
         ctx2: ctx2,
         ctx3: ctx3
@@ -139,6 +142,89 @@ canvas3.style.width = displayWidth3 + 'px';
 canvas3.style.height = displayHeight3 + 'px';
 canvas3.width = displayWidth3 * scale3;
 canvas3.height = displayHeight3 * scale3;
+}
+
+function desenharContornoDesenho23(tipo, dados, canvas2, canvas3){
+    console.log(tipo, canvas2, canvas3)
+    if(tipo == 'Retangular'){
+        console.log('entrou', dados, canvas2, canvas3)
+        desenharRetangulo(dados, canvas2)
+        desenharRetangulo(dados, canvas3)
+    }else if(tipo == 'T'){
+        desenharT(dados, canvas2)
+        desenharT(dados, canvas3)
+    }
+}
+
+function desenharRetangulo(dados, canvas){
+
+    const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
+    const ctx = canvas.getContext('2d')
+
+    console.log(canvasWidth, canvasHeight)
+
+    const margem = 50 
+
+    const altura = dados.h
+    const base = dados.b
+
+    const disponivelx = canvasWidth - (2 * margem)
+    const disponively = canvasHeight
+
+    const escalay = disponively / altura
+    const escalax = disponivelx / base
+    const escala = Math.min(escalay, escalax)
+
+    const inicialx = (canvasWidth - (base * escala)) / 2
+
+    console.log(altura, base, escala, escalax, escalay)
+
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    ctx.strokeStyle ='black'
+    ctx.setLineDash([])
+    ctx.moveTo(inicialx, 0)
+    ctx.lineTo(inicialx,  (altura * escala))
+    ctx.lineTo(inicialx + (base * escala), (altura * escala))
+    ctx.lineTo(inicialx + (base * escala), 0)
+    ctx.lineTo(inicialx, 0)
+    ctx.stroke()
+}
+
+function desenharT(dados, canvas) {
+    
+    const {bf, bmis, bw, h, hf, hmis} = dados
+    const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
+    const margem = 50 
+
+    const altura = h
+    const base = Math.max(bf, bw)
+
+    const disponivelx = canvasWidth - (2 * margem)
+    const disponively = canvasHeight
+
+    const escalay = disponively / altura
+    const escalax = disponivelx / base
+    const escala = Math.min(escalay, escalax)
+    const inicialx = (canvasWidth - (base * escala)) / 2
+
+    const ctx = canvas.getContext('2d')
+
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    ctx.strokeStyle ='black'
+    ctx.setLineDash([])
+    ctx.moveTo(inicialx, 0)
+    ctx.lineTo(inicialx,  (hf * escala)) //2
+    ctx.lineTo(inicialx + (((bf - bw) / 2) * escala), (hf * escala)) //3
+    ctx.lineTo(inicialx + (((bf - bw) / 2) * escala), h * escala) //4
+    ctx.lineTo(inicialx + (((bf + bw)/2)* escala),  h * escala) //5
+    ctx.lineTo(inicialx + (((bf + bw)/2)* escala), (hf * escala)) //6
+    ctx.lineTo(inicialx + (bf * escala), (hf * escala)) //7
+    ctx.lineTo(inicialx + (bf * escala), 0) //8
+    ctx.lineTo(inicialx, 0) //9
+    ctx.stroke()
+
 }
 
 // function desenharPontosIniciais(){
@@ -249,18 +335,6 @@ canvas3.height = displayHeight3 * scale3;
 //     ctx2.stroke()
 // }
 
-// function desenharRetangulo3(){
-//     ctx3.beginPath()
-//     ctx3.lineWidth = 2
-//     ctx3.strokeStyle ='black'
-//     ctx3.setLineDash([])
-//     ctx3.moveTo(margem, margem)
-//     ctx3.lineTo(margem, margem + (altura * escala))
-//     ctx3.lineTo(margem + (base * escala), margem + (altura * escala))
-//     ctx3.lineTo(margem + (base * escala), margem)
-//     ctx3.lineTo(margem, margem)
-//     ctx3.stroke()
-// }
 
 // function desenharArmaduraProtensao2(){
 //     ctx2.beginPath()
@@ -364,4 +438,4 @@ canvas3.height = displayHeight3 * scale3;
 //     ctx3.fillText(Number(inputep2.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight3 - margem - (Number(inputep2.value)/2) * escala)
 // }
 
- export { pegarctx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala }
+ export { pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharContornoDesenho23 }

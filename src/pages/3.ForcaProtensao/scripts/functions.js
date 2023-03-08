@@ -9,11 +9,15 @@ function pegarDados(obj){
     const dados = obj.rotina1.dados
     const centroide = obj.rotina1.centroide
 
+    console.log(tipo, dados, centroide)
+
     return{
         tipo: tipo,
         dados: dados,
         centroide: centroide
     }
 }
+
+
 
 export {objeto, pegarDados}
