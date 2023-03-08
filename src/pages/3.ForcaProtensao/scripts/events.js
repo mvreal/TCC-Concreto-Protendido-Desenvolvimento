@@ -1,4 +1,4 @@
-import { desenharContornoDesenho23, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
+import { desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
 import { objeto, pegarDados } from "./functions.js"
 
 
@@ -99,9 +99,14 @@ function desenhar(){
     const {tipo, dados, centroide} = pegarDados(objetoSelecionado)
     const relacaoEntreCentroideEAlturaTotal = centroide/dados.h
 
+    const disYAcimaDoCentroide = dados.h - centroide
+    const disYAbaixoDoCentroide = centroide
+    const proporcaoY = (finalEmY - inicialEmY) / dados.h
+
     apagarCanvas()
     desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
-    desenharContornoDesenho23(tipo, dados, canvas2, canvas3)
-
+    desenharDesenho23(tipo, dados, canvas2, canvas3, centroide)
+    desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1)
+    desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1)
 }
 

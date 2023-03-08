@@ -144,26 +144,39 @@ canvas3.width = displayWidth3 * scale3;
 canvas3.height = displayHeight3 * scale3;
 }
 
-function desenharContornoDesenho23(tipo, dados, canvas2, canvas3){
+function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide){
     console.log(tipo, canvas2, canvas3)
+
+    let escala;
+    const margem = 50
+
     if(tipo == 'Retangular'){
         console.log('entrou', dados, canvas2, canvas3)
-        desenharRetangulo(dados, canvas2)
-        desenharRetangulo(dados, canvas3)
+        escala = desenharRetangulo(dados, canvas2, margem)
+        desenharRetangulo(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
+        
     }else if(tipo == 'T'){
-        desenharT(dados, canvas2)
-        desenharT(dados, canvas3)
+        escala = desenharT(dados, canvas2, margem)
+        desenharT(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
+    }else if(tipo == 'I'){
+        escala = desenharI(dados, canvas2, margem)
+        desenharI(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
     }
+
 }
 
-function desenharRetangulo(dados, canvas){
+function desenharRetangulo(dados, canvas, margem){
 
     const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
     const ctx = canvas.getContext('2d')
 
     console.log(canvasWidth, canvasHeight)
-
-    const margem = 50 
 
     const altura = dados.h
     const base = dados.b
@@ -189,13 +202,14 @@ function desenharRetangulo(dados, canvas){
     ctx.lineTo(inicialx + (base * escala), 0)
     ctx.lineTo(inicialx, 0)
     ctx.stroke()
+
+    return escala
 }
 
-function desenharT(dados, canvas) {
+function desenharT(dados, canvas, margem) {
     
     const {bf, bmis, bw, h, hf, hmis} = dados
     const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
-    const margem = 50 
 
     const altura = h
     const base = Math.max(bf, bw)
@@ -225,66 +239,90 @@ function desenharT(dados, canvas) {
     ctx.lineTo(inicialx, 0) //9
     ctx.stroke()
 
+    return escala
 }
 
-// function desenharPontosIniciais(){
-//     ctx1.beginPath()
-//     ctx1.fillStyle ='red'
-//     ctx1.arc(inicialEmX, finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal), 5, 0, Math.PI * 2, true)
-//     ctx1.arc(finalEmX, finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal), 5, 0, Math.PI * 2, true)
-//     ctx1.fill()
+function desenharI(dados, canvas, margem){
 
-// }
+    const {bf, bi, bmisinf, bmissup, bw, h, hf, hi, hmisinf, hmissup} = dados
+    const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
 
-// function desenharPontoIntermediario(){
+    const altura = h
+    const base = Math.max(bf, bw, bi)
 
-//     disYAcimaDoCentroide = Number(PropriedadesDasFiguras[opcoesSalvasValue]['dados']['h']) - Number(PropriedadesDasFiguras[opcoesSalvasValue]['centroide'])
-//     disYAbaixoDoCentroide = Number(PropriedadesDasFiguras[opcoesSalvasValue]['centroide'])
+    const disponivelx = canvasWidth - (2 * margem)
+    const disponively = canvasHeight
 
-//     proporcaoY = (finalEmY - inicialEmY)/Number(PropriedadesDasFiguras[opcoesSalvasValue]['dados']['h'])
+    const escalay = disponively / altura
+    const escalax = disponivelx / base
 
-//     ctx1.beginPath()
-//     ctx1.fillStyle ='red'
-//     ctx1.arc((inicialEmX + finalEmX)/2, finalEmY, 5, 0, Math.PI * 2, true)
-//     ctx1.fill()
-// }
+    const escala = Math.min(escalay, escalax)
+    const inicialx = (canvasWidth - (base * escala)) / 2
+
+    const ctx = canvas.getContext('2d')
+
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    ctx.strokeStyle ='black'
+    ctx.setLineDash([])
+    ctx.moveTo(canvasWidth - inicialx, 0)
+    ctx.lineTo(inicialx, 0)//1
+    ctx.lineTo(inicialx,  (hf * escala)) //2 ok
+    ctx.lineTo(inicialx + ((((bf - bw) / 2) - bmissup) * escala), (hf * escala)) //3
+    ctx.lineTo(inicialx + ((((bf - bw) / 2)) * escala), ((hf + hmissup) * escala)) //4
+    ctx.lineTo(inicialx + ((((bf - bw) / 2)) * escala), ((h - hi - hmisinf) * escala)) //5
+    ctx.lineTo(inicialx + ((((bf - bw) / 2) - bmisinf) * escala), ((h - hi) * escala)) //6
+    ctx.lineTo(inicialx + ((((bf - bw) / 2) - bmisinf - ((bi - bw - (2 * bmisinf))/2)) * escala), ((h - hi) * escala)) //7
+    ctx.lineTo(inicialx + ((((bf - bw) / 2) - bmisinf - ((bi - bw - (2 * bmisinf))/2)) * escala), ((h) * escala)) //8 
+    ctx.lineTo(canvasWidth -(inicialx + ((((bf - bw) / 2) - bmisinf - ((bi - bw - (2 * bmisinf))/2)) * escala)) , ((h) * escala))
+    ctx.lineTo(canvasWidth - ( inicialx + ((((bf - bw) / 2) - bmisinf - ((bi - bw - (2 * bmisinf))/2)) * escala)), ((h - hi) * escala)) //10
+    ctx.lineTo(canvasWidth -  (inicialx + ((((bf - bw) / 2) - bmisinf) * escala)), ((h - hi) * escala)) //11
+    ctx.lineTo(canvasWidth - (inicialx + ((((bf - bw) / 2)) * escala)) , ((h - hi - hmisinf) * escala)) //12
+    ctx.lineTo(canvasWidth - (inicialx + ((((bf - bw) / 2)) * escala)) , ((hf + hmissup) * escala)) //13
+    ctx.lineTo(canvasWidth - (inicialx + ((((bf - bw) / 2) - bmissup) * escala)) , (hf * escala)) //14
+    ctx.lineTo(canvasWidth - inicialx,  (hf * escala)) //15 ok
+    ctx.lineTo(canvasWidth - inicialx, 0) //16
+    ctx.stroke()
+
+    return escala
+}
+
+function desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1){
+    ctx1.beginPath()
+    ctx1.fillStyle ='red'
+    ctx1.arc(inicialEmX, finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal), 5, 0, Math.PI * 2, true)
+    ctx1.arc(finalEmX, finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal), 5, 0, Math.PI * 2, true)
+    ctx1.fill()
+
+}
+
+function desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1){
+
+    ctx1.beginPath()
+    ctx1.fillStyle ='red'
+    ctx1.arc((inicialEmX + finalEmX)/2, finalEmY, 5, 0, Math.PI * 2, true)
+    ctx1.fill()
+}
 
 // function zerarInputs(){
 //     inputep1.value = 0
 //     inputep2.value = 0
 // }
 
-// function desenhoInicial2e3(){
-//     if(PropriedadesDasFiguras[indexSelecionado].tipo == "Retangular"){
+//Centro Geométrico do desenho 2
+function CGDesenho2ou3(canvas2, escala, altura, centroide){
+    const ctx2 = canvas2.getContext('2d')
 
-//         altura = PropriedadesDasFiguras[indexSelecionado].dados.h
-//         base = PropriedadesDasFiguras[indexSelecionado].dados.b
-//         largura = base
-//         margem = 50
-
-//         if(altura >= base){
-//             escala = (displayHeight2 - 2 * margem) / altura
-//         }else{
-//             escala = (displayHeight2 - 2 * margem) / base
-//         }
-//         //Desenhar a seção Retangular no canvas 2 e 3
-//         desenharRetangulo2()
-//         desenharRetangulo3()
-//     }
-// }
-
-// //Centro Geométrico do desenho 2
-// function CGDesenho2(){
-//     ctx2.beginPath()
-//     ctx2.lineWidth = 2
-//     ctx2.strokeStyle ='grey'
-//     ctx2.setLineDash([])
-//     ctx2.moveTo((margem + (base * escala)/2) - 10 , margem + ((altura - centroide) * escala))
-//     ctx2.lineTo((margem + (base * escala)/2) + 10, margem + ((altura - centroide) * escala))
-//     ctx2.moveTo((margem + (base * escala)/2), margem + ((altura - centroide) * escala) - 10)
-//     ctx2.lineTo((margem + (base * escala)/2), margem + ((altura - centroide) * escala)  + 10)
-//     ctx2.stroke()
-// }
+    ctx2.beginPath()
+    ctx2.lineWidth = 2
+    ctx2.strokeStyle ='grey'
+    ctx2.setLineDash([])
+    ctx2.moveTo(canvas2.width/2 - 10 , ((altura - centroide) * escala))
+    ctx2.lineTo(canvas2.width/2 + 10, ((altura - centroide) * escala))
+    ctx2.moveTo(canvas2.width/2, ((altura - centroide) * escala) - 10)
+    ctx2.lineTo(canvas2.width/2, ((altura - centroide) * escala)  + 10)
+    ctx2.stroke()
+}
 
 // //Centro Geométrico do desenho 3
 // function CGDesenho3(){
@@ -438,4 +476,4 @@ function desenharT(dados, canvas) {
 //     ctx3.fillText(Number(inputep2.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight3 - margem - (Number(inputep2.value)/2) * escala)
 // }
 
- export { pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharContornoDesenho23 }
+ export { CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais,desenharI, pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharDesenho23 }
