@@ -144,7 +144,7 @@ canvas3.width = displayWidth3 * scale3;
 canvas3.height = displayHeight3 * scale3;
 }
 
-function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide){
+function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide){
     console.log(tipo, canvas2, canvas3)
 
     let escala;
@@ -168,7 +168,11 @@ function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide){
         CGDesenho2ou3(canvas2, escala, dados.h, centroide)
         CGDesenho2ou3(canvas3, escala, dados.h, centroide)
     }
-
+    cotaAlturaDesenho2(ctx2, margem, dados.h, escala)
+    cotaArmaduraDesenho2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide,disYAbaixoDoCentroide, margem)
+    desenharArmaduraProtensao2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide)
+    desenharArmaduraProtensao3(canvas3, ctx3, dados.h, escala)
+    cotaArmaduraDesenho3(canvas3, ctx3, dados.h, margem, escala)
 }
 
 function desenharRetangulo(dados, canvas, margem){
@@ -304,11 +308,6 @@ function desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, 
     ctx1.fill()
 }
 
-// function zerarInputs(){
-//     inputep1.value = 0
-//     inputep2.value = 0
-// }
-
 //Centro Geométrico do desenho 2
 function CGDesenho2ou3(canvas2, escala, altura, centroide){
     const ctx2 = canvas2.getContext('2d')
@@ -324,69 +323,76 @@ function CGDesenho2ou3(canvas2, escala, altura, centroide){
     ctx2.stroke()
 }
 
-// //Centro Geométrico do desenho 3
-// function CGDesenho3(){
-//     ctx3.beginPath()
-//     ctx3.lineWidth = 2
-//     ctx3.strokeStyle ='grey'
-//     ctx3.setLineDash([])
-//     ctx3.moveTo((margem + (base * escala)/2) - 10 , margem + ((altura - centroide) * escala))
-//     ctx3.lineTo((margem + (base * escala)/2) + 10, margem + ((altura - centroide) * escala))
-//     ctx3.moveTo((margem + (base * escala)/2), margem + ((altura - centroide) * escala) - 10)
-//     ctx3.lineTo((margem + (base * escala)/2), margem + ((altura - centroide) * escala)  + 10)
-//     ctx3.stroke()
-// }
+function cotaAlturaDesenho2(ctx2, margem, altura, escala){
+    ctx2.beginPath()
+    ctx2.lineWidth = 2
+    ctx2.strokeStyle ='blue'
+    ctx2.setLineDash([])
+    ctx2.moveTo(margem/2 - 5, 0)
+    ctx2.lineTo(margem/2 + 5, 0)
+    ctx2.moveTo(margem/2, 0)
+    ctx2.lineTo(margem/2, altura * escala)
+    ctx2.moveTo(margem/2 - 5, altura * escala)
+    ctx2.lineTo(margem/2 + 5, altura * escala)
+    
+    ctx2.font = "12px Arial";
+    ctx2.fillStyle ='blue'
+    ctx2.fillText(altura, 0, (altura * escala)/2 -5)
+    ctx2.stroke()
+}
 
-// function escalaAlturaDesenho2(){
-//     ctx2.beginPath()
-//     ctx2.lineWidth = 2
-//     ctx2.strokeStyle ='blue'
-//     ctx2.setLineDash([])
-//     ctx2.moveTo(margem/2 - 5, margem)
-//     ctx2.lineTo(margem/2 + 5, margem)
-//     ctx2.moveTo(margem/2, margem)
-//     ctx2.lineTo(margem/2, margem + altura * escala)
-//     ctx2.moveTo(margem/2 - 5, margem + altura * escala)
-//     ctx2.lineTo(margem/2 + 5, margem + altura * escala)
-//     ctx2.stroke()
-// }
+function desenharArmaduraProtensao2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide){
+    console.log('entrou desenhar circulo', canvas2.width/2)
+    ctx2.fillStyle ='red'
+    ctx2.beginPath()
+    ctx2.arc(canvas2.width/2, (disYAcimaDoCentroide * escala), 5, 0, Math.PI * 2, true)
+    ctx2.fill()
+}
+
+function desenharArmaduraProtensao3(canvas3, ctx3, altura, escala){
+    ctx3.fillStyle ='red'
+    ctx3.beginPath()
+    ctx3.arc(canvas3.width/2,(altura * escala) , 5, 0, Math.PI * 2, true)
+    ctx3.fill()
+}
+
+function cotaArmaduraDesenho2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem){
+    console.log('cotaArmaduraDesenho2')
+    console.log(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem)
+    ctx2.strokeStyle ='red'
+    ctx2.beginPath()
+
+    ctx2.moveTo(canvas2.width - (margem/2) - 10, (disYAcimaDoCentroide * escala))
+    ctx2.lineTo(canvas2.width - (margem/2), (disYAcimaDoCentroide * escala))
+    ctx2.moveTo(canvas2.width - (margem/2) -5, (disYAcimaDoCentroide * escala))
+    ctx2.lineTo(canvas2.width - (margem/2) -5, (altura * escala))
+    ctx2.moveTo(canvas2.width - (margem/2) - 10, (altura * escala))
+    ctx2.lineTo(canvas2.width - (margem/2), (altura * escala))
+    ctx2.stroke()
+    
+    ctx2.fillStyle= 'red'
+    ctx2.beginPath()
+    ctx2.font = "12px Arial";
+    ctx2.fillText(disYAbaixoDoCentroide.toFixed(1), canvas2.width - (margem/2), (disYAcimaDoCentroide + (disYAbaixoDoCentroide/2)) * escala)
+    ctx2.fill()
+
+}
+
+function cotaArmaduraDesenho3(canvas3, ctx3, altura, margem, escala){
+    ctx3.strokeStyle = 'red'
+    ctx3.beginPath()
+    ctx3.moveTo(canvas3.width - margem/ 2 - 5, altura * escala)
+    ctx3.lineTo(canvas3.width - margem/ 2 + 5, altura * escala)
+    ctx3.stroke()
+
+    ctx3.font = "12px Arial";
+    ctx3.fillStyle ='red'
+    ctx3.fillText(0, canvas3.width - margem/2 + 10, altura * escala)
+    ctx3.stroke()
+}
 
 
-// function desenharRetangulo2(){
-//     ctx2.beginPath()
-//     ctx2.lineWidth = 2
-//     ctx2.strokeStyle ='black'
-//     ctx2.setLineDash([])
-//     ctx2.moveTo(margem, margem)
-//     ctx2.lineTo(margem, margem + (altura * escala))
-//     ctx2.lineTo(margem + (base * escala), margem + (altura * escala))
-//     ctx2.lineTo(margem + (base * escala), margem)
-//     ctx2.lineTo(margem, margem)
-//     ctx2.stroke()
-// }
 
-// function escreverTextoAltura2(){
-//     ctx2.font = "12px Arial";
-//     ctx2.beginPath()
-//     ctx2.fillStyle ='blue'
-//     ctx2.fillText(altura, (margem/2) - 15, margem + (altura * escala)/2)
-//     ctx2.stroke()
-// }
-
-
-// function desenharArmaduraProtensao2(){
-//     ctx2.beginPath()
-//     ctx2.fillStyle ='red'
-//     ctx2.arc(margem + (base * escala)/2, margem + (altura * escala)/2 , 5, 0, Math.PI * 2, true)
-//     ctx2.fill()
-// }
-
-// function desenharArmaduraProtensao3(){
-//     ctx3.beginPath()
-//     ctx3.fillStyle ='red'
-//     ctx3.arc(margem + (base * escala)/2, margem + (altura * escala) , 5, 0, Math.PI * 2, true)
-//     ctx3.fill()
-// }
 
 // function novoPontoExtremo(){
 //     ctx1.beginPath()

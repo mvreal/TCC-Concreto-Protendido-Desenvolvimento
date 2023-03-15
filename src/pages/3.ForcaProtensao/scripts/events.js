@@ -105,7 +105,7 @@ function desenhar(){
 
     apagarCanvas()
     desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
-    desenharDesenho23(tipo, dados, canvas2, canvas3, centroide)
+    desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide)
     desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1)
     desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1)
 }
