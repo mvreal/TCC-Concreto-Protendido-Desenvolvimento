@@ -97,6 +97,7 @@ function mudarOption() {
     const umidadeMedia = Number(document.getElementById('umidadeMedia').value)
     const tipoConcreto = (fck < 50) ? 1 : 2
     const coeficienteFluencia = calcularCoeficienteFluencia(umidadeMedia, espessuraFicticia, tipoConcreto, instanteAplicacaoCarga)
+    console.log('coeficienteFluencia',coeficienteFluencia)
     const momentoPesoProprioCargasPermanentes = calcularMomentoFletor(pesosProprios[0] + pesosProprios[1], vao, secoes) //kN * m
     const momentoPesoProprioCargasPermanentesSI = momentoPesoProprioCargasPermanentes.map(el => el * 1000)
 

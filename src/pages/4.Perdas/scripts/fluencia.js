@@ -55,6 +55,7 @@ function calcularInterpolacaoCoeficienteFluencia(espessura, arr){
         const deltaCoeficienteFluenciaCalculado = Number(espessura) - 20
         console.log(deltaCoeficienteFluenciaTotal, deltaCoeficienteFluenciaCalculado)
         coeficienteFluencia = espessura20[0].f_coeficiente_fluencia + (deltaCoeficienteFluenciaCalculado * deltaCoeficienteFluenciaTotal)
+        console.log(coeficienteFluencia)
         return coeficienteFluencia
     }  
 } 

@@ -40,6 +40,7 @@ function main(event){
 
   if(verificarTensoesTracao(sigmac2) == true){
     const infoDistancias = pegarDistanciasRotina1(index)
+    console.log(infoDistancias)
     const distanciaBordaSuperior = infoDistancias.hasOwnProperty('bf') ? infoDistancias['bf'] : infoDistancias['b'] 
     console.log(h, distanciaBordaSuperior, sigmac1, sigmac2)
     const AsLinha = armaduraTracaoAtoProtensao(h, distanciaBordaSuperior, sigmac1, sigmac2) // em m²
@@ -47,17 +48,23 @@ function main(event){
     const linhaNeutraVerificada = verificarLinhaNeutra(linhaNeutra)
     linhaNeutraFinal = linhaNeutraVerificada
 
-    if(linhaNeutraVerificada > Number(infoDistancias['hf'])/100){
+    if(tipo ==! 'Retangular'){
+      if(linhaNeutraVerificada > Number(infoDistancias['hf'])/100){
       const linhaNeutraAlma = calcularLinhaNeutraAlma(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha)
       const linhaNeutraAlmaVerificada = verificarLinhaNeutra(linhaNeutraAlma)
       linhaNeutraFinal = linhaNeutraAlmaVerificada
+      }
     }
+  
     
-
-    //Essa função é apenas para viga I e T, depois deve-se deduzir a equação para viga retangular
-    //TEM QUE VERIFICAR ISSO
-    const armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(linhaNeutraFinal, infoDistancias['bf'], sigmacd, Ap, fpydCalculado, fyd) 
-    const armaduraMinima = calcularArmaduraMinimaLongitudinal(fctm, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto) //m²
+    if(tipo == 'Retangular'){
+      var armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(linhaNeutraFinal, infoDistancias['b'], sigmacd, Ap, fpydCalculado, fyd) 
+      var armaduraMinima = calcularArmaduraMinimaLongitudinal(fctm, w1, infoDistancias['b'], ds, sigmacd, fyd, areaConcreto) //m²
+    }else if(tipo == "T" || tipo =='I'){
+      var armaduraLongitudinalCalculada = calcularArmaduraLongitudinal(linhaNeutraFinal, infoDistancias['bf'], sigmacd, Ap, fpydCalculado, fyd) 
+      var armaduraMinima = calcularArmaduraMinimaLongitudinal(fctm, w1, infoDistancias['bf'], ds, sigmacd, fyd, areaConcreto) //m²
+    }
+   
     console.log(armaduraLongitudinalCalculada, armaduraMinima)
     const armaduraLongitudinalAdotada = Math.max(armaduraLongitudinalCalculada, armaduraMinima) // Armadura final em m²
 
@@ -82,7 +89,13 @@ function main(event){
     console.log('esforcoCortanteReduzidoProjeto' + esforcoCortanteReduzidoProjeto)
 
     //Espessura da alma corrigida
-    const bwcorrigido = (infoDistancias['bw']/100) - (diametroBainha/2000) // m
+    if(tipo == "T" || tipo =='I'){
+    var bwcorrigido = (infoDistancias['bw']/100) - (diametroBainha/2000) // m
+    }
+    if(tipo == "Retangular"){
+      var bwcorrigido = (infoDistancias['b']/100) - (diametroBainha/2000) // m
+    }
+      
     //Verificação do esmagamento do concreto
     const fcd = fck / 1.4 //MPa
     //Tensão limite
@@ -109,8 +122,14 @@ function main(event){
     console.log('taud: ' + taud)
     const taxaArmaduraTransversal = calcularTaxaArmaduraTransversal(taud, fyd, fctm)
     console.log('taxaArmaduraTransversal' + taxaArmaduraTransversal)
-    const areaAco = calcularAreaAco(taxaArmaduraTransversal, infoDistancias['bw'])
-    
+
+    if(tipo == "T" || tipo =='I'){
+      var areaAco = calcularAreaAco(taxaArmaduraTransversal, infoDistancias['bw'])
+      }
+      if(tipo == "Retangular"){
+      var areaAco = calcularAreaAco(taxaArmaduraTransversal, infoDistancias['b'])
+      }
+
     escreverTextos(AsLinha, armaduraLongitudinalAdotada, tauwd, tauwu, areaAco) //As' em m² 
   }  
 }

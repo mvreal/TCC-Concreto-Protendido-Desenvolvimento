@@ -90,6 +90,20 @@ function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd,
 
     const dadosRotina1 = dadosSalvosdaRotina5[index]['dadosRotina4']['dadosSalvosdaRotina3']['rotina2']['rotina1']['dados']
 
+    if(tipo == 'Retangular'){
+        let { b, h } = dadosRotina1
+        b = b / 100
+        h = h / 100
+
+        const a = - 0.32 * sigmacd * b
+        const be = 0.8 * sigmacd * b * ds
+        const c = (AsLinha * fyd * (ds - 0.05)) + (- fpyd * Ap * (ds - dp)) - Mdmax
+        console.log(a,be,c)
+
+        return bhaskara(a, be, c)
+    }
+
+    
     if (tipo == 'T' || tipo == 'I') {
 
         let { bf, hf, bw, h, bmis, hmis } = dadosRotina1
@@ -166,7 +180,7 @@ function pegarDistanciasRotina1(index) {
             bmis: bmis,
             hmis: hmis
         }
-    } else if (tipo == 'Rentangular') {
+    } else if (tipo == 'Retangular') {
 
         let { b, h } = dadosRotina1
 
@@ -184,6 +198,7 @@ function calcularfyd(number) {
 function bhaskara(a, b, c) {
     //ax² + bx + c = 0
 
+    console.log(a,b,c)
     const delta = (b ** 2) - 4 * a * c
     const raiz1 = (- b + Math.sqrt(delta)) / (2 * a)
     console.log(raiz1)
@@ -257,6 +272,8 @@ function calcularArmaduraLongitudinal(LN,bf, sigmacd, Ap, fpyd, fyd){
     Ap = Ap/1000000
     fpyd = fpyd * 1000000
     fyd = fyd * 1000000
+
+    console.log(LN,bf, sigmacd, Ap, fpyd, fyd)
 
     const As = (0.8 * LN * bf * sigmacd - (fpyd * Ap))/fyd
     console.log(As)

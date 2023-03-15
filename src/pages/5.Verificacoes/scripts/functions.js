@@ -257,12 +257,14 @@ function calcularCombinacoesProtensaoLimitada(Pinf, Ac, ep, w1, w2, psi1, psi2, 
     for(let i = 0; i < Pinf.length; i++){
 
         sigmac1QP[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi2 * Mq[i])) / w1)
+        console.log((-Pinf[i] * ((1 / Ac) + (ep[i] / w1))), (Mg[i] + (psi2 * Mq[i])) / w1)
         sigmac2QP[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi2 * Mq[i])) / w2)
 
         sigmac1F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w1))) - ((Mg[i] + (psi1 * Mq[i])) / w1)
         sigmac2F[i] = (-Pinf[i] * ((1 / Ac) + (ep[i] / w2))) - ((Mg[i] + (psi1 * Mq[i])) / w2)
     }
-
+    
+    console.log(Pinf, Ac, ep, w1, Mg, psi2, Mq)
     limiteSigmac1QP = 0
     limiteSigmac2QP = -0.7 * fck
 

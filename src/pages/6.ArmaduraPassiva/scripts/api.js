@@ -14,3 +14,4 @@ window.api.enviarDados((data) => {
     dadosSalvosdaRotina5 = data[4]
     dadosSalvosdaRotina6 = data[5]
 })
+
