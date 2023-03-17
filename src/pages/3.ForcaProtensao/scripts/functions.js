@@ -18,6 +18,14 @@ function pegarDados(obj){
     }
 }
 
+function mostrarInputs(){
+    
+    const [inputsRange] = [document.querySelectorAll("input[type='range']")]
+    const arr = [...inputsRange]
+    arr.map(element => element.setAttribute("class", "inputep inline-block m-0 height height-30 margin-auto"))
+
+}
 
 
-export {objeto, pegarDados}
+
+export {mostrarInputs, objeto, pegarDados}

@@ -36,6 +36,8 @@
 //     getInputsRange[1].max = Math.floor(disYAbaixoDoCentroide)
 // }
 
+// Funções de desenho ativas pelo botão --------------------------------------------------------------------------------------------------------- 
+
 function apagarCanvas(){
     let pegarCanvas = document.querySelectorAll('canvas')
     pegarCanvas.forEach((element)=>{
@@ -391,7 +393,7 @@ function cotaArmaduraDesenho3(canvas3, ctx3, altura, margem, escala){
     ctx3.stroke()
 }
 
-
+//---------------------------------------------------------------------------------------------------------
 
 
 // function novoPontoExtremo(){

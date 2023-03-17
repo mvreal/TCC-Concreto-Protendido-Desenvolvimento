@@ -1,5 +1,5 @@
 import { desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
-import { objeto, pegarDados } from "./functions.js"
+import { mostrarInputs, objeto, pegarDados } from "./functions.js"
 
 
 const [inputep1, inputep2] = document.querySelectorAll('.inputep')
@@ -89,7 +89,7 @@ function changeInputs(){
 
 function desenhar(){
 
-    
+    mostrarInputs()
 
     const objetoSelecionado = objeto()
     const {inicialEmX, inicialEmY, finalEmX, finalEmY} = pontosIniciais()
