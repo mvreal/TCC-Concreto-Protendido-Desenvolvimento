@@ -147,7 +147,6 @@ canvas3.height = displayHeight3 * scale3;
 }
 
 function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide){
-    console.log(tipo, canvas2, canvas3)
 
     let escala;
     const margem = 50
@@ -172,10 +171,45 @@ function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3,
     }
     cotaAlturaDesenho2(ctx2, margem, dados.h, escala)
     cotaArmaduraDesenho2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide,disYAbaixoDoCentroide, margem)
-    desenharArmaduraProtensao2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide)
+    desenharArmaduraProtensao2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide)
     desenharArmaduraProtensao3(canvas3, ctx3, dados.h, escala)
     cotaArmaduraDesenho3(canvas3, ctx3, dados.h, margem, escala)
 }
+
+function redesenharDesenho2e3(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide, valoresInputs){
+    let escala;
+    const margem = 50
+
+    if(tipo == 'Retangular'){
+        escala = desenharRetangulo(dados, canvas2, margem)
+        desenharRetangulo(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
+        
+    }else if(tipo == 'T'){
+        escala = desenharT(dados, canvas2, margem)
+        desenharT(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
+    }else if(tipo == 'I'){
+        escala = desenharI(dados, canvas2, margem)
+        desenharI(dados, canvas3, margem)
+        CGDesenho2ou3(canvas2, escala, dados.h, centroide)
+        CGDesenho2ou3(canvas3, escala, dados.h, centroide)
+    }
+    cotaAlturaDesenho2(ctx2, margem, dados.h, escala)
+
+
+    redesenharCotaArmaduraDesenho2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide, valoresInputs[0], disYAbaixoDoCentroide, margem)
+    redesenharArmaduraProtensao2(canvas2, ctx2, dados.h, escala, disYAcimaDoCentroide, valoresInputs[0])
+    redesenharArmaduraProtensao3(canvas3, ctx3, dados.h, escala, valoresInputs[1])
+    redesenharCotaArmaduraDesenho3(canvas3, ctx3, valoresInputs[1], margem, escala, dados.h)
+
+}
+
+
+
+
 
 function desenharRetangulo(dados, canvas, margem){
 
@@ -344,10 +378,17 @@ function cotaAlturaDesenho2(ctx2, margem, altura, escala){
 }
 
 function desenharArmaduraProtensao2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide){
-    console.log('entrou desenhar circulo', canvas2.width/2)
+    
     ctx2.fillStyle ='red'
     ctx2.beginPath()
     ctx2.arc(canvas2.width/2, (disYAcimaDoCentroide * escala), 5, 0, Math.PI * 2, true)
+    ctx2.fill()
+}
+
+function redesenharArmaduraProtensao2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, input){
+    ctx2.fillStyle ='red'
+    ctx2.beginPath()
+    ctx2.arc(canvas2.width/2, ((disYAcimaDoCentroide - input) * escala), 5, 0, Math.PI * 2, true)
     ctx2.fill()
 }
 
@@ -358,8 +399,15 @@ function desenharArmaduraProtensao3(canvas3, ctx3, altura, escala){
     ctx3.fill()
 }
 
+function redesenharArmaduraProtensao3(canvas3, ctx3, altura, escala, input){
+    ctx3.fillStyle ='red'
+    ctx3.beginPath()
+    ctx3.arc(canvas3.width/2,((altura - input) * escala) , 5, 0, Math.PI * 2, true)
+    ctx3.fill()
+}
+
 function cotaArmaduraDesenho2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem){
-    console.log('cotaArmaduraDesenho2')
+
     console.log(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem)
     ctx2.strokeStyle ='red'
     ctx2.beginPath()
@@ -380,6 +428,27 @@ function cotaArmaduraDesenho2(canvas2, ctx2, altura, escala, disYAcimaDoCentroid
 
 }
 
+function redesenharCotaArmaduraDesenho2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, input, disYAbaixoDoCentroide, margem){
+
+    ctx2.strokeStyle ='red'
+    ctx2.beginPath()
+
+    ctx2.moveTo(canvas2.width - (margem/2) - 10, ((disYAcimaDoCentroide - input) * escala))
+    ctx2.lineTo(canvas2.width - (margem/2), ((disYAcimaDoCentroide - input) * escala))
+    ctx2.moveTo(canvas2.width - (margem/2) -5, ((disYAcimaDoCentroide - input) * escala))
+    ctx2.lineTo(canvas2.width - (margem/2) -5, (altura * escala))
+    ctx2.moveTo(canvas2.width - (margem/2) - 10, (altura * escala))
+    ctx2.lineTo(canvas2.width - (margem/2), (altura * escala))
+    ctx2.stroke()
+    
+    ctx2.fillStyle= 'red'
+    ctx2.beginPath()
+    ctx2.font = "12px Arial"
+    ctx2.fillText((input + disYAbaixoDoCentroide).toFixed(1), canvas2.width - (margem/2), ((altura - (input + disYAbaixoDoCentroide)/2)) * escala)
+    ctx2.fill()
+
+}
+
 function cotaArmaduraDesenho3(canvas3, ctx3, altura, margem, escala){
     ctx3.strokeStyle = 'red'
     ctx3.beginPath()
@@ -390,6 +459,24 @@ function cotaArmaduraDesenho3(canvas3, ctx3, altura, margem, escala){
     ctx3.font = "12px Arial";
     ctx3.fillStyle ='red'
     ctx3.fillText(0, canvas3.width - margem/2 + 10, altura * escala)
+    ctx3.stroke()
+}
+
+function redesenharCotaArmaduraDesenho3(canvas3, ctx3, input, margem, escala, altura){
+    ctx3.strokeStyle = 'red'
+    ctx3.beginPath()
+    ctx3.moveTo(canvas3.width - margem/ 2 - 5, altura * escala)
+    ctx3.lineTo(canvas3.width - margem/ 2 + 5, altura * escala)
+    ctx3.moveTo(canvas3.width - margem/ 2, altura * escala)
+    ctx3.lineTo(canvas3.width - margem/ 2, (altura - input) * escala)
+    ctx3.moveTo(canvas3.width - margem/ 2 - 5, (altura - input) * escala)
+    ctx3.lineTo(canvas3.width - margem/ 2 + 5, (altura - input) * escala)
+
+    ctx3.stroke()
+
+    ctx3.font = "12px Arial";
+    ctx3.fillStyle ='red'
+    ctx3.fillText(input, canvas3.width - margem/2 + 10, ((altura) - input/2) * escala)
     ctx3.stroke()
 }
 
@@ -484,4 +571,4 @@ function cotaArmaduraDesenho3(canvas3, ctx3, altura, margem, escala){
 //     ctx3.fillText(Number(inputep2.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight3 - margem - (Number(inputep2.value)/2) * escala)
 // }
 
- export { CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais,desenharI, pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharDesenho23 }
+ export { redesenharDesenho2e3, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais,desenharI, pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharDesenho23 }

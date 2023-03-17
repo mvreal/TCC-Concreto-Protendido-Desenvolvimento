@@ -1,9 +1,10 @@
-import { desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
-import { mostrarInputs, objeto, pegarDados } from "./functions.js"
+import { redesenharDesenho2e3, desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
+import { adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados } from "./functions.js"
 
 
 const [inputep1, inputep2] = document.querySelectorAll('.inputep')
 const btnDesenhar = document.getElementById('btnDesenhar')
+const select = document.getElementById('opcoes-salvas')
 
 window.addEventListener('DOMContentLoaded', () => {
     carregarElementos()
@@ -12,9 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 btnDesenhar.addEventListener('click', desenhar)
 
-// inputep1.addEventListener('change', changeInputs)
-// inputep2.addEventListener('change', changeInputs)
+inputep1.addEventListener('change', mudarInputs)
+inputep2.addEventListener('change', mudarInputs)
 
+select.addEventListener('change', mudarSelect)
 
 function carregarElementos(){
     const opcoesSalvas = document.getElementById('opcoes-salvas')
@@ -36,59 +38,32 @@ function carregarElementos(){
     })
 }
 
+function mudarInputs(){
 
-
-function changeInputs(){
-
-    const {inicialEmX, iniciamEmY, finalEmX, finalEmY} = pontosIniciais()
-    const {ctx1, ctx2, ctx3} = pegarctx()
+    const valoresInputs = [Number(inputep1.value), Number(inputep2.value)]
     
+    const objetoSelecionado = objeto()
+    const {inicialEmX, inicialEmY, finalEmX, finalEmY} = pontosIniciais()
 
-    //Aoagar tudo o que há no canvas 1,2 e 3
+    arrumarEscala()
+    const {canvas1, canvas2, canvas3, ctx1, ctx2, ctx3} = pegarCanvasCtx()
+    const {tipo, dados, centroide} = pegarDados(objetoSelecionado)
+    const relacaoEntreCentroideEAlturaTotal = centroide/dados.h
+
+    const disYAcimaDoCentroide = dados.h - centroide
+    const disYAbaixoDoCentroide = centroide
+    const proporcaoY = (finalEmY - inicialEmY) / dados.h
+
     apagarCanvas()
-    //Desenhar a seção no canvas 1 (desenho principal)
-    desenharDesenhoInicial(inicialEmX, iniciamEmY, finalEmX, finalEmY, ctx1)
-    //Desenhar a seção transversal no canvas 2 e 3
-    desenhoInicial2e3()
-    //Desenhar o ponto vermelho referente a posição do cabo de protenção na extremidade da viga
-    novoPontoExtremo()
-    //Desenhar o ponto vermelho referente a posição do cabo de protenção no centro da seção longitudinal
-    novoPontoIntermediario()
-    //Escala da altura do desenho 2
-    escalaAlturaDesenho2()
-    //Escrevendo o texto da altura do desenho 2
-    escreverTextoAltura2()
-
-    //Pontos vermelhos do desenho 2 e 3
-    novoPontoExtremoDesenho2()
-    novoPontoCentroDesenho3()
-
-    //Centro Geometrico do Denhenho 2 e 3
-    CGDesenho2()
-    CGDesenho3()
-
-    //Desenhando a cota do centro geométrico do desenho 2 e 3
-    desenharCotaCG2()
-
-    //Escrever a cota do centro geométrico para o desenho 2
-    escreverCotaCG2()
-
-    //Desenhar a cota do cabo de protensao para o desenho 2
-    desenharCotaCaboProtensao2()
-
-    //Escrevendo a cota do cabo de Prontensão para o desenho 2
-    escreverCotaCaboProtensao2()
-
-    //desenhando a cota do cabo de protensao do desenho 2
-    desenharCotaCaboProtensao3()
-
-    //Escrever o texto da referente a cota do cabo de protenção do desenho 3
-    escreverCotaCaboProtensao3()
+    desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
+    redesenharDesenho2e3(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide, valoresInputs)
+    
 
 }
 
 function desenhar(){
 
+    mudarSelect()
     mostrarInputs()
 
     const objetoSelecionado = objeto()
@@ -108,5 +83,10 @@ function desenhar(){
     desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3, disYAcimaDoCentroide, disYAbaixoDoCentroide)
     desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1)
     desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1)
+    adicionarFuncionalidadeRangeInput(disYAcimaDoCentroide, disYAbaixoDoCentroide)
 }
 
+function mudarSelect(){
+    inputep1.value = inputep1['min']
+    inputep2.value = inputep2['min']
+}

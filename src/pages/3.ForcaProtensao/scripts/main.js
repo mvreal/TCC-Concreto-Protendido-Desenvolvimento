@@ -1,5 +1,5 @@
-// import { modificarCanvas, mudarRange, apagarCanvas, desenharDesenhoInicial, desenharPontosIniciais, desenharPontoIntermediario, zerarInputs, desenhoInicial2e3, CGDesenho2, CGDesenho3, escalaAlturaDesenho2, desenharRetangulo2, escreverTextoAltura2, desenharRetangulo3, desenharArmaduraProtensao2, desenharArmaduraProtensao3, novoPontoExtremo, novoPontoIntermediario, novoPontoExtremoDesenho2, novoPontoCentroDesenho3, desenharCotaCG2, escreverCotaCG2, desenharCotaCaboProtensao2, escreverCotaCaboProtensao2, desenharCotaCaboProtensao3, escreverCotaCaboProtensao3 } from './desenho.js'
- 
+import { pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions"; 
+
 // //Variaveis que precisam ser acessadas em mais de uma função
 
 // let PropriedadesDasFiguras = []
@@ -67,6 +67,7 @@
 
 
 // //--------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 // let w1, w2, tipo, area, g1, g2, g, q, esfDistQuasePermanente, esfDistFrequente,esfDistRara, objRotina3, resultadosDaRotina3 = [], resFct, fct_f, contador = 0 //Apenas quando nao tem dados salvos --> depois tem que alterar a lógica

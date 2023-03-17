@@ -26,6 +26,14 @@ function mostrarInputs(){
 
 }
 
+function adicionarFuncionalidadeRangeInput(disYAcimaDoCentroide, disYAbaixoDoCentroide){
+    const [input1, input2] = [document.querySelectorAll("input[type='range']")[0], document.querySelectorAll("input[type='range']")[1]]
+    input1.setAttribute('min', 0)
+    input1.setAttribute('max', disYAcimaDoCentroide)
+    input2.setAttribute('min', 0)
+    input2.setAttribute('max', disYAbaixoDoCentroide)
+}
 
 
-export {mostrarInputs, objeto, pegarDados}
+
+export { adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
