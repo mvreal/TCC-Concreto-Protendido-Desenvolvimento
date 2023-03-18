@@ -1,81 +1,27 @@
-import { pegarInputRange, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions.js"; 
+import { calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions.js"; 
 
 
-function main(objetoSelecionado){
+function main(){
     
     const objetoSelecionado = objeto()
-    const {area, centroide, b, h, ixg, tipo, w1, w2} = pegarDadosRotina1(objetoSelecionado)   
-    const {vao, g1,g2, q, qsi1, qsi2} = pegarDadosRotina2(objetoSelecionado)
-    const {input1, input2} = pegarInputRange()
+    console.log(objetoSelecionado)
+    const { area, centroide, b, h, ixg, tipo, w1, w2 } = pegarDadosRotina1(objetoSelecionado)   
+    const { vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara} = pegarDadosRotina2(objetoSelecionado)
+    const { input1, input2, fck, grauProtensao, numSecoes } = pegarInputs()
+    const { fctm, fctk_inf, fct_f } = calcularFct(fck, tipo)
 
+    console.log(fctm, fctk_inf, fct_f)
+
+    let ponto1 = [0, input1 + centroide]
+    let ponto2 = [vao/2,input2]
+    let ponto3 = [vao, input1 + centroide]
+
+    const n = input2
+    const m = input1 + centroide
 }
     
 
 export { main }   
-
-// //Variaveis que precisam ser acessadas em mais de uma função
-
-// let PropriedadesDasFiguras = []
-// let figuras = []
-// let opcoesSalvas = document.getElementById('opcoes-salvas')
-// let dadosFinal = []
-
-// //Descobrir o index do input selecionado
-// let indexSelecionado
-
-// let canvas1 = document.getElementById('canvas1')
-// let canvas2 = document.getElementById('canvas2')
-// let canvas3 = document.getElementById('canvas3')
-
-// let ctx1 = canvas1.getContext('2d')
-// let ctx2 = canvas2.getContext('2d')
-// let ctx3 = canvas3.getContext('2d')
-
-// //Pegando os inputs
-// let inputep1 = document.getElementById('inputep1')
-// let inputep2 = document.getElementById('inputep2')
-
-// //Variaveis para representar: 1- distância entre a borda superior e o centroide 2- distância entre a borda inferior e centroide
-// let disYAcimaDoCentroide
-// let disYAbaixoDoCentroide
-
-// //Pegando apenas o centroide das figuras
-// let centroide
-
-// //Propriedades para fazer os desenhos secundários (canvas 2 e canvas 3)
-// let altura
-// let base
-// let margem
-
-// //A largura é a maior dimenssão horizontal da seção transversal
-// let largura
-
-// //Variavis que determinam o tamanho do retângulo que representa a viga (desenho 1)
-// let inicialEmX = 10
-// let inicialEmY = 10
-// let finalEmX = 590
-// let finalEmY = 110
-
-// //Variável para determinar a proporção entre a imagem em pixel e o tamanho em cm do desenho 1
-// let proporcaoY
-
-// //Pegar o grau de protensao
-// let grauProtensao
-
-
-// //Escala do desenho 2 e 3 em função da altura e largura
-// let escala
-
-// //----------------------------------------------------------------------------------------------------------------------------------
-// //Modifica a tag canvas sempre que há uma troca nas opções que devem ser selecionadas
-
-// let opcoesSalvasValue
-
-// opcoesSalvas.addEventListener('change', modificarCanvas)
-
-// //--------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 
@@ -93,9 +39,6 @@ export { main }
 
 // function dimensionarForcaFinal(){
 
-//     //Definindo o grau de protensão --> Completa ou Limitada
-//     grauProtensao = document.getElementById('grau-protensao').value
-
 
 //     //Pegar o vao que eu quero dimensionar indexSelecionado
 //     let vao = dadosSalvosdaRotina2[indexSelecionado]['Vao']
@@ -103,12 +46,7 @@ export { main }
 //     let dadosCombinacoes = dadosSalvosdaRotina2[indexSelecionado]['dados']
 //     console.log(dadosSalvosdaRotina2)
 
-//     let ponto1 = [0, Number(inputep1.value) + centroide]
-//     let ponto2 = [vao/2,Number(inputep2.value)]
-//     let ponto3 = [vao, Number(inputep1.value) + centroide]
 
-//     let n = Number(inputep2.value)
-//     let m = Number(inputep1.value) + centroide
 
 //     esfDistQuasePermanente = dadosSalvosdaRotina2[indexSelecionado]['combinacoes']['quase-permanente']['cargaDistribuidaMaxima']
 //     esfDistFrequente = dadosSalvosdaRotina2[indexSelecionado]['combinacoes']['frequente']['cargaDistribuidaMaxima']
@@ -174,36 +112,6 @@ export { main }
 
 // }
 
-// function calcularFct(){
-//     let inputFckValue = document.getElementById('fck').value
-
-//     let fctm = 0.3 * (inputFckValue)**(2/3)
-//     let fctk_inf = 0.7 * fctm
-//     let fct_f
-
-//     switch(tipo){
-//         case 'Retangular':
-//         fct_f = 1.5 * fctk_inf
-//         break
-//         case 'I':
-//         fct_f = 1.3 * fctk_inf //Depois trocar para 1.3
-//         break
-//         case 'T':
-//         fct_f = 1.2 * fctk_inf
-//         break
-//         default:
-//         console.log('Houve um erro ao definir o tipo de estrutura')
-//     }
-
-//     let resultadoCalcularFct = {
-//         'fctm': fctm,
-//         'fctk_inf': fctk_inf,
-//         'fct_f': fct_f
-//     }
-
-//     return resultadoCalcularFct
-
-// }
 
 // let celulas, pegarUltimoRegistro
 

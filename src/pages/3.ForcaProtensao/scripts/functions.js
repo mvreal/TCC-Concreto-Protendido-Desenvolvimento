@@ -50,6 +50,11 @@ function pegarDadosRotina1(objeto){
 
 function pegarDadosRotina2(objeto){
 
+//     esfDistQuasePermanente = dadosSalvosdaRotina2[indexSelecionado]['combinacoes']['quase-permanente']['cargaDistribuidaMaxima']
+//     esfDistFrequente = dadosSalvosdaRotina2[indexSelecionado]['combinacoes']['frequente']['cargaDistribuidaMaxima']
+//     esfDistRara = dadosSalvosdaRotina2[indexSelecionado]['combinacoes']['rara']['cargaDistribuidaMaxima']
+
+
     return{
         vao: Number(objeto.Vao),
         g1: objeto.dados.carregamentos.g1,
@@ -57,6 +62,9 @@ function pegarDadosRotina2(objeto){
         q: objeto.dados.carregamentos.q,
         qsi1: objeto.dados.coeficientesServico.qsi1,
         qsi2: objeto.dados.coeficientesServico.qsi2,
+        esfDistQuasePermanente: objeto.combinacoes['quase-permanente'].cargaDistribuidaMaxima,
+        esfDistFrequente: objeto.combinacoes.frequente.cargaDistribuidaMaxima,
+        esfDistRara: objeto.combinacoes.rara.cargaDistribuidaMaxima
     }
 }
 
@@ -77,4 +85,36 @@ function pegarInputs(){
     }
 }
 
-export { pegarInputRange, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
+function calcularFct(fck, tipo){
+
+    console.log(fck, tipo)
+
+    let fctm = 0.3 * (fck)**(2/3)
+    let fctk_inf = 0.7 * fctm
+    let fct_f
+
+    switch(tipo){
+        case 'Retangular':
+        fct_f = 1.5 * fctk_inf
+        break
+        case 'I':
+        fct_f = 1.3 * fctk_inf //Depois trocar para 1.3
+        break
+        case 'T':
+        fct_f = 1.2 * fctk_inf
+        break
+        default:
+        console.log('Houve um erro ao definir o tipo de estrutura')
+    }
+
+    let resultadoCalcularFct = {
+        fctm: fctm,
+        fctk_inf: fctk_inf,
+        fct_f: fct_f
+    }
+
+    return resultadoCalcularFct
+
+}
+
+export { calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }

@@ -86,7 +86,7 @@ function desenhar(){
     desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1)
     desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1)
     adicionarFuncionalidadeRangeInput(disYAcimaDoCentroide, disYAbaixoDoCentroide)
-    main(objetoSelecionado)
+    
 }
 
 function mudarSelect(){
