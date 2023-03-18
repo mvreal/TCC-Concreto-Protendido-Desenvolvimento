@@ -1,40 +1,3 @@
-// function modificarCanvas(){
-
-//     const opcoesSalvasValue = document.getElementById('opcoes-salvas').value
-//     const indexSelecionado = this.value
-
-//     apagarCanvas()
-//     mudarRange()
-//     desenharDesenhoInicial()
-//     desenharPontosIniciais()
-//     desenharPontoIntermediario()
-//     zerarInputs()
-//     desenhoInicial2e3()
-
-//     //Centro Geométrico do desenho 2 e 3
-//     CGDesenho2()
-//     CGDesenho3()
-
-//     //Escala da altura do desenho 2
-//     escalaAlturaDesenho2()
-
-//     //Escrevendo o texto da altura do desenho 2
-//     escreverTextoAltura2()
-
-//     //Desenhando a armadura de protensão no desenho 2 e 3
-//     desenharArmaduraProtensao2()
-//     desenharArmaduraProtensao3()
-// }
-
-// function mudarRange(){
-
-//     const disYAcimaDoCentroide = Number(PropriedadesDasFiguras[opcoesSalvasValue]['dados']['h']) - Number(PropriedadesDasFiguras[opcoesSalvasValue]['centroide'])
-//     const disYAbaixoDoCentroide = Number(PropriedadesDasFiguras[opcoesSalvasValue]['centroide'])
-
-//     getInputsRange = [document.getElementById('inputep1'),document.getElementById('inputep2')]
-//     getInputsRange[0].max = Math.floor(disYAcimaDoCentroide)
-//     getInputsRange[1].max = Math.floor(disYAbaixoDoCentroide)
-// }
 
 // Funções de desenho ativas pelo botão --------------------------------------------------------------------------------------------------------- 
 
@@ -206,9 +169,6 @@ function redesenharDesenho2e3(tipo, dados, canvas2, canvas3, centroide, ctx2, ct
     redesenharCotaArmaduraDesenho3(canvas3, ctx3, valoresInputs[1], margem, escala, dados.h)
 
 }
-
-
-
 
 
 function desenharRetangulo(dados, canvas, margem){
@@ -482,93 +442,5 @@ function redesenharCotaArmaduraDesenho3(canvas3, ctx3, input, margem, escala, al
 
 //---------------------------------------------------------------------------------------------------------
 
-
-// function novoPontoExtremo(){
-//     ctx1.beginPath()
-//     ctx1.fillStyle ='red'
-//     ctx1.arc(inicialEmX , finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal) - ((Number(inputep1.value) * proporcaoY))  , 5, 0, Math.PI * 2, true)
-//     ctx1.arc(finalEmX , finalEmY - ((finalEmY - inicialEmY) * relacaoEntreCentroideEAlturaTotal) - ((Number(inputep1.value) * proporcaoY))  , 5, 0, Math.PI * 2, true)
-//     ctx1.fill()
-// }
-
-// function novoPontoIntermediario(){
-//     ctx1.beginPath()
-//     ctx1.fillStyle ='red'
-//     ctx1.arc((inicialEmX + finalEmX)/2 , finalEmY - ((Number(inputep2.value) * proporcaoY))  , 5, 0, Math.PI * 2, true)
-//     ctx1.fill()
-// }
-
-// function novoPontoExtremoDesenho2(){
-//     ctx2.beginPath()
-//     ctx2.fillStyle ='red'
-//     ctx2.arc(margem + (base * escala)/2, (displayHeight2 - margem) - ((Number(inputep1.value) + disYAbaixoDoCentroide)  * escala) , 5, 0, Math.PI * 2, true)
-//     ctx2.fill()
-// }
-
-// function novoPontoCentroDesenho3(){
-//     ctx3.beginPath()
-//     ctx3.fillStyle ='red'
-//     ctx3.arc(margem + (base * escala)/2, (displayHeight3 - margem) - (Number(inputep2.value) * escala) , 5, 0, Math.PI * 2, true)
-//     ctx3.fill()
-// }
-
-// function desenharCotaCG2(){
-//     ctx2.beginPath()
-//     ctx2.lineWidth = 2
-//     ctx2.strokeStyle ='grey'
-//     ctx2.setLineDash([])
-//     ctx2.moveTo(3*margem/2 + (largura * escala)  - 5, displayHeight2 - margem)
-//     ctx2.lineTo(3*margem/2 + (largura * escala) + 5, displayHeight2 - margem)
-//     ctx2.moveTo(3*margem/2 + (largura * escala), displayHeight2 - margem)
-//     ctx2.lineTo(3*margem/2 + (largura * escala), displayHeight2 - margem - disYAbaixoDoCentroide * escala)
-//     ctx2.moveTo(3*margem/2 + (largura * escala) - 5, displayHeight2 - margem - disYAbaixoDoCentroide * escala)
-//     ctx2.lineTo(3*margem/2 + (largura * escala) + 5, displayHeight2 - margem - disYAbaixoDoCentroide * escala)
-//     ctx2.stroke()
-// }
-
-// function escreverCotaCG2(){
-//     ctx2.beginPath()
-//     ctx2.fillStyle ='grey'
-//     ctx2.fillText(Number(disYAbaixoDoCentroide).toFixed(0), 3*margem/2 + (largura * escala)  - 15, displayHeight2 - margem - (disYAbaixoDoCentroide * escala)/2)
-// }
-
-// function desenharCotaCaboProtensao2(){
-//     ctx2.beginPath()
-//     ctx2.lineWidth = 2
-//     ctx2.strokeStyle = 'red'
-//     ctx2.setLineDash([])
-//     ctx2.moveTo(3 * margem / 2 + (largura * escala), displayHeight2 - margem - disYAbaixoDoCentroide * escala)
-//     ctx2.lineTo(3 * margem / 2 + (largura * escala), displayHeight2 - margem - (Number(inputep1.value) + disYAbaixoDoCentroide) * escala)
-//     ctx2.moveTo(3 * margem / 2 + (largura * escala) - 5, displayHeight2 - margem - (Number(inputep1.value) + disYAbaixoDoCentroide) * escala)
-//     ctx2.lineTo(3 * margem / 2 + (largura * escala) + 5, displayHeight2 - margem - (Number(inputep1.value) + disYAbaixoDoCentroide) * escala)
-//     ctx2.stroke()
-// }
-
-// function escreverCotaCaboProtensao2(){
-//     ctx2.beginPath()
-//     ctx2.fillStyle = 'red'
-//     ctx2.fillText(Number(inputep1.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight2 - margem - (Number(inputep1.value)/2 + disYAbaixoDoCentroide) * escala)
-// }
-
-// function desenharCotaCaboProtensao3(){
-//     ctx3.beginPath()
-//     ctx3.lineWidth = 2
-//     ctx3.strokeStyle ='red'
-//     ctx3.setLineDash([])
-//     ctx3.moveTo(3*margem/2 + (largura * escala)  - 5, displayHeight3 - margem)
-//     ctx3.lineTo(3*margem/2 + (largura * escala) + 5, displayHeight3 - margem)
-//     ctx3.moveTo(3*margem/2 + (largura * escala), displayHeight3 - margem)
-//     ctx3.lineTo(3*margem/2 + (largura * escala), displayHeight3 - margem - Number(inputep2.value) * escala)
-//     ctx3.moveTo(3*margem/2 + (largura * escala) - 5, displayHeight3 - margem - Number(inputep2.value) * escala)
-//     ctx3.lineTo(3*margem/2 + (largura * escala) + 5, displayHeight3 - margem - Number(inputep2.value) * escala)
-//     ctx3.stroke()
-// }
-
-// function escreverCotaCaboProtensao3(){
-//     ctx3.font = "12px Arial";
-//     ctx3.beginPath()
-//     ctx3.fillStyle = 'red'
-//     ctx3.fillText(Number(inputep2.value).toFixed(0), 3 * margem / 2 + (largura * escala)  - 15, displayHeight3 - margem - (Number(inputep2.value)/2) * escala)
-// }
 
  export { redesenharDesenho2e3, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais,desenharI, pegarCanvasCtx, pontosIniciais, apagarCanvas, desenharDesenhoInicial, arrumarEscala, desenharDesenho23 }

@@ -1,4 +1,17 @@
-import { pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions"; 
+import { pegarInputRange, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions.js"; 
+
+
+function main(objetoSelecionado){
+    
+    const objetoSelecionado = objeto()
+    const {area, centroide, b, h, ixg, tipo, w1, w2} = pegarDadosRotina1(objetoSelecionado)   
+    const {vao, g1,g2, q, qsi1, qsi2} = pegarDadosRotina2(objetoSelecionado)
+    const {input1, input2} = pegarInputRange()
+
+}
+    
+
+export { main }   
 
 // //Variaveis que precisam ser acessadas em mais de uma função
 

@@ -1,10 +1,12 @@
 import { redesenharDesenho2e3, desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
 import { adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados } from "./functions.js"
+import { main } from "./main.js"
 
 
 const [inputep1, inputep2] = document.querySelectorAll('.inputep')
 const btnDesenhar = document.getElementById('btnDesenhar')
 const select = document.getElementById('opcoes-salvas')
+const btnCalcular = document.getElementById('btnDimFinal')
 
 window.addEventListener('DOMContentLoaded', () => {
     carregarElementos()
@@ -15,8 +17,8 @@ btnDesenhar.addEventListener('click', desenhar)
 
 inputep1.addEventListener('change', mudarInputs)
 inputep2.addEventListener('change', mudarInputs)
-
 select.addEventListener('change', mudarSelect)
+btnCalcular.addEventListener('click', main)
 
 function carregarElementos(){
     const opcoesSalvas = document.getElementById('opcoes-salvas')
@@ -84,9 +86,12 @@ function desenhar(){
     desenharPontosIniciais(inicialEmX, finalEmX, inicialEmY, finalEmY, relacaoEntreCentroideEAlturaTotal, ctx1)
     desenharPontoIntermediario(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1)
     adicionarFuncionalidadeRangeInput(disYAcimaDoCentroide, disYAbaixoDoCentroide)
+    main(objetoSelecionado)
 }
 
 function mudarSelect(){
     inputep1.value = inputep1['min']
     inputep2.value = inputep2['min']
 }
+
+

@@ -34,6 +34,47 @@ function adicionarFuncionalidadeRangeInput(disYAcimaDoCentroide, disYAbaixoDoCen
     input2.setAttribute('max', disYAbaixoDoCentroide)
 }
 
+function pegarDadosRotina1(objeto){
+    const dadosRotina1 = objeto.rotina1
+    return{
+        area: dadosRotina1.area,
+        centroide: dadosRotina1.centroide,
+        b: dadosRotina1.dados.b,
+        h: dadosRotina1.dados.h,
+        ixg: dadosRotina1.ixg,
+        tipo: dadosRotina1.tipo,
+        w1: dadosRotina1.w1,
+        w2: dadosRotina1.w2
+    }
+}
+
+function pegarDadosRotina2(objeto){
+
+    return{
+        vao: Number(objeto.Vao),
+        g1: objeto.dados.carregamentos.g1,
+        g2: objeto.dados.carregamentos.g2,
+        q: objeto.dados.carregamentos.q,
+        qsi1: objeto.dados.coeficientesServico.qsi1,
+        qsi2: objeto.dados.coeficientesServico.qsi2,
+    }
+}
+
+function pegarInputs(){
+    const input1 = document.getElementById('inputep1')
+    const input2 = document.getElementById('inputep2')
+    const fck = document.getElementById('fck').value
+    const grauProtensao = document.getElementById('grau-protensao').value
+    const numSecoes = document.getElementById('subdivisoes-viga').value
 
 
-export { adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
+    return{
+        input1: Number(input1.value),
+        input2: Number(input2.value),
+        fck: Number(fck),
+        grauProtensao: grauProtensao,
+        numSecoes: Number(numSecoes)
+    }
+}
+
+export { pegarInputRange, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
