@@ -1,4 +1,4 @@
-import { calcularForcasProtensaoCalculo, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
+import { calcularForcaProtensaoProjeto, calcularNumeroCordoalhas, calcularForcasProtensaoCalculo, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
 
 
 function main(){
@@ -13,7 +13,7 @@ function main(){
 
     console.log(vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara)
 
-    const { input1, input2, fck, grauProtensao, numSecoes, porcentagemPerdas } = pegarInputs()
+    const { input1, input2, fck, grauProtensao, numSecoes, porcentagemPerdas, valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroCabo, areaArmaduraProtensao1cordoalha } = pegarInputs()
     const { fctm, fctk_inf, fct_f } = calcularFct(fck, tipo)
 
     console.log(fctm, fctk_inf, fct_f)
@@ -44,9 +44,17 @@ function main(){
     console.log(momentoQuasePermanente, momentoFrequente, momentoRara)
 
     const secoesDimensionadas = dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara, w1, w2, ep, area, resFct, tipo, grauProtensao, numSecoes, posicao, m, n)
-    const forcasProtensaoCalculo = calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas) //Cálculo
+    const {forcaProtensaoFinalCalculo, forcaProtensaoInicialCalculo} = calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas) //Cálculo
     
+    const [numeroCordoalhas,sigmapi] = calcularNumeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, forcaProtensaoInicialCalculo)
+
+    const
+    {forcaProtencaoInicialProjeto // N * m
+    ,forcaProtensaoFinalProjeto // N * m
+    } = calcularForcaProtensaoProjeto(numeroCordoalhas, areaArmaduraProtensao1cordoalha, sigmapi, porcentagemPerdas) 
     
+    salvarResultados(grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, )
+
 }
     
 
@@ -203,3 +211,27 @@ export { main }
 //     return linha_celula
 // }
 
+
+
+/*
+
+
+
+    let perdasEmPorcentagem = Number(document.getElementById('inputPerdas').value)
+
+    let pZero = registroMinimo/(1-(perdasEmPorcentagem/100))
+    celulas[4].innerText = pZero.toFixed(2) + ' kN'
+
+    //Pegando o input do tipo de armadura de protensão
+    let valorArmaduraProtensao = document.getElementById('armadura-protensao').value
+    let resistenciaArmaduraProtensao = valorArmaduraProtensao.slice(0,3)
+    let diametrocabo = valorArmaduraProtensao.slice(4,8)
+    let areaArmaduraProtensao1cordoalha = Number(valorArmaduraProtensao.slice(9))
+
+    celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
+    
+    let numCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[0]
+    let sigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[1]
+
+
+*/
