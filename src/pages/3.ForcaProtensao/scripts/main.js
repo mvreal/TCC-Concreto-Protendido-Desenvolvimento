@@ -1,23 +1,52 @@
-import { calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados } from "./functions.js"; 
+import { calcularForcaInicialProtensao, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
 
 
 function main(){
     
     const objetoSelecionado = objeto()
-    console.log(objetoSelecionado)
-    const { area, centroide, b, h, ixg, tipo, w1, w2 } = pegarDadosRotina1(objetoSelecionado)   
+
+    const { area, centroide, b, h, ixg, tipo, w1, w2 } = pegarDadosRotina1(objetoSelecionado)  
+    
+    console.log(area, centroide, b, h, ixg, tipo, w1, w2)
+
     const { vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara} = pegarDadosRotina2(objetoSelecionado)
+
+    console.log(vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara)
+
     const { input1, input2, fck, grauProtensao, numSecoes } = pegarInputs()
     const { fctm, fctk_inf, fct_f } = calcularFct(fck, tipo)
 
     console.log(fctm, fctk_inf, fct_f)
 
-    let ponto1 = [0, input1 + centroide]
-    let ponto2 = [vao/2,input2]
-    let ponto3 = [vao, input1 + centroide]
+    const ponto1 = [0, input1 + centroide]
+    const ponto2 = [vao/2, input2]
+    const ponto3 = [vao, input1 + centroide]
 
     const n = input2
     const m = input1 + centroide
+
+    const resFct = calcularFct(fck, tipo)
+
+    console.log(resFct)
+    
+    const posicao = calcularPosicoes(vao, numSecoes)
+
+    console.log(posicao)
+
+    const ep = calcularEp(m, n, vao, posicao, centroide) // m
+
+    console.log(ep)
+
+    const momentoQuasePermanente = calcularMomento(esfDistQuasePermanente, vao, numSecoes)
+    const momentoFrequente = calcularMomento(esfDistFrequente, vao, numSecoes)
+    const momentoRara = calcularMomento(esfDistRara, vao, numSecoes)
+    
+    console.log(momentoQuasePermanente, momentoFrequente, momentoRara)
+
+    const secoesDimensionadas = dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara, w1, w2, ep, area, resFct, tipo, grauProtensao, numSecoes, posicao, m, n)
+    const forcaInicialProtensao = calcularForcaInicialProtensao(grauProtensao,secoesDimensionadas)
+    console.log(forcaInicialProtensao)
+    
 }
     
 
@@ -115,127 +144,8 @@ export { main }
 
 // let celulas, pegarUltimoRegistro
 
-// function salvarResultados(contador){
-//     resTBody = document.getElementById('res-tbody')
 
-//     //Criando a linha inserindo no DOM
-//     let createTr = document.createElement('tr')
-//     resTBody.appendChild(createTr)
-//     createTr.classList.add('linha'+(contador+1))
-
-//     //Criando 9 células para os registros da seção 'Salvar'
-//     for(let i = 0; i<9; i++){
-//         let createTd = document.createElement('td')
-//         createTr.appendChild(createTd)
-//         createTd.classList.add('elemento' + (i+1))
-//     }
-
-//     celulas = document.querySelector('.linha'+(contador + 1)).children
-//     pegarUltimoRegistro = resultadosDaRotina3[resultadosDaRotina3.length -1]
-
-//     celulas[0].innerText = contador
-//     celulas[1].innerText = pegarUltimoRegistro[0]['protensao']
-
-//     let registros = []
-
-//     if(pegarUltimoRegistro[0]['protensao'] == 'limitada'){
-//       for(let i = 0; i<pegarUltimoRegistro.length; i++){
-//         registros.push(pegarUltimoRegistro[i]['limitada-ELS-D'])
-//         registros.push(pegarUltimoRegistro[i]['limitada-ELS-F'])
-//       }
-//       var registroMinimo = Math.min(...registros)
-//       celulas[2].innerText = registroMinimo.toFixed(2) + ' kN'
-
-//     }
-//     if(pegarUltimoRegistro[0]['protensao'] == 'completa'){
-//       for(let i = 0; i<pegarUltimoRegistro.length; i++){
-//         registros.push(pegarUltimoRegistro[i]['completa-ELS-D'])
-//         registros.push(pegarUltimoRegistro[i]['completa-ELS-F'])
-//       }
-
-//       var registroMinimo = Math.min(...registros)
-//       celulas[2].innerText = registroMinimo.toFixed(2) + ' kN'
-//     }
-
-//     let perdasEmPorcentagem = Number(document.getElementById('inputPerdas').value)
-
-//     let pZero = registroMinimo/(1-(perdasEmPorcentagem/100))
-//     celulas[4].innerText = pZero.toFixed(2) + ' kN'
-
-//     //Pegando o input do tipo de armadura de protensão
-//     let valorArmaduraProtensao = document.getElementById('armadura-protensao').value
-//     let resistenciaArmaduraProtensao = valorArmaduraProtensao.slice(0,3)
-//     let diametrocabo = valorArmaduraProtensao.slice(4,8)
-//     let areaArmaduraProtensao1cordoalha = Number(valorArmaduraProtensao.slice(9))
-
-//     celulas[6].innerText = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo
-    
-//     let numCordoalhas = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[0]
-//     let sigmapi = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero)[1]
-
-//     let numCordoalhasArredondado = Math.ceil(numCordoalhas)
-
-//     celulas[7].innerText = numCordoalhasArredondado
-//     celulas[8].innerHTML = `<select numero='${contador+1}'><option selected value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select>`
-
-//     celulas[3].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-//     celulas[5].innerText = -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
-
-//     let numCabos = document.querySelector(`[numero="${(contador+1)}"]`).value
-//     let fck = document.getElementById('fck').value
-
-//     dadosFinal.push({
-//         tensaoCaracteristicaTracao: Number(resistenciaArmaduraProtensao) * 10, 
-//         id: contador,
-//         areaArmaduraProtensao1cordoalha: areaArmaduraProtensao1cordoalha,
-//         tipoProtensao: pegarUltimoRegistro[0]['protensao'],
-//         pInfCalc: registroMinimo,
-//         PInfProj: -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * (sigmapi/1000) * (1-(perdasEmPorcentagem/100))),
-//         pIniCalc: pZero,
-//         pIniProj: -(numCordoalhasArredondado * areaArmaduraProtensao1cordoalha * sigmapi/1000),
-//         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametrocabo,
-//         numCordoalhasArredondado: numCordoalhasArredondado,
-//         numCabos: numCabos,
-//         secoes: resultadosDaRotina3[contador],
-//         Ap: numCabos * numCordoalhasArredondado * areaArmaduraProtensao1cordoalha, //Ver a unidade
-//         fck: fck,
-//         rotina2: dadosSalvosdaRotina2[indexSelecionado]
-        
-//     })
-    
-//     enviarDados(dadosFinal)
-
-//     celulas[8].addEventListener('change',(element)=>{
-//         let el = element.target
-//         let novoNumeroCabos = el.value
-//         let linha = el.getAttribute('numero')
-
-//         let PegarTd = [document.querySelector(`[class= "linha${(linha)}"]>[class="elemento4"]`), document.querySelector(`[class= "linha${(linha)}"]>[class="elemento6"]`),document.querySelector(`[class= "linha${(linha)}"]>[class="elemento8"]`)]
-
-//         let TdForcaInfProjeto = PegarTd[0]
-//         let TdForcaIniProjeto = PegarTd[1]
-//         let TdNovoNumeroCordoalhas = PegarTd[2]
-
-//         let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, novoNumeroCabos)
-//         let novoNumCordoalhas = novoResultado[0]
-//         let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
-//         let novoSigmapi = novoResultado[1]
-
-//         TdNovoNumeroCordoalhas.innerText = novoNumCordoalhasArredondado
-
-//         TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-//         TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
-
-//         dadosFinal[(linha-1)]['PInfProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100)))
-//         dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000)
-//         dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
-//         dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
-//         //Ainda não foi testado
-//         dadosFinal[(linha-1)]['Ap'] = novoNumCordoalhasArredondado * novoNumeroCabos * dadosFinal[(linha-1)]['areaArmaduraProtensao1cordoalha']
-
-//         enviarDados(dadosFinal)
-//     })
-// }
+   
 
 // function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, pegarNumeroCabos = 1){
 //     let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
