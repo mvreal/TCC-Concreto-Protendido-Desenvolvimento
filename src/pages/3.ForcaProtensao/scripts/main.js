@@ -1,4 +1,4 @@
-import { calcularForcaInicialProtensao, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
+import { calcularForcasProtensaoCalculo, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
 
 
 function main(){
@@ -13,7 +13,7 @@ function main(){
 
     console.log(vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara)
 
-    const { input1, input2, fck, grauProtensao, numSecoes } = pegarInputs()
+    const { input1, input2, fck, grauProtensao, numSecoes, porcentagemPerdas } = pegarInputs()
     const { fctm, fctk_inf, fct_f } = calcularFct(fck, tipo)
 
     console.log(fctm, fctk_inf, fct_f)
@@ -44,8 +44,8 @@ function main(){
     console.log(momentoQuasePermanente, momentoFrequente, momentoRara)
 
     const secoesDimensionadas = dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara, w1, w2, ep, area, resFct, tipo, grauProtensao, numSecoes, posicao, m, n)
-    const forcaInicialProtensao = calcularForcaInicialProtensao(grauProtensao,secoesDimensionadas)
-    console.log(forcaInicialProtensao)
+    const forcasProtensaoCalculo = calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas) //Cálculo
+    
     
 }
     

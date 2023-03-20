@@ -69,6 +69,7 @@ function pegarInputs(){
     const fck = document.getElementById('fck').value
     const grauProtensao = document.getElementById('grau-protensao').value
     const numSecoes = document.getElementById('subdivisoes-viga').value
+    const perdas = document.getElementById('inputPerdas').value
 
 
     return{
@@ -76,7 +77,8 @@ function pegarInputs(){
         input2: Number(input2.value),
         fck: Number(fck),
         grauProtensao: grauProtensao,
-        numSecoes: Number(numSecoes)
+        numSecoes: Number(numSecoes),
+        porcentagemPerdas: Number(perdas)
     }
 }
 
@@ -163,7 +165,7 @@ function dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara
     const areaConvertida = area/10000 //converção de cm² para m²
     const objRotina3 = new Array()
 
-    console.log(fct_f)
+    console.log('fct_f'+fct_f)
 
     for(let i = 0; i<numSecoes; i++){
 
@@ -190,26 +192,35 @@ function dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara
     return objRotina3
 }
 
-function calcularForcaInicialProtensao(grauProtensao, secoesDimensionadas){
+function calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas){
 
    const forcaProtensaoFinalCompletaRara = secoesDimensionadas.map(el=>el['completa-ELS-F'])
    const forcaProtensaoFinalCompletaFrequente = secoesDimensionadas.map(el=>el['completa-ELS-D'])
    const forcaProtensaoFinalLimitadaFrequente = secoesDimensionadas.map(el=>el['limitada-ELS-F'])
    const forcaProtensaoFinalLimitadaQuasePermanente = secoesDimensionadas.map(el=>el['limitada-ELS-D'])
+   
 
    console.log(forcaProtensaoFinalCompletaRara, forcaProtensaoFinalCompletaFrequente, forcaProtensaoFinalLimitadaFrequente, forcaProtensaoFinalLimitadaQuasePermanente)
 
-   let forcaProtensaoFinal;
+   let forcaProtensaoFinalCalculo;
+   let forcaProtensaoInicialCalculo;
 
    if(grauProtensao =='limitada'){
-        forcaProtensaoFinal = Math.max(...forcaProtensaoFinalCompletaRara, ...forcaProtensaoFinalCompletaFrequente)
+    forcaProtensaoFinalCalculo = Math.min(...forcaProtensaoFinalCompletaRara, ...forcaProtensaoFinalCompletaFrequente)
    }else if(grauProtensao =='completa'){
-    forcaProtensaoFinal = Math.max(...forcaProtensaoFinalLimitadaFrequente, ...forcaProtensaoFinalLimitadaQuasePermanente)
+    forcaProtensaoFinalCalculo = Math.min(...forcaProtensaoFinalLimitadaFrequente, ...forcaProtensaoFinalLimitadaQuasePermanente)
    }else{
     console.log('Problema ao definir o grau de protensão')
    }
 
-   return forcaProtensaoFinal
+   forcaProtensaoInicialCalculo = forcaProtensaoFinalCalculo * (1/(1 - porcentagemPerdas))
+
+
+
+   return {
+    forcaProtensaoFinalCalculo: forcaProtensaoFinalCalculo,
+    forcaProtensaoInicialCalculo: forcaProtensaoInicialCalculo
+   }
 }
 
 function criarLinhaColuna(){
@@ -235,6 +246,13 @@ function criarLinhaColuna(){
 
 }
 
+function numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, pegarNumeroCabos = 1){
+    let sigmapi = 0.82 * 0.9 * Number(resistenciaArmaduraProtensao) * 10
+    let areaAcoProtendido = Number(-pZero * 10)/(sigmapi) //em cm²
+    let numeroCordoalhas = (areaAcoProtendido/(Number(areaArmaduraProtensao1cordoalha)/100))/pegarNumeroCabos
+
+    return [numeroCordoalhas,sigmapi]
+}
 
 
 function salvarResultados(){
@@ -362,4 +380,4 @@ function salvarResultados(){
     // })
 }
 
-export { calcularForcaInicialProtensao, salvarResultados, dimensionarSecoes, calcularPosicoes, calcularEp, calcularMomento, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
+export { calcularForcasProtensaoCalculo, salvarResultados, dimensionarSecoes, calcularPosicoes, calcularEp, calcularMomento, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
