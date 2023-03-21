@@ -61,11 +61,3 @@ h3{
 .flex > * {
     flex: 1;
 }
-
-.inline-block{
-    display: inline-block;
-}
-
-.w-100{
-    width: 100px;
-}
