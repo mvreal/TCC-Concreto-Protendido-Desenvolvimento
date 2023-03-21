@@ -61,21 +61,6 @@
     transform: rotate(270deg)
 }
 
-#inputep1{
-    top:70px;
-    left:70px;
-}
-
-#inputep2{
-    top:120px;
-    left:360px;
-}
-
-canvas{
-    width: 400px;
-    height: 300px;
-}
-
 h1{
     text-align: center;
 }
@@ -156,4 +141,20 @@ td{
     color:black;
     border: .1px solid black;
     background-color: white;
+}
+
+.none{
+    display: none;
+}
+
+.m-0{
+    margin: 0;
+}
+
+.height-30{
+    height: 30px;
+}
+
+.margin-auto{
+    margin: auto;
 }

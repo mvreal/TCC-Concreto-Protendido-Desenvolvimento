@@ -22,9 +22,13 @@ function main(){
 
     //Pegando as informações das demais rotinas
     const {areaConcreto, centroide, w1, w2, ixg, tipo} = pegarDadosRotina1(index)
+    console.log(areaConcreto, centroide, w1, w2, ixg, tipo)
     const {psi1, psi2, g1, g2, q} = pegarDadosRotina2(index)
+    console.log(psi1, psi2, g1, g2, q)
     const {fck, Ap, ep, vao, secoes, tipoProtensao} = pegarDadosRotina3(index)
+    console.log(fck, Ap, ep, vao, secoes, tipoProtensao)
     const {perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao} = pegarDadosRotina4(index)
+    console.log(perdaAtrito, perdaAncoragem, perdaEncurtamento, perdaFinal, dataProtensao)
 
     //Calculando os momentos
     const Mg1 = calcularMomentoFletor(g1, vao, secoes)

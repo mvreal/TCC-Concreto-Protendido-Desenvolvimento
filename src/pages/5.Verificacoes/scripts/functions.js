@@ -75,7 +75,7 @@ function pegarDadosRotina3(index){
         fck: Number(dadosRotina3['fck']),
         Ap: dadosRotina3['Ap'],
         ep: dadosRotina3['secoes'].map(el=>el['ep']),
-        vao: dadosRotina3['secoes'][0]['Vao'],
+        vao: dadosRotina3['rotina2'].Vao,
         secoes: dadosRotina3['secoes'].map(el => el['X']),
         tipoProtensao: dadosRotina3['tipoProtensao']
     }

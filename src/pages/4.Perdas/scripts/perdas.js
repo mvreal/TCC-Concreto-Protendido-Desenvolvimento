@@ -1,4 +1,5 @@
 function calcularPerdasAtrito(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK){
+    console.log(epMax, vao, secoes, forçaInicialdeProtensao, mi, coeficienteK)
     let derivadaY = secoes.map(sec => (((-8 * epMax)/(vao ** 2)) * sec) + ((4 * epMax)/vao))
     let anguloAlfa = derivadaY.map(el => -(Math.atan(el)))
     let deltaAlfa = []
@@ -45,6 +46,7 @@ function PerdasAcomodacaoXrMaiorLsobre2(tgB, l, retorno, Ep, Ap){
 }
 
 function arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes){
+    console.log(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes)
     let xresquerda = xr
     let Panc = []
     let numeroSecoes = secoes.length
@@ -67,7 +69,7 @@ function arrPancPontoRepousoMenorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, P
 
 //tem que revisar essa funcao, resultados errados
 function arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, Panc1, tgBeta, secoes){
-
+    console.log(arrCorrecaoAtrito, Panc1, tgBeta, secoes)
     let Panc = []
     let repeticoesAncoragem = arrCorrecaoAtrito.length
     let repeticoesEspelharArr = Math.floor(repeticoesAncoragem/2)
@@ -84,6 +86,7 @@ function arrPancPontoRepousoMaiorLsobre2AncoragemAtivaAtiva(arrCorrecaoAtrito, P
 }
 
 function arrPancPontoRepousoAncoragemAtivaPassiva(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes){
+    console.log(arrCorrecaoAtrito, Panc1, tgBeta, xr, secoes)
     let tamanhoSecoes = secoes.length
     let Panc = []
     for(let i = 0; i < tamanhoSecoes; i++){

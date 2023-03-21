@@ -1,5 +1,5 @@
 {
-  "name": "electron-teste3",
+  "name": "tcc-dimensionamento-e-verificacao-vigas-pos-tracionadas",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^21.2.2"
+  },
+  "dependencies": {
+    "electron-packager": "^17.1.1"
   }
 }

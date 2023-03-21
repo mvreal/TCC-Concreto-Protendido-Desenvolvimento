@@ -50,22 +50,24 @@
         </select>
 
     </div>
-
+    <button id="btnDesenhar">Desenhar</button>
     <hr id="separador1">
 
     <div id="ctn4" class="relative">
         <h3>Determinação do traçado do cabo de Protensão</h3>
         <h3>Seção Longitudinal</h3>
-        <input type="range" class="inputep absolute" name="inputep1" id="inputep1" value="0" min="0">
-        <canvas id="canvas1"></canvas>
-        <input type="range" class="inputep absolute" name="inputep2" id="inputep2" value="0" min="0">
+        <canvas id="canvas1" style='width: 600; height: 150;'></canvas>
     </div>
 
     <div id="ctn5" class="block">
         <h3>Seção Transversal</h3>
         <p>(Unidades em cm)</p>
-        <canvas id="canvas2" class="inline"></canvas>
-        <canvas id="canvas3" class="inline"></canvas>
+        <div class="flex">
+            <canvas id="canvas2" width="300" height="300" class="inline"></canvas>
+            <input type="range" class="inputep none" name="inputep1" id="inputep1" value="0" min="0">
+            <canvas id="canvas3" width="300" height="300" class="inline"></canvas>
+            <input type="range" class="inputep none" name="inputep2" id="inputep2" value="0" min="0">
+        </div>
     </div>
 
     <hr id="separador2">
@@ -143,7 +145,11 @@
     </div>
 
 
-    <script src="./scripts/main.js"></script>
+    <script src="./scripts/events.js" type="module"></script>
+    <script src="./scripts/main.js" type="module"></script>
+    <script src="./scripts/desenho.js" type="module"></script>
+    <script src="./scripts/functions.js" type="module"></script>
+    
 
 </body>
 
