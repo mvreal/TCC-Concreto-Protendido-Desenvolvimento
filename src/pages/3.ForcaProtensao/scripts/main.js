@@ -28,7 +28,6 @@ function main(){
     const momentoRara = calcularMomento(esfDistRara, vao, numSecoes)
 
     const secoesDimensionadas = dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara, w1, w2, ep, area, resFct, tipo, grauProtensao, numSecoes, posicao, m, n)
-
     const {forcaProtensaoFinalCalculo, forcaProtensaoInicialCalculo} = calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas) //Cálculo
     const [numeroCordoalhas,sigmapi] = calcularNumeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, forcaProtensaoInicialCalculo)
 

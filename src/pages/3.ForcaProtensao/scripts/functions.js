@@ -181,7 +181,7 @@ function dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara
 
         objRotina3[i] = {
 
-            'X': posicao,
+            'X': posicao[i],
             'ep': ep[i], //Excentricidade em metros
             'momentoQP': momentoQuasePermanente[i],
             'momentoFrequente': momentoFrequente[i],
@@ -384,10 +384,10 @@ function salvarResultados(grauProtensao, forcaProtensaoFinalCalculo, forcaProten
         tensaoCaracteristicaTracao: Number(resistenciaArmaduraProtensao) * 10, 
         id: contador,
         areaArmaduraProtensao1cordoalha: areaArmaduraProtensao1cordoalha,
-        pInfCalc: forcaProtensaoFinalCalculo,
-        PInfProj: forcaProtensaoFinalProjeto,
-        pIniCalc: forcaProtensaoInicialCalculo,
-        pIniProj: forcaProtencaoInicialProjeto,
+        pInfCalc: forcaProtensaoFinalCalculo/1000,
+        PInfProj: forcaProtensaoFinalProjeto/1000,
+        pIniCalc: forcaProtensaoInicialCalculo/1000,
+        pIniProj: forcaProtencaoInicialProjeto/1000,
         tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroCabo,
         numCordoalhasArredondado: Math.ceil(numeroCordoalhas),
         numCabos: 1,
@@ -422,21 +422,21 @@ function inserirDadosCriadosAnteriormente(dado, index){
 }
 
 function inserirDadoJaCriado(dado, index){
-    let informacoes = {
-        pInfCalc: dado.pInfCalc,
-        pIniCalc: dado.pIniCalc,
-        PInfProj: dado.PInfProj,
-        pIniProj: dado.pIniProj,
-        tipoArmadura: dado.tipoArmadura,
-        numCabos: dado.numCabos,
-        numCordoalhasArredondado: dado.numCordoalhasArredondado
-    }
 
     const celulas = document.querySelectorAll(`.linha${(index + 1)} > td`)
     
-    celulas[0] = index
-    celulas[1] = pInfCalc
+    console.log()
+    celulas[0].innerText = index
+    celulas[1].innerText = dado.secoes[0].protensao
+    celulas[2].innerText = dado.pInfCalc.toFixed(2) + ' kN'
+    celulas[3].innerText = dado.PInfProj.toFixed(2) + ' kN'
+    celulas[4].innerText = dado.pIniCalc.toFixed(2) + ' kN'
+    celulas[5].innerText = dado.pIniProj.toFixed(2) + ' kN'
+    celulas[6].innerText = dado.tipoArmadura
+    celulas[7].innerText = dado.numCordoalhasArredondado
+    celulas[8].innerText = dado.numCabos
 
+    
 }
 
 export { verificarDadosAnteriores, calcularForcaProtensaoProjeto, calcularNumeroCordoalhas, calcularForcasProtensaoCalculo, salvarResultados, dimensionarSecoes, calcularPosicoes, calcularEp, calcularMomento, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados }
