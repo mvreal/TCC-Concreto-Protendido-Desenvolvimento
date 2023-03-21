@@ -1,5 +1,5 @@
 import { redesenharDesenho2e3, desenharDesenho23, CGDesenho2ou3, desenharPontoIntermediario, desenharPontosIniciais, pontosIniciais, apagarCanvas, pegarCanvasCtx, desenharDesenhoInicial, arrumarEscala } from "./desenho.js"
-import { adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados } from "./functions.js"
+import { verificarDadosAnteriores, adicionarFuncionalidadeRangeInput, mostrarInputs, objeto, pegarDados } from "./functions.js"
 import { main } from "./main.js"
 
 
@@ -10,7 +10,10 @@ const btnCalcular = document.getElementById('btnDimFinal')
 
 window.addEventListener('DOMContentLoaded', () => {
     carregarElementos()
-
+    const {temDadosAnteriores}  = verificarDadosAnteriores() // true ou false
+    if(temDadosAnteriores){
+        resultados = dadosSalvosdaRotina3
+    }
 })
 
 btnDesenhar.addEventListener('click', desenhar)

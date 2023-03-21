@@ -1,22 +1,15 @@
-import { calcularForcaProtensaoProjeto, calcularNumeroCordoalhas, calcularForcasProtensaoCalculo, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
+import { verificarDadosAnteriores, calcularForcaProtensaoProjeto, calcularNumeroCordoalhas, calcularForcasProtensaoCalculo, salvarResultados, calcularPosicoes, calcularEp, dimensionarSecoes, calcularFct, pegarInputs, pegarDadosRotina2, pegarDadosRotina1, mostrarInputs, objeto, pegarDados, calcularMomento } from "./functions.js"; 
 
+var resultados = [];
 
 function main(){
     
     const objetoSelecionado = objeto()
 
     const { area, centroide, b, h, ixg, tipo, w1, w2 } = pegarDadosRotina1(objetoSelecionado)  
-    
-    console.log(area, centroide, b, h, ixg, tipo, w1, w2)
-
     const { vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara} = pegarDadosRotina2(objetoSelecionado)
-
-    console.log(vao, g1, g2, q, qsi1, qsi2, esfDistQuasePermanente, esfDistFrequente, esfDistRara)
-
     const { input1, input2, fck, grauProtensao, numSecoes, porcentagemPerdas, valorArmaduraProtensao, resistenciaArmaduraProtensao, diametroCabo, areaArmaduraProtensao1cordoalha } = pegarInputs()
     const { fctm, fctk_inf, fct_f } = calcularFct(fck, tipo)
-
-    console.log(fctm, fctk_inf, fct_f)
 
     const ponto1 = [0, input1 + centroide]
     const ponto2 = [vao/2, input2]
@@ -25,27 +18,18 @@ function main(){
     const n = input2
     const m = input1 + centroide
 
-    const resFct = calcularFct(fck, tipo)
+    const resFct = calcularFct(fck, tipo) 
 
-    console.log(resFct)
-    
     const posicao = calcularPosicoes(vao, numSecoes)
-
-    console.log(posicao)
-
     const ep = calcularEp(m, n, vao, posicao, centroide) // m
-
-    console.log(ep)
 
     const momentoQuasePermanente = calcularMomento(esfDistQuasePermanente, vao, numSecoes)
     const momentoFrequente = calcularMomento(esfDistFrequente, vao, numSecoes)
     const momentoRara = calcularMomento(esfDistRara, vao, numSecoes)
-    
-    console.log(momentoQuasePermanente, momentoFrequente, momentoRara)
 
     const secoesDimensionadas = dimensionarSecoes(momentoQuasePermanente, momentoFrequente, momentoRara, w1, w2, ep, area, resFct, tipo, grauProtensao, numSecoes, posicao, m, n)
+
     const {forcaProtensaoFinalCalculo, forcaProtensaoInicialCalculo} = calcularForcasProtensaoCalculo(grauProtensao, secoesDimensionadas, porcentagemPerdas) //Cálculo
-    
     const [numeroCordoalhas,sigmapi] = calcularNumeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, forcaProtensaoInicialCalculo)
 
     const
@@ -53,8 +37,8 @@ function main(){
     ,forcaProtensaoFinalProjeto // N * m
     } = calcularForcaProtensaoProjeto(numeroCordoalhas, areaArmaduraProtensao1cordoalha, sigmapi, porcentagemPerdas) 
     
-    salvarResultados(grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, )
-
+    let dados = salvarResultados( grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados )
+    resultados = dados
 }
     
 
