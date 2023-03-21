@@ -287,12 +287,12 @@ function calcularForcaProtensaoProjeto(numeroCordoalhas, areaArmaduraProtensao1c
 
     console.log(Ap, forcaProtencaoInicialProjeto)
     return{
-        forcaProtencaoInicialProjeto: forcaProtencaoInicialProjeto,
-        forcaProtensaoFinalProjeto: forcaProtencaoInicialProjeto * aproveitamento
+        forcaProtencaoInicialProjeto: -forcaProtencaoInicialProjeto,
+        forcaProtensaoFinalProjeto: -forcaProtencaoInicialProjeto * aproveitamento
     }
 }
 
-function inserirDadosCelulas(celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado) {
+function inserirDadosCelulas(celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas) {
 
     const tipoArmadura = 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroCabo
     celulas[0].innerText = contador
@@ -307,17 +307,22 @@ function inserirDadosCelulas(celulas, contador, grauProtensao, forcaProtensaoFin
 
     const select = document.getElementById(`select${contador+1}`)
     console.log(select)
-    adicionarEventoSelect(select)
+    adicionarEventoSelect(select, celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas)
 
 
 }
 
-function adicionarEventoSelect(select){
-    console.log(select)
+function adicionarEventoSelect(select, celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas){
+    
+
     select.addEventListener('change', function(element){
 
         const el = element.target
+        const index = Number(el.id.slice(6)) - 1
         const novoNumeroCabos = el.value
+
+        console.log(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, forcaProtensaoInicialCalculo, porcentagemPerdas)
+
         const  linha = el.getAttribute('numero')
 
         let PegarTd = [document.querySelector(`[class= "linha${(linha)}"]>[class="elemento4"]`), document.querySelector(`[class= "linha${(linha)}"]>[class="elemento6"]`),document.querySelector(`[class= "linha${(linha)}"]>[class="elemento8"]`)]
@@ -326,44 +331,61 @@ function adicionarEventoSelect(select){
         let TdForcaIniProjeto = PegarTd[1]
         let TdNovoNumeroCordoalhas = PegarTd[2]
 
-        let novoResultado = numeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, novoNumeroCabos)
+
+        let novoResultado = calcularNumeroCordoalhas(resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, forcaProtensaoInicialCalculo, novoNumeroCabos)
+
         let novoNumCordoalhas = novoResultado[0]
         let novoNumCordoalhasArredondado = Math.ceil(novoNumCordoalhas)
         let novoSigmapi = novoResultado[1]
 
         TdNovoNumeroCordoalhas.innerText = novoNumCordoalhasArredondado
 
-        TdForcaInfProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100))).toFixed(2) + ' kN'
-        TdForcaIniProjeto.innerText = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000).toFixed(2) + ' kN'
+        const novaForcaInfProjeto = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(porcentagemPerdas/100)))
+        const novaForcaIniProjeto = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * novoSigmapi/1000)
 
+        TdForcaInfProjeto.innerText = novaForcaInfProjeto.toFixed(2) + ' kN'
+        TdForcaIniProjeto.innerText = novaForcaIniProjeto.toFixed(2) + ' kN'
 
-        dadosFinal[(linha-1)]['PInfProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * (novoSigmapi/1000) * (1-(perdasEmPorcentagem/100)))
-        dadosFinal[(linha-1)]['pIniProj'] = - (novoNumCordoalhasArredondado * novoNumeroCabos * areaArmaduraProtensao1cordoalha * sigmapi/1000)
-        dadosFinal[(linha-1)]['numCabos'] = novoNumeroCabos
-        dadosFinal[(linha-1)]['numCordoalhasArredondado'] = novoNumCordoalhasArredondado
-        //Ainda não foi testado
-        dadosFinal[(linha-1)]['Ap'] = novoNumCordoalhasArredondado * novoNumeroCabos * dadosFinal[(linha-1)]['areaArmaduraProtensao1cordoalha']
+        if(contador == 0){
+            var dados = []
+            console.log('situacao1')
+        }else if(contador != 0 && dadosSalvosdaRotina3 == ''){
+            var dados = resultados
+            console.log('situacao2')
+        }else if(contador !=0 && dadosSalvosdaRotina3 != ''){
+            var dados = dadosSalvosdaRotina3
+            console.log('situacao3')
+    
+        }
 
+        let informacoes = {
+            tensaoCaracteristicaTracao: Number(resistenciaArmaduraProtensao) * 10, 
+            id: index,
+            areaArmaduraProtensao1cordoalha: areaArmaduraProtensao1cordoalha,
+            pInfCalc: forcaProtensaoFinalCalculo/1000,
+            PInfProj: novaForcaInfProjeto/1000,
+            pIniCalc: forcaProtensaoInicialCalculo/1000,
+            pIniProj: novaForcaIniProjeto/1000,
+            tipoArmadura: 'CP ' + resistenciaArmaduraProtensao + ' RB ' + diametroCabo,
+            numCordoalhasArredondado: Math.ceil(novoNumCordoalhas),
+            numCabos: novoNumeroCabos,
+            secoes: secoesDimensionadas,
+            Ap: novoNumeroCabos * Math.ceil(novoNumCordoalhas) * areaArmaduraProtensao1cordoalha, //Ver a unidade
+            fck: fck,
+            rotina2: objeto() 
+        }
 
-
-
-
-
-
-
-
-
-
-
+        dados[contador] = informacoes 
+        window.api.dadosRotina3(dados)
 
     })
 }
 
-function salvarResultados(grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados ){
+function salvarResultados(grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas ){
 
     const {celulas, contador} = criarLinhaColuna()
 
-    inserirDadosCelulas(celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado)
+    inserirDadosCelulas(celulas, contador, grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas)
 
     console.log('contador '+ contador)
 

@@ -4,6 +4,7 @@ var resultados = [];
 
 function main(){
     
+    //select, resistenciaArmaduraProtensao, areaArmaduraProtensao1cordoalha, pZero, perdasEmPorcentagem
     const objetoSelecionado = objeto()
 
     const { area, centroide, b, h, ixg, tipo, w1, w2 } = pegarDadosRotina1(objetoSelecionado)  
@@ -36,7 +37,7 @@ function main(){
     ,forcaProtensaoFinalProjeto // N * m
     } = calcularForcaProtensaoProjeto(numeroCordoalhas, areaArmaduraProtensao1cordoalha, sigmapi, porcentagemPerdas) 
     
-    let dados = salvarResultados( grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados )
+    let dados = salvarResultados( grauProtensao, forcaProtensaoFinalCalculo, forcaProtensaoFinalProjeto, forcaProtensaoInicialCalculo, forcaProtencaoInicialProjeto, resistenciaArmaduraProtensao, diametroCabo, numeroCordoalhas, objetoSelecionado, secoesDimensionadas, areaArmaduraProtensao1cordoalha, fck, resultados, porcentagemPerdas  )
     resultados = dados
 }
     
