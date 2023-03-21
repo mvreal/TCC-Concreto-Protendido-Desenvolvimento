@@ -34,7 +34,7 @@ function pegarDadosRotina3(index) {
         fck: Number(dadosRotina3['fck']),
         Ap: dadosRotina3['Ap'],
         ep: dadosRotina3['secoes'].map(el => el['ep']),
-        vao: Number(dadosRotina3['secoes'][0]['Vao']),
+        vao: Number(dadosRotina3['rotina2'].Vao),
         secoes: dadosRotina3['secoes'].map(el => el['X']),
         tipoProtensao: dadosRotina3['tipoProtensao'],
         dlinhaProtensao: dadosRotina3['secoes'][0]['posicaoCaboProtensao']['meioVao'],
@@ -78,6 +78,7 @@ function pegarDadosRotina5(index) {
 
 function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd, AsLinha) {
 
+    console.log(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd, AsLinha)
     AsLinha = 0
     // AsLinha já está em m²
     Ap = Ap / 1000000 // m²
@@ -109,11 +110,26 @@ function calcularLinhaNeutra(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd,
         console.log(a,b,c)
 
         return bhaskara(a, b, c)
+    }else if (tipo == 'Retangular'){
+
+        let {b, h} = dadosRotina1
+        
+        b = b / 100
+        h = h / 100
+
+        const a = - 0.32 * sigmacd * b
+        const be = 0.8 * sigmacd * b * ds
+        const c = (AsLinha * fyd * (ds - 0.05)) + (- fpyd * Ap * (ds - dp)) - Mdmax
+
+        console.log(a,b,c)
+
+        return bhaskara(a, be, c)
     }
 }
 
 function calcularLinhaNeutraAlma(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd, AsLinha = 0) {
 
+    console.log(tipo, sigmacd, fpyd, Ap, ds, dp, Mdmax, index, fyd)
     AsLinha = 0
     // AsLinha já está em m²
     Ap = Ap / 1000000 // m²
@@ -154,6 +170,7 @@ function pegarDistanciasRotina1(index) {
     const dadosRotina1 = dadosSalvosdaRotina5[index]['dadosRotina4']['dadosSalvosdaRotina3']['rotina2']['rotina1']['dados']
     const tipo = dadosSalvosdaRotina5[index]['dadosRotina4']['dadosSalvosdaRotina3']['rotina2']['rotina1']['tipo']
 
+    console.log(tipo)
     if (tipo == 'T' || tipo == 'I') {
 
         let { bf, hf, bw, h, bmis, hmis } = dadosRotina1
@@ -166,7 +183,7 @@ function pegarDistanciasRotina1(index) {
             bmis: bmis,
             hmis: hmis
         }
-    } else if (tipo == 'Rentangular') {
+    } else if (tipo == 'Retangular') {
 
         let { b, h } = dadosRotina1
 

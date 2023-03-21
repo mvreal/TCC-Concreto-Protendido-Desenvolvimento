@@ -44,6 +44,7 @@ function main(event){
     console.log(h, distanciaBordaSuperior, sigmac1, sigmac2)
     const AsLinha = armaduraTracaoAtoProtensao(h, distanciaBordaSuperior, sigmac1, sigmac2) // em m²
     const linhaNeutra = calcularLinhaNeutra(tipo, sigmacd, fpydCalculado, Ap, ds, dp, Mdmax, index, fyd, AsLinha) // Retorna um array com tamanho 2, cada posição é uma possível raiz
+    console.log(linhaNeutra)
     const linhaNeutraVerificada = verificarLinhaNeutra(linhaNeutra)
     linhaNeutraFinal = linhaNeutraVerificada
 

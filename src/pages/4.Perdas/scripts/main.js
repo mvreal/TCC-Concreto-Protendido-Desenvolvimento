@@ -30,7 +30,7 @@ function mudarOption() {
     let ep = dadosSalvosdaRotina3[indexSelecionado]['secoes'].map(el => el['ep'])
     let info = dadosSalvosdaRotina3[indexSelecionado]
     let epMax = Math.min(...(info['secoes']).map(el => el['ep']))
-    let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['secoes'][0]['Vao'])
+    let vao = Number(dadosSalvosdaRotina3[indexSelecionado]['rotina2']['Vao'])
     let forcaInicialdeProtensao = -dadosSalvosdaRotina3[indexSelecionado]['pIniProj']
     let mi = Number(document.getElementById('coefAtrito').value)
     let coeficienteK = mi * 0.01

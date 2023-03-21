@@ -31,7 +31,7 @@ function desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1
     ctx1.strokeStyle ='black'
     ctx1.setLineDash([])
 
-    console.log(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1, dados, centroide)
+    
 
     ctx1.moveTo(inicialEmX,inicialEmY)
     ctx1.lineTo(inicialEmX,finalEmY)
@@ -40,7 +40,7 @@ function desenharDesenhoInicial(inicialEmX, inicialEmY, finalEmX, finalEmY, ctx1
     ctx1.lineTo(inicialEmX,inicialEmY)
     ctx1.stroke()
 
-    console.log(centroide, dados, dados.h)
+    
     const relacaoEntreCentroideEAlturaTotal = centroide/dados.h
     
     ctx1.beginPath()
@@ -115,7 +115,6 @@ function desenharDesenho23(tipo, dados, canvas2, canvas3, centroide, ctx2, ctx3,
     const margem = 50
 
     if(tipo == 'Retangular'){
-        console.log('entrou', dados, canvas2, canvas3)
         escala = desenharRetangulo(dados, canvas2, margem)
         desenharRetangulo(dados, canvas3, margem)
         CGDesenho2ou3(canvas2, escala, dados.h, centroide)
@@ -176,7 +175,7 @@ function desenharRetangulo(dados, canvas, margem){
     const [canvasWidth, canvasHeight] = [canvas.width, canvas.height];
     const ctx = canvas.getContext('2d')
 
-    console.log(canvasWidth, canvasHeight)
+   
 
     const altura = dados.h
     const base = dados.b
@@ -190,7 +189,7 @@ function desenharRetangulo(dados, canvas, margem){
 
     const inicialx = (canvasWidth - (base * escala)) / 2
 
-    console.log(altura, base, escala, escalax, escalay)
+
 
     ctx.beginPath()
     ctx.lineWidth = 2
@@ -368,7 +367,7 @@ function redesenharArmaduraProtensao3(canvas3, ctx3, altura, escala, input){
 
 function cotaArmaduraDesenho2(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem){
 
-    console.log(canvas2, ctx2, altura, escala, disYAcimaDoCentroide, disYAbaixoDoCentroide, margem)
+    
     ctx2.strokeStyle ='red'
     ctx2.beginPath()
 
